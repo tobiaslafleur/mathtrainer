@@ -25,13 +25,13 @@
                 <Button fx:id="Avsluta" layoutX="417.0" layoutY="355.0" mnemonicParsing="false" onAction="#exitClicked" prefHeight="25.0" prefWidth="73.0" styleClass="Avsluta" stylesheets="@../css/style.css" text="Avsluta" />
                 <ImageView fitHeight="400.0" fitWidth="404.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../images/NEWMATHTRAINERUntitled-1-Recovered.png" />
+                        <Image url="@../images/client/NEWMATHTRAINERUntitled-1-Recovered.png" />
                     </image>
                 </ImageView>
                 <Label layoutX="476.0" layoutY="35.0" stylesheets="@../css/MathTrainerStylesheet.css" />
                 <ImageView fitHeight="317.0" fitWidth="309.0" layoutX="420.0" layoutY="-209.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../images/thisisUntitled-1-Recovered.png" />
+                        <Image url="@../images/client/thisisUntitled-1-Recovered.png" />
                     </image>
                 </ImageView>
             </children>

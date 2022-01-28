@@ -21,29 +21,29 @@
                   <Button layoutX="22.0" layoutY="147.0" mnemonicParsing="false" onAction="#homeButtonClicked" styleClass="buttonReal" text="Hem" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="22.0" />
                   <ImageView id="thisisUntitled-1-Recovered" fitHeight="207.0" fitWidth="199.0" layoutX="14.0" layoutY="-115.0" pickOnBounds="true">
                      <image>
-                        <Image url="@../images/thisisUntitled-1-Recovered.png" />
+                        <Image url="@../images/client/thisisUntitled-1-Recovered.png" />
                      </image>
                   </ImageView>
                   <Button layoutX="129.0" layoutY="495.0" mnemonicParsing="false" onAction="#logOutClicked" prefHeight="25.0" prefWidth="88.0" styleClass="Avsluta" stylesheets="@../css/style.css" text="Logga ut" />
                   <Button layoutX="24.0" layoutY="495.0" mnemonicParsing="false" onAction="#exitClicked" prefHeight="25.0" prefWidth="88.0" styleClass="Avsluta" stylesheets="@../css/style.css" text="Avsluta" />
                   <ImageView fitHeight="37.0" fitWidth="57.0" layoutX="39.0" layoutY="379.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/Cogwhjite.png" />
+                        <Image url="@../images/client/Cogwhjite.png" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="39.0" fitWidth="37.0" layoutX="50.0" layoutY="298.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/WhiteController.png" />
+                        <Image url="@../images/client/WhiteController.png" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="23.0" fitWidth="27.0" layoutX="56.0" layoutY="229.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/lista.png" />
+                        <Image url="@../images/client/lista.png" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="23.0" fitWidth="21.0" layoutX="58.0" layoutY="148.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/whitehoooome.png" />
+                        <Image url="@../images/client/whitehoooome.png" />
                      </image>
                   </ImageView>
                </children>

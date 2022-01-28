@@ -38,7 +38,7 @@
                   <Region layoutY="97.0" prefHeight="253.0" prefWidth="77.0" />
                   <ImageView fx:id="imageTrophy" fitHeight="148.0" fitWidth="173.0" layoutX="556.0" layoutY="294.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
-                        <Image url="@../images/diamondtrophy-cartoon-award-drawing-prize-animation-medal-cdr-blue-png-clipart.jpg" />
+                        <Image url="@../images/client/diamondtrophy-cartoon-award-drawing-prize-animation-medal-cdr-blue-png-clipart.jpg" />
                      </image>
                   </ImageView>
                   <Button layoutX="251.0" layoutY="492.0" mnemonicParsing="false" onAction="#backToScore" prefHeight="25.0" prefWidth="182.0" styleClass="buttonReal" text="Tillbaka" />
