@@ -149,6 +149,9 @@ buildNumber.properties
 # https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
 
+#Visual Studio Code
+.vscode
+
 # Eclipse m2e generated files
 # Eclipse Core
 .project
