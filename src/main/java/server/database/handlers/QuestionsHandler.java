@@ -1,7 +1,9 @@
 package server.database.handlers;
 
 import com.google.gson.Gson;
+import model.Answers;
 import model.NewQuestions;
+import server.database.HandlerController;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,10 +16,12 @@ public class QuestionsHandler {
 
     private Connection connection;
     private Gson gson;
+    private HandlerController hc;
 
-    public QuestionsHandler(Connection connection) {
+    public QuestionsHandler(Connection connection, HandlerController hc) {
         this.connection = connection;
         this.gson = new Gson();
+        this.hc = hc;
     }
 
     public Object getRandQuestions(int limit, int year) {
@@ -41,7 +45,9 @@ public class QuestionsHandler {
                         rs.getInt(1),
                         rs.getInt(2),
                         rs.getString(3),
-                        rs.getInt(4));
+                        rs.getInt(4),
+                        hc.getAnswers(rs.getInt(1)));
+
                 questions.add(q);
             }
 

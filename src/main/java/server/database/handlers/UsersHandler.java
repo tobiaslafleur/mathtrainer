@@ -2,6 +2,7 @@ package server.database.handlers;
 
 import com.google.gson.Gson;
 import model.NewUser;
+import server.database.HandlerController;
 
 import javax.xml.transform.Result;
 import java.sql.Connection;
@@ -15,7 +16,7 @@ public class UsersHandler {
     private Connection connection;
     private Gson gson;
 
-    public UsersHandler(Connection connection) {
+    public UsersHandler(Connection connection, HandlerController handlerController) {
         this.connection = connection;
         gson = new Gson();
     }
