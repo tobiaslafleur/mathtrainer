@@ -1,18 +1,14 @@
 package server;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import io.github.cdimascio.dotenv.Dotenv;
-import model.NewUser;
+import server.database.HandlerController;
 import spark.Spark;
 
 import java.sql.*;
 
 public class Server {
     private static Dotenv dotenv;
-    private static DBUsers users;
+    private static HandlerController hc;
     private static Connection connection;
 
     public static void main(String[] args) {
@@ -21,36 +17,38 @@ public class Server {
         try {
             connection = DriverManager.getConnection(dotenv.get("DB_CONNECTION_URI"));
             initSpark();
-            initControllers();
+            initDatabase();
         } catch(Exception e) {
             e.printStackTrace();
             System.exit(0);
         }
     }
 
-    private static void initControllers() {
-        users = new DBUsers(connection);
+    private static void initDatabase() {
+        hc = new HandlerController(connection);
     }
 
     public static void initSpark() {
         Spark.port(Integer.parseInt(dotenv.get("PORT")));
 
-        Spark.get("/", (req, res) -> "Hello");
+                                        /* -----USER ENTRYPOINTS----- */
 
-        Spark.post("/user", (req, res) -> {
-            res.header("Content-Type", "application/html");
-            Gson gson = new Gson();
-            NewUser user = gson.fromJson(req.body(), NewUser.class);
-
-            return users.addUser(user);
+        //Get info of specific user
+        Spark.get("/user/:id", (req, res) -> {
+            res.header("Content-Type", "application/json");
+            return hc.getUser(req.params("id"));
         });
 
+        //Create account
+        Spark.post("/user", (req, res) -> {
+            res.header("Content-Type", "application/json");
+            return hc.addUser(req.body());
+        });
+
+        //Login
         Spark.post("/login", (req, res) -> {
             res.header("Content-Type", "application/json");
-            Gson gson = new Gson();
-            NewUser user = gson.fromJson(req.body(), NewUser.class);
-
-            return users.login(user);
+            return hc.login(req.body());
         });
     }
 }

@@ -20,7 +20,9 @@ public class DBUsers {
         this.gson = new Gson();
     }
 
-    public int addUser(NewUser user) {
+    public int addUser(String json) {
+        NewUser user = gson.fromJson(json, NewUser.class);
+
         try {
             String query = """
                     INSERT INTO users (id, username, password, year)
@@ -40,7 +42,9 @@ public class DBUsers {
         }
     }
 
-    public Object login(NewUser user) {
+    public Object login(String json) {
+        NewUser user = gson.fromJson(json, NewUser.class);
+
         try {
             String query = """
                     SELECT * FROM users
