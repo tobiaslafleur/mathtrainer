@@ -1,12 +1,63 @@
 package server.database.handlers;
 
+import com.google.gson.Gson;
+import model.NewQuestions;
+
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class QuestionsHandler {
 
     private Connection connection;
+    private Gson gson;
 
     public QuestionsHandler(Connection connection) {
         this.connection = connection;
+        this.gson = new Gson();
+    }
+
+    public Object getRandQuestions(int limit, int year) {
+        System.out.println(limit);
+        try {
+            String query = """
+                    SELECT * FROM questions
+                    WHERE year = ?
+                    ORDER BY RANDOM()
+                    LIMIT ?
+                    """;
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, year);
+            preparedStatement.setInt(2, limit);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            ArrayList<NewQuestions> questions = new ArrayList<>();
+            while(rs.next()) {
+                NewQuestions q = new NewQuestions(
+                        rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getString(3),
+                        rs.getInt(4));
+                questions.add(q);
+            }
+
+            if(questions.isEmpty()) {
+                HashMap<String, String> response = new HashMap<>();
+                response.put("error", "No questions found");
+                return gson.toJson(response);
+            } else {
+                return gson.toJson(questions);
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            HashMap<String, String> response = new HashMap<>();
+            response.put("error", e.getMessage());
+            return gson.toJson(response);
+        }
     }
 }

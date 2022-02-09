@@ -31,7 +31,7 @@ public class Server {
     public static void initSpark() {
         Spark.port(Integer.parseInt(dotenv.get("PORT")));
 
-                                        /* -----USER ENTRYPOINTS----- */
+                                            /* -----USER ENTRYPOINTS----- */
 
         //Get info of specific user
         Spark.get("/user/:id", (req, res) -> {
@@ -50,5 +50,14 @@ public class Server {
             res.header("Content-Type", "application/json");
             return hc.login(req.body());
         });
+
+                                            /* -----QUESTIONS ENTRYPOINTS----- */
+
+        //Get random questions
+        Spark.get("/questions/:year/:limit", (req, res) -> {
+            res.header("Content-Type", "application/json");
+            return hc.getRandQuestions(req.params("year"), req.params("limit"));
+        });
+
     }
 }

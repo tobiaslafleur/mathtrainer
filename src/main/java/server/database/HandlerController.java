@@ -37,4 +37,8 @@ public class HandlerController {
     public Object login(String body) {
         return users.login(body);
     }
+
+    public Object getRandQuestions(String year, String limit) {
+        return questions.getRandQuestions(Integer.parseInt(limit), Integer.parseInt(year));
+    }
 }
