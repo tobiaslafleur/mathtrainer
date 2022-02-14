@@ -15,9 +15,11 @@ public class UsersHandler {
 
     private Connection connection;
     private Gson gson;
+    private HandlerController hc;
 
-    public UsersHandler(Connection connection, HandlerController handlerController) {
+    public UsersHandler(Connection connection, HandlerController hc) {
         this.connection = connection;
+        this.hc = hc;
         gson = new Gson();
     }
 
@@ -50,11 +52,8 @@ public class UsersHandler {
                 return gson.toJson(error);
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            HashMap<String, String> error = new HashMap<>();
-            error.put("error", e.getMessage());
-            return gson.toJson(error);
+        } catch (SQLException e) {
+            return hc.error(e);
         }
     }
 
@@ -75,11 +74,9 @@ public class UsersHandler {
 
             return 200;
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            HashMap<String, String> error = new HashMap<>();
-            error.put("error", e.getMessage());
-            return gson.toJson(error);
+        } catch (SQLException e) {
+
+            return hc.error(e);
         }
     }
 
@@ -110,11 +107,8 @@ public class UsersHandler {
             return gson.toJson(response);
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            HashMap<String, String> response = new HashMap<>();
-            response.put("error", e.getMessage());
 
-            return response;
+            return hc.error(e);
         }
     }
 }

@@ -59,5 +59,17 @@ public class Server {
             return hc.getRandQuestions(req.params("year"), req.params("limit"));
         });
 
+        //Get questions based on category
+        Spark.get("/questions/:year/:category/:limit", (req, res) -> {
+            res.header("Content-Type", "application/json");
+            return hc.getCategoryQuestions(req.params("year"), req.params("category"), req.params("limit"));
+        });
+
+                                            /* -----RESULTS ENTRYPOINTS----- */
+
+        Spark.post("results/:user/", (req, res) -> {
+            res.header("Content-Type", "application/json");
+            return hc.addResult(req.params("user"), req.body());
+        });
     }
 }

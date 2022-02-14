@@ -8,7 +8,9 @@ import server.database.handlers.ResultsHandler;
 import server.database.handlers.UsersHandler;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class HandlerController {
 
@@ -46,5 +48,26 @@ public class HandlerController {
 
     public ArrayList<Answers> getAnswers(int id) {
         return answers.getAnswers(id);
+    }
+
+    public Object getCategoryQuestions(String year, String category, String limit) {
+        return questions.getCategoryQuestions(
+                Integer.parseInt(year),
+                Integer.parseInt(category),
+                Integer.parseInt(limit));
+    }
+
+    public Object addResult(String user, String body) {
+        return results.addResult(
+                Integer.parseInt(user),
+                body
+        );
+    }
+
+    public Object error(Exception e) {
+        e.printStackTrace();
+        HashMap<String, String> response = new HashMap<>();
+        response.put("error", e.getMessage());
+        return response;
     }
 }

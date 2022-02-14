@@ -25,7 +25,6 @@ public class QuestionsHandler {
     }
 
     public Object getRandQuestions(int limit, int year) {
-        System.out.println(limit);
         try {
             String query = """
                     SELECT * FROM questions
@@ -60,10 +59,47 @@ public class QuestionsHandler {
             }
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            HashMap<String, String> response = new HashMap<>();
-            response.put("error", e.getMessage());
-            return gson.toJson(response);
+            return hc.error(e);
+        }
+    }
+
+    public Object getCategoryQuestions(int year, int categoryId, int limit) {
+        try {
+            String query = """
+                    SELECT * FROM questions
+                    WHERE year = ?
+                    AND category_id = ?
+                    LIMIT ?
+                    """;
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, year);
+            preparedStatement.setInt(2, categoryId);
+            preparedStatement.setInt(3, limit);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            ArrayList<NewQuestions> questions = new ArrayList<>();
+            while(rs.next()) {
+                NewQuestions q = new NewQuestions(
+                        rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getString(3),
+                        rs.getInt(4),
+                        hc.getAnswers(rs.getInt(1)));
+
+                questions.add(q);
+            }
+
+            if(questions.isEmpty()) {
+                HashMap<String, String> response = new HashMap<>();
+                response.put("error", "No questions found");
+                return gson.toJson(response);
+            } else {
+                return gson.toJson(questions);
+            }
+
+        } catch (SQLException e) {
+            return hc.error(e);
         }
     }
 }
