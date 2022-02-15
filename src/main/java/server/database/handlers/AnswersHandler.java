@@ -1,5 +1,6 @@
 package server.database.handlers;
 
+import com.google.gson.Gson;
 import model.Answers;
 import server.database.HandlerController;
 import spark.Spark;
@@ -9,15 +10,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class AnswersHandler {
 
     private Connection connection;
     private HandlerController hc;
+    private Gson gson;
 
     public AnswersHandler(Connection connection, HandlerController hc) {
         this.connection = connection;
         this.hc = hc;
+        gson = new Gson();
         initEntryPoints();
     }
 
@@ -56,8 +60,7 @@ public class AnswersHandler {
         }
     }
 
-    public Object getAnswer(int id) {
-        System.out.println(id);
+    public Object getAnswerObj(int id) {
         try {
             String query = """
                     SELECT * FROM answers
@@ -85,5 +88,16 @@ public class AnswersHandler {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public Object getAnswerJson(int id) {
+        Answers answer = (Answers) getAnswerObj(id);
+        if(answer == null) {
+            HashMap<String, String> response = new HashMap<>();
+            response.put("error", "No answer found");
+            return gson.toJson(response);
+        }
+
+        return gson.toJson(answer);
     }
 }

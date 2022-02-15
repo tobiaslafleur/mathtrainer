@@ -68,21 +68,28 @@ public class Server {
                                             /* -----RESULTS ENTRYPOINTS----- */
 
         //POST users result
-        Spark.post("results/:user", (req, res) -> {
+        Spark.post("/results/:user", (req, res) -> {
             res.header("Content-Type", "application/json");
             return hc.addResult(req.params("user"), req.body());
         });
 
-        Spark.get("results/:user", (req, res) -> {
+        Spark.get("/results/:user", (req, res) -> {
             res.header("Content-Type", "application/json");
             return hc.getResult(req.params("user"));
         });
 
                                             /* -----DETAILED RESULTS ENTRYPOINTS----- */
 
-        Spark.get("results/detailed/:id", (req, res) -> {
+        Spark.get("/results/detailed/:id", (req, res) -> {
             res.header("Content-Type", "application/json");
             return hc.getDetailedResults(Integer.parseInt(req.params("id")));
+        });
+
+                                            /* -----CATEGORIES ENTRYPOINTS----- */
+
+        Spark.get("/categories", (req, res) -> {
+            res.header("Content-Type", "application/json");
+            return hc.getAllCategories();
         });
     }
 }

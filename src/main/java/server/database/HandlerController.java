@@ -1,13 +1,9 @@
 package server.database;
 
-import com.google.gson.JsonObject;
 import model.Answers;
-import model.Category;
-import model.Questions;
 import server.database.handlers.*;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -78,8 +74,8 @@ public class HandlerController {
         return response;
     }
 
-    public Object getCategory(int id) {
-        return categories.getCategory(id);
+    public Object getCategoryJson(int id) {
+        return categories.getCategoryJson(id);
     }
 
     public Object getQuestion(int id) {
@@ -87,14 +83,18 @@ public class HandlerController {
     }
 
     public Object getAnswer(int id) {
-        return answers.getAnswer(id);
+        return answers.getAnswerObj(id);
     }
 
     public Object getDetailedResults(int id) {
         return detailedResults.getDetailedResults(id);
     }
 
-    public Object getCategoryAsObj(int id) {
-        return categories.getCategoryAsObj(id);
+    public Object getCategoryObj(int id) {
+        return categories.getCategoryObj(id);
+    }
+
+    public Object getAllCategories() {
+        return categories.getAllCategories();
     }
 }

@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CategoriesHandler {
@@ -22,7 +23,7 @@ public class CategoriesHandler {
     }
 
     //TODO: Get categories
-    public Object getCategoryAsObj(int id) {
+    public Object getCategoryObj(int id) {
         try {
             String query = """
                     SELECT * FROM categories
@@ -51,29 +52,39 @@ public class CategoriesHandler {
         }
     }
 
-    public Object getCategory(int id) {
+    public Object getCategoryJson(int id) {
+        Category category = (Category) getCategoryObj(id);
+
+        if(category == null) {
+            HashMap<String, String> response = new HashMap<>();
+            response.put("error", "No answer found");
+            return gson.toJson(response);
+        }
+
+        return gson.toJson(category);
+    }
+
+    public Object getAllCategories() {
         try {
             String query = """
                     SELECT * FROM categories
-                    WHERE id = ?
                     """;
 
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, id);
             ResultSet rs = preparedStatement.executeQuery();
 
-            Category category = null;
+            ArrayList<Category> categories = new ArrayList<>();
             while(rs.next()) {
-                category = new Category(rs.getInt(1), rs.getString(2));
+                categories.add(new Category(rs.getInt(1), rs.getString(2)));
             }
 
-            if(category == null) {
+            if(categories.isEmpty()) {
                 HashMap<String, String> response = new HashMap<>();
                 response.put("error", "No categories found");
-                return gson.toJson(response);
+                return gson.toJson(categories);
             }
 
-            return gson.toJson(category);
+            return gson.toJson(categories);
 
         } catch (SQLException e) {
             return hc.error(e);

@@ -48,7 +48,7 @@ public class ResultsHandler {
                 results.add(new Results(
                         rs.getInt(1),
                         rs.getInt(2),
-                        (Category) hc.getCategoryAsObj(rs.getInt(3)),
+                        (Category) hc.getCategoryObj(rs.getInt(3)),
                         rs.getString(4).toCharArray()[0],
                         rs.getInt(5),
                         rs.getInt(6)));
