@@ -55,4 +55,35 @@ public class AnswersHandler {
             return null;
         }
     }
+
+    public Object getAnswer(int id) {
+        System.out.println(id);
+        try {
+            String query = """
+                    SELECT * FROM answers
+                    WHERE id = ?
+                    """;
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            Answers answer = null;
+
+            while(rs.next()) {
+                answer = new Answers(
+                        rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getString(3),
+                        rs.getBoolean(4));
+            }
+
+
+            return answer;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

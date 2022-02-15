@@ -1,26 +1,19 @@
 package model;
 
-public class DetailedResults {
+public class DetailedResults implements IResults{
 
     private int id;
-    private int questionId;
-    private Results results;
-    private int guessedId;
-    private int correctId;
+    private NewQuestions question;
+    private int results;
+    private Answers guessedAnswer;
+    private Answers correctAnswer;
 
-    public DetailedResults(int id, int questionId, Results results, int guessedId, int correctId) {
+    public DetailedResults(int id, NewQuestions question, int results, Answers guessedAnswer, Answers correctAnswer) {
         this.id = id;
-        this.questionId = questionId;
+        this.question = question;
         this.results = results;
-        this.guessedId = guessedId;
-        this.correctId = correctId;
-    }
-
-    public DetailedResults(int questionId, Results results, int guessedId, int correctId) {
-        this.questionId = questionId;
-        this.results = results;
-        this.guessedId = guessedId;
-        this.correctId = correctId;
+        this.guessedAnswer = guessedAnswer;
+        this.correctAnswer = correctAnswer;
     }
 
     public int getId() {
@@ -31,35 +24,35 @@ public class DetailedResults {
         this.id = id;
     }
 
-    public int getQuestionId() {
-        return questionId;
+    public NewQuestions getQuestion() {
+        return question;
     }
 
-    public void setQuestionId(int questionId) {
-        this.questionId = questionId;
+    public void setQuestion(NewQuestions question) {
+        this.question = question;
     }
 
-    public Results getResults() {
+    public int getResults() {
         return results;
     }
 
-    public void setResults(Results results) {
+    public void setResults(int results) {
         this.results = results;
     }
 
-    public int getGuessedId() {
-        return guessedId;
+    public Answers getGuessedAnswer() {
+        return guessedAnswer;
     }
 
-    public void setGuessedId(int guessedId) {
-        this.guessedId = guessedId;
+    public void setGuessedAnswer(Answers guessedAnswer) {
+        this.guessedAnswer = guessedAnswer;
     }
 
-    public int getCorrectId() {
-        return correctId;
+    public Answers getCorrectAnswer() {
+        return correctAnswer;
     }
 
-    public void setCorrectId(int correctId) {
-        this.correctId = correctId;
+    public void setCorrectAnswer(Answers correctAnswer) {
+        this.correctAnswer = correctAnswer;
     }
 }

@@ -63,4 +63,15 @@ public class NewQuestions {
     public void setAnswers(ArrayList<Answers> answers) {
         this.answers = answers;
     }
+
+    @Override
+    public String toString() {
+        return "NewQuestions{" +
+                "id=" + id +
+                ", categoryId=" + categoryId +
+                ", question='" + question + '\'' +
+                ", year=" + year +
+                ", answers=" + answers +
+                '}';
+    }
 }

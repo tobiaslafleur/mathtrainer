@@ -1,26 +1,26 @@
 package model;
 
-public class Results {
+public class Results implements IResults {
 
     private int resultId;
     private int userId;
-    private int categoryId;
+    private Category category;
     private char grade;
     private int score;
     private int maxScore;
 
-    public Results(int id, int userId, int categoryId, char grade, int score, int maxScore) {
+    public Results(int id, int userId, Category category, char grade, int score, int maxScore) {
         this.resultId = id;
         this.userId = userId;
-        this.categoryId = categoryId;
+        this.category = category;
         this.grade = grade;
         this.score = score;
         this.maxScore = maxScore;
     }
 
-    public Results(int userId, int categoryId, char grade, int score, int maxScore) {
+    public Results(int userId, Category category, char grade, int score, int maxScore) {
         this.userId = userId;
-        this.categoryId = categoryId;
+        this.category = category;
         this.grade = grade;
         this.score = score;
         this.maxScore = maxScore;
@@ -42,12 +42,12 @@ public class Results {
         this.userId = userId;
     }
 
-    public int getCategoryId() {
-        return categoryId;
+    public Category getCategoryId() {
+        return category;
     }
 
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
+    public void setCategoryId(Category category) {
+        this.category = category;
     }
 
     public char getGrade() {

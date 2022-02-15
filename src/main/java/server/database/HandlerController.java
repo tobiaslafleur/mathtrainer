@@ -2,10 +2,9 @@ package server.database;
 
 import com.google.gson.JsonObject;
 import model.Answers;
-import server.database.handlers.AnswersHandler;
-import server.database.handlers.QuestionsHandler;
-import server.database.handlers.ResultsHandler;
-import server.database.handlers.UsersHandler;
+import model.Category;
+import model.Questions;
+import server.database.handlers.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -18,6 +17,8 @@ public class HandlerController {
     private QuestionsHandler questions;
     private ResultsHandler results;
     private UsersHandler users;
+    private CategoriesHandler categories;
+    private DetailedResultsHandler detailedResults;
 
     public HandlerController(Connection connection) {
         initHandlers(connection);
@@ -28,6 +29,8 @@ public class HandlerController {
         questions = new QuestionsHandler(connection, this);
         results = new ResultsHandler(connection, this);
         users = new UsersHandler(connection, this);
+        categories = new CategoriesHandler(connection, this);
+        detailedResults = new DetailedResultsHandler(connection, this);
     }
 
     public Object getUser(String id) {
@@ -64,10 +67,34 @@ public class HandlerController {
         );
     }
 
+    public Object getResult(String user) {
+        return results.getResults(Integer.parseInt(user));
+    }
+
     public Object error(Exception e) {
         e.printStackTrace();
         HashMap<String, String> response = new HashMap<>();
         response.put("error", e.getMessage());
         return response;
+    }
+
+    public Object getCategory(int id) {
+        return categories.getCategory(id);
+    }
+
+    public Object getQuestion(int id) {
+        return questions.getQuestion(id);
+    }
+
+    public Object getAnswer(int id) {
+        return answers.getAnswer(id);
+    }
+
+    public Object getDetailedResults(int id) {
+        return detailedResults.getDetailedResults(id);
+    }
+
+    public Object getCategoryAsObj(int id) {
+        return categories.getCategoryAsObj(id);
     }
 }

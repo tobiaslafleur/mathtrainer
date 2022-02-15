@@ -67,9 +67,22 @@ public class Server {
 
                                             /* -----RESULTS ENTRYPOINTS----- */
 
-        Spark.post("results/:user/", (req, res) -> {
+        //POST users result
+        Spark.post("results/:user", (req, res) -> {
             res.header("Content-Type", "application/json");
             return hc.addResult(req.params("user"), req.body());
+        });
+
+        Spark.get("results/:user", (req, res) -> {
+            res.header("Content-Type", "application/json");
+            return hc.getResult(req.params("user"));
+        });
+
+                                            /* -----DETAILED RESULTS ENTRYPOINTS----- */
+
+        Spark.get("results/detailed/:id", (req, res) -> {
+            res.header("Content-Type", "application/json");
+            return hc.getDetailedResults(Integer.parseInt(req.params("id")));
         });
     }
 }

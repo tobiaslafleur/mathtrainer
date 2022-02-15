@@ -3,6 +3,7 @@ package server.database.handlers;
 import com.google.gson.Gson;
 import model.Answers;
 import model.NewQuestions;
+import model.Questions;
 import server.database.HandlerController;
 
 import java.sql.Connection;
@@ -97,6 +98,33 @@ public class QuestionsHandler {
             } else {
                 return gson.toJson(questions);
             }
+
+        } catch (SQLException e) {
+            return hc.error(e);
+        }
+    }
+
+    public Object getQuestion(int id) {
+        try {
+            String query = """
+                    SELECT * FROM questions
+                    WHERE id = ?
+                    """;
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            NewQuestions question = null;
+            while(rs.next()) {
+                question = new NewQuestions(
+                        rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getString(3),
+                        rs.getInt(4));
+            }
+
+            return question;
 
         } catch (SQLException e) {
             return hc.error(e);

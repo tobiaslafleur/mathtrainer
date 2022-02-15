@@ -44,4 +44,14 @@ public class Answers {
     public void setCorrect(boolean correct) {
         this.correct = correct;
     }
+
+    @Override
+    public String toString() {
+        return "Answers{" +
+                "id=" + id +
+                ", questionId=" + questionId +
+                ", answer='" + answer + '\'' +
+                ", correct=" + correct +
+                '}';
+    }
 }
