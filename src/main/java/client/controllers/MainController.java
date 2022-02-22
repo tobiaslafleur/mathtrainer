@@ -2,11 +2,15 @@ package client.controllers;
 
 import client.entity.ScenesEnum;
 import client.entity.ScenesHashMap;
+import com.google.gson.Gson;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
+import kong.unirest.HttpResponse;
+import kong.unirest.JsonNode;
+import kong.unirest.Unirest;
 import model.Questions;
 import model.User;
 
@@ -142,15 +146,28 @@ public class MainController {
         if (username.isBlank() || password.isBlank() ){
             popUpWindow(Alert.AlertType.ERROR, "Felaktiga användaruppgifter", "Du måste fylla i både användarnamn och lösenord");
         } else {
-            Object returnValue = networkController.sendRequest("Login", currentUser);
-            if (returnValue instanceof User) {
-                currentUser = (User) returnValue;
+         //   Object returnValue = networkController.sendRequest("Login", currentUser);
+            HttpResponse<JsonNode> response = Unirest.post("http://localhost:5000/login").body(new Gson().toJson(currentUser)).asJson();
+            System.out.println(response.toString());
+            if(response.getStatusText().equals("OK")){
                 setScene(ScenesEnum.Home);
                 setInitialValueOfScene(currentUser);
-            } else {
-                String errorString = (String) returnValue;
-                popUpWindow(Alert.AlertType.ERROR, errorString.substring(0, errorString.indexOf(':')), errorString.substring(errorString.indexOf(':') + 2));
             }
+            else{
+                String errorString = "Wrong password or username";
+
+                System.out.println("Wrong username or password");
+      //          popUpWindow(Alert.AlertType.ERROR, errorString.substring(0, errorString.indexOf(':')), errorString.substring(errorString.indexOf(':') + 2));
+            }
+
+//            if (returnValue instanceof User) {
+//                currentUser = (User) returnValue;
+//                setScene(ScenesEnum.Home);
+//                setInitialValueOfScene(currentUser);
+//            } else {
+//                String errorString = (String) returnValue;
+//                popUpWindow(Alert.AlertType.ERROR, errorString.substring(0, errorString.indexOf(':')), errorString.substring(errorString.indexOf(':') + 2));
+//            }
         }
     }
 
