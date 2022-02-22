@@ -26,6 +26,7 @@ public class Server {
 
     private static void initDatabase() {
         hc = new HandlerController(connection);
+        hc.deleteAllUsers();
     }
 
     public static void initSpark() {

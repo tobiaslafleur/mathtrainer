@@ -14,6 +14,10 @@ public class NewUser {
         this.year = year;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public String getUsername() {
         return username;
     }

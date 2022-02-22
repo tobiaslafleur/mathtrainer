@@ -111,4 +111,20 @@ public class UsersHandler {
             return hc.error(e);
         }
     }
+
+    //TESTING
+    public void deleteAllUsers() {
+        try {
+            String query = """
+                    DELETE FROM users
+                    """;
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.executeUpdate();
+            System.out.println("Users deleted");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

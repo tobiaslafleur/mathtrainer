@@ -97,4 +97,11 @@ public class HandlerController {
     public Object getAllCategories() {
         return categories.getAllCategories();
     }
+
+
+
+    //TESTING AND SUCH
+    public void deleteAllUsers() {
+        users.deleteAllUsers();
+    }
 }
