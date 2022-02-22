@@ -117,8 +117,8 @@ public class MainController {
      * @param password
      * @author Niklas Hultin
      */
-    public void newUser(String username, String password, String city, String school, Object year){
-        currentUser = new User(username, password, city, school, year);
+    public void newUser(String username, String password, Object year){
+        currentUser = new User(username, password, year);
         Object returnValue = networkController.sendRequest("NewUser", currentUser);
 
         if (returnValue instanceof User) {

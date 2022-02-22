@@ -6,6 +6,7 @@ module com.mathtrainer.mathtrainer {
     requires dotenv.java;
     requires org.postgresql.jdbc;
     requires java.sql;
+    requires unirest.java;
 
     exports client;
     opens client to javafx.fxml;

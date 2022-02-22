@@ -13,7 +13,7 @@ public class SettingsController extends MainMenuControllerParent implements Init
     public void setInitialValues(Object object) {
         if(object != null) {
             user = (User) object;
-            userInfoLabel.setText("Användarnamn: " + user.getUserName() + "\n" + "Årskurs: " + user.getYear() + "\n" + "Skola: " + user.getSchool() + "\n");
+            userInfoLabel.setText("Användarnamn: " + user.getUserName() + "\n" + "Årskurs: " + user.getYear() + "\n");
         } else {
             userInfoLabel.setText("");
         }
