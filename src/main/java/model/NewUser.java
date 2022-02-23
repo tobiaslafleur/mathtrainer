@@ -14,6 +14,11 @@ public class NewUser {
         this.year = year;
     }
 
+    public NewUser(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     public int getId() {
         return id;
     }

@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
+import model.NewUser;
 import model.User;
 
 /**
@@ -49,18 +50,18 @@ public class HomeController extends MainMenuControllerParent implements Initiali
     @FXML
     Label totalPercent;
 
-    private User user;
+    private NewUser user;
     private int[] results;
 
     @Override
     public void setInitialValues(Object object) {
         if(object != null) {
-            user = (User) object;
-            welcomeLabel.setText("Välkommen " + user.getUserName());
-            results = user.getResults();
+            user = (NewUser) object;
+            welcomeLabel.setText("Välkommen " + user.getUsername());
+            //results = user.getResults();
             userInfoLabel.setText("Årskurs " + user.getYear() + "\n");
 
-            setProgress();
+            //setProgress();
         } else {
             welcomeLabel.setText("Välkommen ");
             userInfoLabel.setText("");

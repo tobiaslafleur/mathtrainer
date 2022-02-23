@@ -1,9 +1,18 @@
 package client.controllers;
 
+import client.entity.ScenesEnum;
+import com.google.gson.Gson;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import kong.unirest.HttpResponse;
+import kong.unirest.JsonNode;
+import kong.unirest.Unirest;
+import kong.unirest.json.JSONObject;
+import model.NewUser;
+
+import java.util.HashMap;
 
 /**
  * Controller for handling button-presses in the scene LogIn.fxml. Each method represent a possible user action.
@@ -18,8 +27,6 @@ public class LogInController extends SceneControllerParent implements Initialize
     private TextField usernameField;
     @FXML
     private TextField passwordField;
-
-    private String username, password;
 
     /**
      * Called when the user skips the log in. Confirms with the user if they are sure, and if so skips the login phase.
@@ -39,9 +46,30 @@ public class LogInController extends SceneControllerParent implements Initialize
      * @param actionEvent
      */
     public void logInClicked(ActionEvent actionEvent) {
-        username = usernameField.getText();
-        password = passwordField.getText();
-        mainController.logIn(username, password);
+        String username = usernameField.getText();
+        String password = passwordField.getText();
+
+        if (username.isBlank() || password.isBlank()) {
+            mainController.popUpWindow(Alert.AlertType.ERROR, "Felaktiga användaruppgifter", "Du måste fylla i både användarnamn och lösenord");
+        }
+        else {
+            NewUser user = new NewUser(username, password);
+            HttpResponse<JsonNode> loginResponse = Unirest.post("http://localhost:5000/login").body(new Gson().toJson(user)).asJson();
+            JSONObject responseMap = loginResponse.getBody().getObject();
+
+            if (responseMap.get("response").toString().contains("Credentials")) {
+                mainController.popUpWindow(Alert.AlertType.ERROR, "Felaktiga användaruppgifter", "Du har angett fel användarnamn eller lösenord");
+            }
+            else {
+                String id = responseMap.get("response").toString();
+                HttpResponse<JsonNode> getResponse = Unirest.get("http://localhost:5000/user/" + Integer.parseInt(id)).asJson();
+                user = new Gson().fromJson(String.valueOf(getResponse.getBody()), NewUser.class);
+                mainController.setScene(ScenesEnum.Home);
+                mainController.setInitialValueOfScene(user);
+            }
+        }
+
+
     }
 
     /**

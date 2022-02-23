@@ -104,4 +104,8 @@ public class HandlerController {
     public void deleteAllUsers() {
         users.deleteAllUsers();
     }
+
+    public void printAllUsers() {
+        users.printUsers();
+    }
 }

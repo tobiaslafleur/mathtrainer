@@ -148,7 +148,7 @@ public class MainController {
         } else {
          //   Object returnValue = networkController.sendRequest("Login", currentUser);
             HttpResponse<JsonNode> response = Unirest.post("http://localhost:5000/login").body(new Gson().toJson(currentUser)).asJson();
-            System.out.println(response.toString());
+            System.out.println(response.getBody());
             if(response.getStatusText().equals("OK")){
                 setScene(ScenesEnum.Home);
                 setInitialValueOfScene(currentUser);

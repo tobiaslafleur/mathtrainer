@@ -29,7 +29,7 @@ public class NewUserController extends SceneControllerParent implements Initiali
     @FXML
     PasswordField password, passwordRepeat;
     @FXML
-    ChoiceBox year;
+    ChoiceBox<String> year;
 
     /**
      * Returns to the login scene if the user backs out of creating a new user.
@@ -52,11 +52,12 @@ public class NewUserController extends SceneControllerParent implements Initiali
         } else if (password.getText().length() < 6){
             mainController.popUpWindow(Alert.AlertType.ERROR, "Lösenordet är för kort", "Lösenordet måste vara minst 6 tecken långt");
         } else {
-            String userYear = (String) year.getValue();
+            String userYear = year.getValue();
             NewUser user = new NewUser(1, username.getText(), password.getText(), Integer.parseInt(userYear));
 
             HttpResponse<JsonNode> response = Unirest.post("http://localhost:5000/user").body(new Gson().toJson(user)).asJson();
-            if (response.getStatus() == 200 || response.getStatus() == 201) {
+
+            if (response.getStatus() == 200) {
                 System.out.println("User added"); //Todo visa klienten
             }
             else {

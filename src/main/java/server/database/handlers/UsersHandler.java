@@ -5,10 +5,7 @@ import model.NewUser;
 import server.database.HandlerController;
 
 import javax.xml.transform.Result;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.HashMap;
 
 public class UsersHandler {
@@ -70,7 +67,7 @@ public class UsersHandler {
             preparedStatement.setString(1, user.getUsername());
             preparedStatement.setString(2, user.getPassword());
             preparedStatement.setInt(3, user.getYear());
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
 
             return 200;
 
@@ -96,14 +93,19 @@ public class UsersHandler {
             ResultSet rs = preparedStatement.executeQuery();
 
             boolean loggedIn = false;
-            while(rs.next()) {
-                loggedIn = true;
+            String id = "";
+
+            while (rs.next()) {
+                if (rs.getString(2).equals(user.getUsername()) && rs.getString(3).equals(user.getPassword())) {
+                    loggedIn = true;
+                    id = Integer.toString(rs.getInt(1));
+                    break;
+                }
             }
 
             HashMap<String, String> response = new HashMap<>();
-            if(loggedIn) response.put("response", "Login Successful");
+            if (loggedIn) response.put("response", id);
             else response.put("response", "Credentials doesn't match");
-
             return gson.toJson(response);
 
         } catch (SQLException e) {
@@ -116,7 +118,8 @@ public class UsersHandler {
     public void deleteAllUsers() {
         try {
             String query = """
-                    DELETE FROM users
+                    ALTER TABLE users
+                    ALTER id IDENTITY(1,1)
                     """;
 
             PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -127,4 +130,26 @@ public class UsersHandler {
             e.printStackTrace();
         }
     }
+
+    public void printUsers() {
+        try {
+            String query = """
+                    SELECT * FROM users
+                    """;
+
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                System.out.println(rs.getInt(1));
+                System.out.println(rs.getString(2));
+                System.out.println(rs.getString(3));
+                System.out.println(rs.getInt(4));
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
