@@ -130,4 +130,42 @@ public class QuestionsHandler {
             return hc.error(e);
         }
     }
+
+    //TESTING AND DEV
+    public void printQuestions() {
+        try {
+            String query = """
+                    SELECT * FROM questions
+                    """;
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                System.out.println(rs.getInt(1));
+                System.out.println(rs.getInt(2));
+                System.out.println(rs.getString(3));
+                System.out.println(rs.getInt(4));
+            }
+
+            System.out.println("No questions");
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addQuestion(String category, String question, int year) {
+        try {
+            String query = """
+                    INSERT INTO questions (id, category_id, question, year)
+                    VALUES (DEFAULT, ?, ?, ?);
+                    """;
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

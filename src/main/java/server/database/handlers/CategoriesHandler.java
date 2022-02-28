@@ -81,13 +81,31 @@ public class CategoriesHandler {
             if(categories.isEmpty()) {
                 HashMap<String, String> response = new HashMap<>();
                 response.put("error", "No categories found");
-                return gson.toJson(categories);
+                return gson.toJson(response);
             }
 
             return gson.toJson(categories);
 
         } catch (SQLException e) {
             return hc.error(e);
+        }
+    }
+
+    //TESTING & DEV
+    public void addCategory(int id, String category) {
+        try {
+            String query = """
+                    INSERT INTO categories (id, category)
+                    VALUES (?, ?)
+                    """;
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+            preparedStatement.setString(2, category);
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -100,12 +100,20 @@ public class HandlerController {
 
 
 
-    //TESTING AND SUCH
+    //TESTING AND DEV
     public void deleteAllUsers() {
         users.deleteAllUsers();
     }
 
     public void printAllUsers() {
         users.printUsers();
+    }
+
+    public void printAllQuestions() {
+        questions.printQuestions();
+    }
+
+    public void addCategory(int id, String category) {
+        categories.addCategory(id, category);
     }
 }
