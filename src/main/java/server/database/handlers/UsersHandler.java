@@ -58,15 +58,24 @@ public class UsersHandler {
         NewUser user = gson.fromJson(body, NewUser.class);
 
         try {
+            /*
             String query = """
                     INSERT INTO users (id, username, password, year)
                     VALUES (DEFAULT, ?, ?, ?)
                     """;
 
+             */
+
+            String query = """
+                    INSERT INTO users (id, username, password, year)
+                    VALUES (?, ?, ?, ?)
+                    """;
+
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, user.getUsername());
-            preparedStatement.setString(2, user.getPassword());
-            preparedStatement.setInt(3, user.getYear());
+            preparedStatement.setInt(1, user.getId());
+            preparedStatement.setString(2, user.getUsername());
+            preparedStatement.setString(3, user.getPassword());
+            preparedStatement.setInt(4, user.getYear());
             preparedStatement.executeUpdate();
 
             return 200;
@@ -118,8 +127,7 @@ public class UsersHandler {
     public void deleteAllUsers() {
         try {
             String query = """
-                    ALTER TABLE users
-                    ALTER id IDENTITY(1,1)
+                    DELETE FROM users
                     """;
 
             PreparedStatement preparedStatement = connection.prepareStatement(query);

@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
+import model.NewUser;
 import model.User;
 
 /**
@@ -21,8 +22,8 @@ public class StartGameController extends MainMenuControllerParent implements Ini
     @Override
     public void setInitialValues(Object object) {
         gameInformationLabel.setWrapText(true);
-        if(object instanceof User){
-            User user = (User) object;
+        if(object instanceof NewUser){
+            NewUser user = (NewUser) object;
             //TODO: Nån metod för att hämta ett score från user (som bör lagras vid avklarat spel).
             // Detta skrivs sen till bestScoreLabel.
             bestScoreLabel.setText("Inget resultat registrerat");

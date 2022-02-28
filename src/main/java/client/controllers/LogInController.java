@@ -30,9 +30,8 @@ public class LogInController extends SceneControllerParent implements Initialize
 
     /**
      * Called when the user skips the log in. Confirms with the user if they are sure, and if so skips the login phase.
-     * @param actionEvent
      */
-    public void skipLogInClicked(ActionEvent actionEvent) {
+    public void skipLogInClicked() {
         boolean answer = mainController.popUpWindow(Alert.AlertType.CONFIRMATION, "Fortsätt utan att logga in?", "Om du inte loggar in eller skapar en användare kommer ingenting att sparas. " +
                 "Är du säker på att du vill fortsätta utan att logga in?");
         if (answer){
@@ -43,9 +42,8 @@ public class LogInController extends SceneControllerParent implements Initialize
 
     /**
      * Called when the user clicks log in. Gets the user information and sends it to the main controller.
-     * @param actionEvent
      */
-    public void logInClicked(ActionEvent actionEvent) {
+    public void logInClicked() {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
@@ -65,6 +63,7 @@ public class LogInController extends SceneControllerParent implements Initialize
                 HttpResponse<JsonNode> getResponse = Unirest.get("http://localhost:5000/user/" + Integer.parseInt(id)).asJson();
                 user = new Gson().fromJson(String.valueOf(getResponse.getBody()), NewUser.class);
                 mainController.setScene(ScenesEnum.Home);
+                mainController.setCurrentUser(user);
                 mainController.setInitialValueOfScene(user);
             }
         }
@@ -74,17 +73,15 @@ public class LogInController extends SceneControllerParent implements Initialize
 
     /**
      * Called when the user chooses to create a new user.
-     * @param actionEvent
      */
-    public void newUserClicked(ActionEvent actionEvent) {
+    public void newUserClicked() {
         mainController.createNewUser();
     }
 
     /**
      * Called if the user wants to exit the program. MainController handles this call manually.
-     * @param actionEvent
      */
-    public void exitClicked(ActionEvent actionEvent) {
+    public void exitClicked() {
         mainController.closeProgram();
     }
 

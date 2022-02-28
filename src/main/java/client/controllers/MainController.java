@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
+import model.NewUser;
 import model.Questions;
 import model.User;
 
@@ -26,7 +27,7 @@ import java.io.IOException;
 
 public class MainController {
     private Stage mainWindow;
-    private User currentUser;
+    private NewUser currentUser;
     private SceneSetter sceneSetter = new SceneSetter();
     private NetworkController networkController;
     private Questions[] currentQuiz;
@@ -115,63 +116,6 @@ public class MainController {
     }
 
     /**
-     * Method is used when creating a new user. It is sent to the server and depending on the result, the new user is
-     * either logged in or an error message is shown.
-     * @param username
-     * @param password
-     * @author Niklas Hultin
-     */
-    public void newUser(String username, String password, Object year){
-        currentUser = new User(username, password, year);
-        Object returnValue = networkController.sendRequest("NewUser", currentUser);
-
-        if (returnValue instanceof User) {
-            currentUser = (User) returnValue;
-            setScene(ScenesEnum.Home);
-            setInitialValueOfScene(currentUser);
-        } else{
-            String errorString = (String) returnValue;
-            popUpWindow(Alert.AlertType.ERROR, errorString.substring(0, errorString.indexOf(':')), errorString.substring(errorString.indexOf(':')+2));
-        }
-    }
-
-    /**
-     * Log-in credentials are sent to the server. The user is either logged in, or an error message is shown.
-     * @param username
-     * @param password
-     * @author Niklas Hultin
-     */
-    public void logIn(String username, String password){
-        currentUser = new User(username, password);
-        if (username.isBlank() || password.isBlank() ){
-            popUpWindow(Alert.AlertType.ERROR, "Felaktiga användaruppgifter", "Du måste fylla i både användarnamn och lösenord");
-        } else {
-         //   Object returnValue = networkController.sendRequest("Login", currentUser);
-            HttpResponse<JsonNode> response = Unirest.post("http://localhost:5000/login").body(new Gson().toJson(currentUser)).asJson();
-            System.out.println(response.getBody());
-            if(response.getStatusText().equals("OK")){
-                setScene(ScenesEnum.Home);
-                setInitialValueOfScene(currentUser);
-            }
-            else{
-                String errorString = "Wrong password or username";
-
-                System.out.println("Wrong username or password");
-      //          popUpWindow(Alert.AlertType.ERROR, errorString.substring(0, errorString.indexOf(':')), errorString.substring(errorString.indexOf(':') + 2));
-            }
-
-//            if (returnValue instanceof User) {
-//                currentUser = (User) returnValue;
-//                setScene(ScenesEnum.Home);
-//                setInitialValueOfScene(currentUser);
-//            } else {
-//                String errorString = (String) returnValue;
-//                popUpWindow(Alert.AlertType.ERROR, errorString.substring(0, errorString.indexOf(':')), errorString.substring(errorString.indexOf(':') + 2));
-//            }
-        }
-    }
-
-    /**
      * Method is used to pass object of questions to network Controller and handle the return value.
      * @param quiz The quiz String that is used to send it to the neworkController
      * @author Bajram Gerbeshi
@@ -194,6 +138,7 @@ public class MainController {
      * @param score
      * @author Niklas Hultin
      */
+    /*
     public void reportResult(int score) {
         if (currentUser != null) {
             int[] updatedResults = currentUser.getResults();
@@ -228,6 +173,8 @@ public class MainController {
             setScene(ScenesEnum.Home);
         }
     }
+
+     */
 
     /**
      * Generic way of setting the initial values of a scene when it is being shown. Each Scene's controller knows how
@@ -278,6 +225,11 @@ public class MainController {
         setInitialValueOfScene(null);
     }
 
+    public void showHomeScreen() {
+        sceneSetter.setScene(ScenesEnum.Home);
+        setInitialValueOfScene(currentUser);
+    }
+
     /**
      * Changes to the game start-up scene. The initial values of the scene varies depend if currentUser is null or not.
      * @author Niklas Hultin
@@ -295,6 +247,11 @@ public class MainController {
     public void showDetailedResults() {
         sceneSetter.setScene(ScenesEnum.Results);
         setInitialValueOfScene(currentQuiz);
+    }
+
+    public void setCurrentUser(NewUser user) {
+        currentUser = user;
+        setInitialValueOfScene(currentUser);
     }
 
     /**
@@ -381,6 +338,64 @@ public class MainController {
         public void setScene(ScenesEnum sceneName) {
             if (scenes.get(sceneName) != mainWindow.getScene())
             mainWindow.setScene(scenes.get(sceneName));
+        }
+    }
+
+
+    /**
+     * Method is used when creating a new user. It is sent to the server and depending on the result, the new user is
+     * either logged in or an error message is shown.
+     * @param username
+     * @param password
+     * @author Niklas Hultin
+     */
+    public void newUser(String username, String password, Object year){
+        //currentUser = new User(username, password, year);
+        Object returnValue = networkController.sendRequest("NewUser", currentUser);
+
+        if (returnValue instanceof User) {
+            //currentUser = (User) returnValue;
+            setScene(ScenesEnum.Home);
+            setInitialValueOfScene(currentUser);
+        } else{
+            String errorString = (String) returnValue;
+            popUpWindow(Alert.AlertType.ERROR, errorString.substring(0, errorString.indexOf(':')), errorString.substring(errorString.indexOf(':')+2));
+        }
+    }
+
+    /**
+     * Log-in credentials are sent to the server. The user is either logged in, or an error message is shown.
+     * @param username
+     * @param password
+     * @author Niklas Hultin
+     */
+    public void logIn(String username, String password){
+        //currentUser = new User(username, password);
+        if (username.isBlank() || password.isBlank() ){
+            popUpWindow(Alert.AlertType.ERROR, "Felaktiga användaruppgifter", "Du måste fylla i både användarnamn och lösenord");
+        } else {
+            //   Object returnValue = networkController.sendRequest("Login", currentUser);
+            HttpResponse<JsonNode> response = Unirest.post("http://localhost:5000/login").body(new Gson().toJson(currentUser)).asJson();
+            System.out.println(response.getBody());
+            if(response.getStatusText().equals("OK")){
+                setScene(ScenesEnum.Home);
+                setInitialValueOfScene(currentUser);
+            }
+            else{
+                String errorString = "Wrong password or username";
+
+                System.out.println("Wrong username or password");
+                //          popUpWindow(Alert.AlertType.ERROR, errorString.substring(0, errorString.indexOf(':')), errorString.substring(errorString.indexOf(':') + 2));
+            }
+
+//            if (returnValue instanceof User) {
+//                currentUser = (User) returnValue;
+//                setScene(ScenesEnum.Home);
+//                setInitialValueOfScene(currentUser);
+//            } else {
+//                String errorString = (String) returnValue;
+//                popUpWindow(Alert.AlertType.ERROR, errorString.substring(0, errorString.indexOf(':')), errorString.substring(errorString.indexOf(':') + 2));
+//            }
         }
     }
 }

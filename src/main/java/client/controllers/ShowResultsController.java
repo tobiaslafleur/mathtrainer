@@ -42,7 +42,7 @@ public class ShowResultsController extends SceneControllerParent implements Init
                 score++;
             }
         }
-        mainController.reportResult(score);
+        //mainController.reportResult(score);
     }
 
     public void backToScore(ActionEvent actionEvent) {

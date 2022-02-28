@@ -26,7 +26,7 @@ public abstract class MainMenuControllerParent extends SceneControllerParent {
      * @param actionEvent
      */
     public void homeButtonClicked(ActionEvent actionEvent) {
-        mainController.setScene(ScenesEnum.Home);
+        mainController.showHomeScreen();
     }
 
     /**

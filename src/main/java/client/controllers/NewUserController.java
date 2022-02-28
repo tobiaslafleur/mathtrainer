@@ -33,13 +33,12 @@ public class NewUserController extends SceneControllerParent implements Initiali
 
     /**
      * Returns to the login scene if the user backs out of creating a new user.
-     * @param actionEvent
      */
-    public void backClicked(ActionEvent actionEvent){
+    public void backClicked(){
         mainController.setScene(ScenesEnum.LogIn);
     }
 
-    public void createUserClicked(ActionEvent actionEvent) {
+    public void createUserClicked() {
         String regex = "^[a-zA-Z0-9]+$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(username.getText());
@@ -58,39 +57,14 @@ public class NewUserController extends SceneControllerParent implements Initiali
             HttpResponse<JsonNode> response = Unirest.post("http://localhost:5000/user").body(new Gson().toJson(user)).asJson();
 
             if (response.getStatus() == 200) {
-                System.out.println("User added"); //Todo visa klienten
+                mainController.popUpWindow(Alert.AlertType.INFORMATION, "Klar", "Ett konto har skapats");
+                mainController.setScene(ScenesEnum.LogIn);
             }
             else {
-                System.out.println("Error"); //Todo visa klienten
+                mainController.popUpWindow(Alert.AlertType.ERROR, "Fel", "Det gick ej att skapa kontot");
             }
         }
     }
-
-
-    /*
-    /**
-     * Checks that the values for username and password are reasonable and if so, sends them to the MainController.
-     * @param actionEvent
-     */
-    /*
-    public void createUserClicked(ActionEvent actionEvent) {
-        String regex = "^[a-zA-Z0-9]+$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(username.getText());
-        if (username.getText().length() < 5 || username.getText().length() > 20) {
-            mainController.popUpWindow(Alert.AlertType.ERROR, "Användarnamnet är för kort eller långt", "Användarnamnet måste vara mellan 5 och 20 tecken långt");
-        } else if(!matcher.matches()){
-            mainController.popUpWindow(Alert.AlertType.ERROR, "Specialtecken är ej tillåtna", "Användarnamnet får ej innehålla specialtecken, som t ex !, &, *");
-        } else if (!password.getText().equals(passwordRepeat.getText())) {
-            mainController.popUpWindow(Alert.AlertType.ERROR, "Felaktigt lösenord", "Lösenorden du angav stämmer ej överens med varandra");
-        } else if (password.getText().length() < 6){
-            mainController.popUpWindow(Alert.AlertType.ERROR, "Lösenordet är för kort", "Lösenordet måste vara minst 6 tecken långt");
-        } else {
-            mainController.newUser(username.getText(), password.getText(), year.getValue());
-        }
-    }
-     */
-
 
     @Override
     public void setInitialValues(Object object) {

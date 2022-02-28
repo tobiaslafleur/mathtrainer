@@ -26,10 +26,10 @@ public class QuizCompletedController extends SceneControllerParent implements In
      * This method is used when the user wants to continue to the home screen from the quizCompleted scene.
      * @param actionEvent The button action
      */
-
     public void continueMenu(ActionEvent actionEvent){
-        mainController.reportResult(score);
+        //mainController.reportResult(score);
     }
+
     /**
      * This method is used to set the results in the final scene and to get the results from the questions array.
      */
