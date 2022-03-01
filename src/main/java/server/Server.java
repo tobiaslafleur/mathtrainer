@@ -15,7 +15,15 @@ public class Server {
     private static HandlerController hc;
     private static Connection connection;
 
+    public void testServer() {
+        startServer();
+    }
+
     public static void main(String[] args) {
+        startServer();
+    }
+
+    public static void startServer() {
         dotenv = Dotenv.load();
 
         try {
