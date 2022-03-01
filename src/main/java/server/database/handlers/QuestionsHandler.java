@@ -147,15 +147,13 @@ public class QuestionsHandler {
                 System.out.println(rs.getString(3));
                 System.out.println(rs.getInt(4));
             }
-
-            System.out.println("No questions");
         }
         catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void addQuestion(String category, String question, int year) {
+    public void addQuestion(int category, String question, int year) {
         try {
             String query = """
                     INSERT INTO questions (id, category_id, question, year)
@@ -163,6 +161,27 @@ public class QuestionsHandler {
                     """;
 
             PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, category);
+            preparedStatement.setString(2, question);
+            preparedStatement.setInt(3, year);
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void changeQuestion(String newQuestion) {
+        try {
+            String query = """
+                    UPDATE questions
+                    SET question = ?
+                    WHERE id = 2
+                    """;
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, newQuestion);
+            preparedStatement.executeUpdate();
         }
         catch (SQLException e) {
             e.printStackTrace();

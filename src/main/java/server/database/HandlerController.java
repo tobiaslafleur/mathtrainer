@@ -116,4 +116,12 @@ public class HandlerController {
     public void addCategory(int id, String category) {
         categories.addCategory(id, category);
     }
+
+    public void addQuestion(int catId, String question, int year) {
+        questions.addQuestion(catId, question, year);
+    }
+
+    public void changeQuestion(String newQuestion) {
+        questions.changeQuestion(newQuestion);
+    }
 }

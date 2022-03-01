@@ -4,7 +4,9 @@ import io.github.cdimascio.dotenv.Dotenv;
 import server.database.HandlerController;
 import spark.Spark;
 
+import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class Server {
     private static Dotenv dotenv;
@@ -26,6 +28,17 @@ public class Server {
 
     private static void initDatabase() {
         hc = new HandlerController(connection);
+
+        try {
+            ArrayList<String> questions = StaticReader.printQuestions(6);
+            for (String s : questions) {
+                hc.addQuestion(4, s, 7);
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        hc.printAllQuestions();
     }
 
     public static void initSpark() {

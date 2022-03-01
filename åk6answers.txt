@@ -1,0 +1,240 @@
+statistic
+1
+20%
+15%
+40%
+50%
+statistic
+2
+40%
+30%
+60%
+35%
+statistic
+3
+10
+5
+8
+11
+statistic
+4
+50%
+80%
+65%
+41%
+statistic
+5
+5
+8
+10
+7
+statistic
+6
+50%
+60%
+45%
+55%
+statistic
+7
+10
+35
+25
+30
+statistic
+8
+75%
+50%
+70%
+45%
+statistic
+9
+90%
+70%
+65%
+80%
+statistic
+10
+7
+4
+3
+5
+geometry
+1
+13 cm^2
+15 cm^2
+11 cm^2
+14 cm^2
+geometry
+2
+18 cm
+16 cm
+15 cm
+20 cm
+geometry
+3
+360 grader
+400 grader
+320 grader
+420 grader
+geometry
+4
+90 grader
+180 grader
+45 grader
+30 grader
+geometry
+5
+1,5 liter
+1,05 liter
+1,005 liter
+15 liter
+geometry
+6
+75 grader
+57 grader
+10 grader
+60 grader
+geometry
+7
+Glas
+Kvadrat
+Romb
+Kon
+geometry
+8
+81 cm^2
+72 cm^2
+90 cm^2
+36 cm^2
+geometry
+9
+25 mm
+0,25 mm
+250 mm
+0,025 mm
+geometry
+10
+22 cm
+20 cm
+21 cm
+19 cm
+arithmetic
+1
+580
+540
+623
+596
+arithmetic
+2
+889
+858
+799
+876
+arithmetic
+3
+123
+120
+140
+112
+arithmetic
+4
+600
+500
+650
+520
+arithmetic
+5
+40,1
+39,1
+41
+42,3
+arithmetic
+6
+4,4
+4,6
+5,2
+4,3
+arithmetic
+7
+14,9
+15
+15,1
+14,1
+arithmetic
+8
+9
+7
+8,3
+10
+arithmetic
+9
+0,5
+10
+5
+2
+arithmetic
+10
+160
+150
+162
+159
+random
+1
+80
+60
+70
+90
+random
+2
+480
+450
+440
+500
+random
+3
+1,2
+1,5
+1,12
+0,12
+random
+4
+9,8
+8,8
+9,88
+9,9
+random
+5
+7,7 cm
+0,77 cm
+7,07 cm
+77 cm
+random
+6
+90 grader
+45 grader
+100 grader
+80 grader
+random
+7
+25%
+12,2%
+50%
+20%
+random
+8
+10%
+100%
+1%
+0,1%
+random
+9
+5
+4
+6
+3
+random
+10
+12
+9
+25
+10
