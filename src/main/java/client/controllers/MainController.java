@@ -8,14 +8,17 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
+import kong.unirest.GenericType;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
+import model.NewQuestions;
 import model.NewUser;
 import model.Questions;
 import model.User;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Class MainController is controller of the other controllers. All scene controllers has a reference to this controller
@@ -30,8 +33,9 @@ public class MainController {
     private NewUser currentUser;
     private SceneSetter sceneSetter = new SceneSetter();
     private NetworkController networkController;
+    private QuizController quizController = new QuizController();
     private Questions[] currentQuiz;
-    private String currentCategory;
+    private ArrayList<NewQuestions> questions;
 
     /**
      * Starts the network that connects to the server and creates and populates the ScenesHashMap.
@@ -124,13 +128,25 @@ public class MainController {
         Object returnValue = networkController.sendRequest(quiz);
         if (returnValue instanceof Questions[]) {
             currentQuiz = (Questions[]) returnValue;
-            currentCategory = quiz.substring(quiz.indexOf(' ') + 1);
             setScene(ScenesEnum.Quiz);
             setInitialValueOfScene(currentQuiz);
 
         } else {
             popUpWindow(Alert.AlertType.ERROR, "Error" , (String) returnValue);
         }
+    }
+
+    public void startQuiz(String category) {
+        String url = "";
+        switch (category) {
+            case "Arithmetic" -> url = "http://localhost:5000/questions/" + currentUser.getYear() + "/3/10";
+            case "Statistics" -> url = "http://localhost:5000/questions/" + currentUser.getYear() + "/1/10";
+            case "Geometry" -> url = "http://localhost:5000/questions/" + currentUser.getYear() + "/2/10";
+            case "Random" -> url = "http://localhost:5000/questions/" + currentUser.getYear() + "/4/10";
+        }
+        questions = Unirest.get(url).asObject(new GenericType<ArrayList<NewQuestions>>() {}).getBody();
+        setScene(ScenesEnum.Quiz);
+        setInitialValueOfScene(questions);
     }
 
     /**

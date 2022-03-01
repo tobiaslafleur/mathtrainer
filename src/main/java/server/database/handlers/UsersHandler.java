@@ -58,24 +58,15 @@ public class UsersHandler {
         NewUser user = gson.fromJson(body, NewUser.class);
 
         try {
-            /*
             String query = """
                     INSERT INTO users (id, username, password, year)
                     VALUES (DEFAULT, ?, ?, ?)
                     """;
 
-             */
-
-            String query = """
-                    INSERT INTO users (id, username, password, year)
-                    VALUES (?, ?, ?, ?)
-                    """;
-
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, user.getId());
-            preparedStatement.setString(2, user.getUsername());
-            preparedStatement.setString(3, user.getPassword());
-            preparedStatement.setInt(4, user.getYear());
+            preparedStatement.setString(1, user.getUsername());
+            preparedStatement.setString(2, user.getPassword());
+            preparedStatement.setInt(3, user.getYear());
             preparedStatement.executeUpdate();
 
             return 200;
@@ -123,7 +114,27 @@ public class UsersHandler {
         }
     }
 
-    //TESTING
+    public Object changeUserYear(int id, int year) {
+        try {
+            String query = """
+                    UPDATE users
+                    SET year = ?
+                    WHERE id = ?
+                    """;
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, year);
+            preparedStatement.setInt(2, id);
+            preparedStatement.executeUpdate();
+
+            return 200;
+
+        } catch (SQLException e) {
+            return hc.error(e);
+        }
+    }
+
+    //TESTING & DEV
     public void deleteAllUsers() {
         try {
             String query = """

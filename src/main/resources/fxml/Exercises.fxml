@@ -52,8 +52,8 @@
                   <Button layoutX="29.0" layoutY="26.0" mnemonicParsing="false" prefHeight="510.0" prefWidth="630.0" styleClass="MenuButton" />
                   <Button fx:id="statisticsButton" layoutX="70.0" layoutY="79.0" mnemonicParsing="false" onAction="#buttonClicked" prefHeight="173.0" prefWidth="226.0" styleClass="BlueOWL" stylesheets="@../css/style.css" text="Statistik" />
                   <Button fx:id="geometryButton" layoutX="378.0" layoutY="79.0" mnemonicParsing="false" onAction="#buttonClicked" prefHeight="173.0" prefWidth="226.0" styleClass="YellowOWLD" stylesheets="@../css/style.css" text="Geometri" />
-                  <Button fx:id="additionButton" layoutX="70.0" layoutY="289.0" mnemonicParsing="false" onAction="#buttonClicked" prefHeight="173.0" prefWidth="226.0" styleClass="GreenOWL" stylesheets="@../css/style.css" text="Räknesätten" />
-                  <Button fx:id="placeholderButton" layoutX="378.0" layoutY="289.0" mnemonicParsing="false" onAction="#buttonClicked" prefHeight="173.0" prefWidth="226.0" styleClass="RedOWL" stylesheets="@../css/style.css" text="Slumpade frågor" />
+                  <Button fx:id="arithmeticButton" layoutX="70.0" layoutY="289.0" mnemonicParsing="false" onAction="#buttonClicked" prefHeight="173.0" prefWidth="226.0" styleClass="GreenOWL" stylesheets="@../css/style.css" text="Räknesätten" />
+                  <Button fx:id="randomButton" layoutX="378.0" layoutY="289.0" mnemonicParsing="false" onAction="#buttonClicked" prefHeight="173.0" prefWidth="226.0" styleClass="RedOWL" stylesheets="@../css/style.css" text="Slumpade frågor" />
                   <ImageView fitHeight="82.0" fitWidth="67.0" layoutX="378.0" layoutY="281.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/client/REDredOWLCapture.png" />

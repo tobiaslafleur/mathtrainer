@@ -1,6 +1,8 @@
 package server;
 
+import com.google.gson.Gson;
 import io.github.cdimascio.dotenv.Dotenv;
+import model.NewQuestions;
 import server.database.HandlerController;
 import spark.Spark;
 
@@ -28,17 +30,7 @@ public class Server {
 
     private static void initDatabase() {
         hc = new HandlerController(connection);
-
-        try {
-            ArrayList<String> questions = StaticReader.printQuestions(6);
-            for (String s : questions) {
-                hc.addQuestion(4, s, 7);
-            }
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        hc.printAllQuestions();
+        hc.printAllUsers();
     }
 
     public static void initSpark() {
@@ -62,6 +54,12 @@ public class Server {
         Spark.post("/login", (req, res) -> {
             res.header("Content-Type", "application/json");
             return hc.login(req.body());
+        });
+
+        //Change year of user
+        Spark.put("/user/:id/:year", (req, res) -> {
+            res.header("Content-Type", "application/json");
+            return hc.changeUserYear(req.params("id"), req.params("year"));
         });
 
                                             /* -----QUESTIONS ENTRYPOINTS----- */

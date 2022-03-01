@@ -70,6 +70,7 @@ public class QuestionsHandler {
                     SELECT * FROM questions
                     WHERE year = ?
                     AND category_id = ?
+                    ORDER BY RANDOM()
                     LIMIT ?
                     """;
 

@@ -3,6 +3,9 @@ package client.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import kong.unirest.HttpResponse;
+import kong.unirest.JsonNode;
+import kong.unirest.Unirest;
 import model.NewUser;
 import model.User;
 
@@ -27,8 +30,13 @@ public class SettingsController extends MainMenuControllerParent implements Init
     public void changeButtonClicked() {
         String newYear = year.getValue();
         if (newYear != null) {
-            user.setYear(Integer.parseInt(newYear));
-            setInitialValues(user);
+            if (user != null) {
+                HttpResponse<JsonNode> updateResponse = Unirest.put("http://localhost:5000/user/" + user.getId() + "/" + newYear).asJson();
+                if (updateResponse.getStatus() == 200) {
+                    user.setYear(Integer.parseInt(newYear));
+                    setInitialValues(user);
+                }
+            }
         }
     }
 

@@ -62,6 +62,10 @@ public class LogInController extends SceneControllerParent implements Initialize
                 String id = responseMap.get("response").toString();
                 HttpResponse<JsonNode> getResponse = Unirest.get("http://localhost:5000/user/" + Integer.parseInt(id)).asJson();
                 user = new Gson().fromJson(String.valueOf(getResponse.getBody()), NewUser.class);
+
+                HttpResponse<JsonNode> rs = Unirest.get("http://localhost:5000/user/!").asJson();
+                System.out.println(rs.getStatus());
+
                 mainController.setScene(ScenesEnum.Home);
                 mainController.setCurrentUser(user);
                 mainController.setInitialValueOfScene(user);

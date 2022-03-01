@@ -41,6 +41,10 @@ public class HandlerController {
         return users.login(body);
     }
 
+    public Object changeUserYear(String id, String year) {
+        return users.changeUserYear(Integer.parseInt(id), Integer.parseInt(year));
+    }
+
     public Object getRandQuestions(String year, String limit) {
         return questions.getRandQuestions(Integer.parseInt(limit), Integer.parseInt(year));
     }
@@ -123,5 +127,17 @@ public class HandlerController {
 
     public void changeQuestion(String newQuestion) {
         questions.changeQuestion(newQuestion);
+    }
+
+    public void addAnswer(int questionId, String answer, boolean correct) {
+        answers.addAnswer(questionId, answer, correct);
+    }
+
+    public void printAllAnswers() {
+        answers.printAllAnswers();
+    }
+
+    public void changeAnswer() {
+        answers.changeAnswer();
     }
 }

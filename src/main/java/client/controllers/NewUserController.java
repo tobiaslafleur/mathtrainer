@@ -52,7 +52,8 @@ public class NewUserController extends SceneControllerParent implements Initiali
             mainController.popUpWindow(Alert.AlertType.ERROR, "Lösenordet är för kort", "Lösenordet måste vara minst 6 tecken långt");
         } else {
             String userYear = year.getValue();
-            NewUser user = new NewUser(1, username.getText(), password.getText(), Integer.parseInt(userYear));
+            NewUser user = new NewUser(username.getText(), password.getText());
+            user.setYear(Integer.parseInt(userYear));
 
             HttpResponse<JsonNode> response = Unirest.post("http://localhost:5000/user").body(new Gson().toJson(user)).asJson();
 

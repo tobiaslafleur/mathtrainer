@@ -12,13 +12,13 @@ import javafx.scene.control.Button;
 
 public class ExercisesController extends MainMenuControllerParent {
     @FXML
-    private Button additionButton;
+    private Button arithmeticButton;
     @FXML
     private Button geometryButton;
     @FXML
     private Button statisticsButton;
     @FXML
-    private Button placeholderButton;
+    private Button randomButton;
 
 
     /**
@@ -27,23 +27,22 @@ public class ExercisesController extends MainMenuControllerParent {
      * @param actionEvent The button action
      */
     public void buttonClicked(ActionEvent actionEvent) {
-        String questions = "Questions ";
-        Button button = new Button();
+        String category = "";
 
-        if (actionEvent.getSource() == additionButton) {
-            questions += "Counting";
-            button = additionButton;
-        } else if (actionEvent.getSource() == geometryButton) {
-            questions += "Geometry";
-            button = geometryButton;
-        } else if (actionEvent.getSource() == statisticsButton) {
-            questions += "Statistics";
-            button = statisticsButton;
-        } else if (actionEvent.getSource() == placeholderButton) {
-            questions += "Random";
-            button = placeholderButton;
+        if (actionEvent.getSource() == arithmeticButton) { //3
+            category = "Arithmetic";
         }
-        mainController.takeQuiz(questions);
+        else if (actionEvent.getSource() == geometryButton) { //2
+            category = "Geometry";
+        }
+        else if (actionEvent.getSource() == statisticsButton) { //1
+            category = "Statistics";
+        }
+        else if (actionEvent.getSource() == randomButton) { //4
+            category = "Random";
+        }
+        mainController.startQuiz(category);
+        //mainController.takeQuiz(questions);
         //return button;
     }
 }
