@@ -10,6 +10,7 @@ import model.Questions;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 /** Class QuizController that extends SceneControllerParent that handles the fxml file Quiz.fxml and creates actions in the Scene
@@ -50,6 +51,8 @@ public class QuizController extends SceneControllerParent implements InitializeS
 
     private QuizCompletedController quizCompleteController;
 
+    private HashMap<NewQuestions, String> userAnswer = new HashMap<>();
+
     /**
      * This method is used both when the user hits the button to move to previous question while in the quiz.
      * @param actionEvent The button action when user clicks previousQuestionButton.
@@ -61,8 +64,7 @@ public class QuizController extends SceneControllerParent implements InitializeS
             previousQuestionButton.setVisible(false);
         }
 
-        if(questionNumber ==  oldQuestions.length -2){
-
+        if(questionNumber ==  questions.size() -2){
             nextQuestionButton.setVisible(true);
             submitResultsButton.setVisible(false);
         }
@@ -104,8 +106,14 @@ public class QuizController extends SceneControllerParent implements InitializeS
         RadioButton selected = (RadioButton) Group1.getSelectedToggle();
         if (selected.getText().equals(answers.get(correctAnswer).getAnswer())) {
             System.out.println("Correct");
+            userAnswer.put(questions.get(questionNumber),answers.get(correctAnswer).getAnswer());
+
         }
-        else System.out.println("False");
+        else {
+            System.out.println("False");
+            userAnswer.put(questions.get(questionNumber),selected.getText());
+        }
+
         /*
         RadioButton selectedButton = (RadioButton) Group1.getSelectedToggle();
         if (selectedButton.getText().equals(oldQuestions[questionNumber].getAnswer())){
@@ -123,15 +131,12 @@ public class QuizController extends SceneControllerParent implements InitializeS
      */
     public void nextQuestion(ActionEvent actionEvent) {
         previousQuestionButton.setVisible(true);
-
-
         checkAnswer((questionNumber));
-        if(questionNumber ==  oldQuestions.length -2){
-
+        if(questionNumber ==  questions.size() -2){
             nextQuestionButton.setVisible(false);
             submitResultsButton.setVisible(true);
         }
-            updateLabels(true);
+        updateLabels(true);
     }
 
     /**
@@ -140,6 +145,7 @@ public class QuizController extends SceneControllerParent implements InitializeS
      */
     public void toResults(ActionEvent actionEvent) {
         checkAnswer(questionNumber);
+        mainController.setUserAnswer(userAnswer);
         mainController.quizCompleted();
     }
 

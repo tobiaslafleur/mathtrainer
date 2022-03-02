@@ -12,13 +12,11 @@ import kong.unirest.GenericType;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
-import model.NewQuestions;
-import model.NewUser;
-import model.Questions;
-import model.User;
+import model.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Class MainController is controller of the other controllers. All scene controllers has a reference to this controller
@@ -33,9 +31,10 @@ public class MainController {
     private NewUser currentUser;
     private SceneSetter sceneSetter = new SceneSetter();
     private NetworkController networkController;
-    private QuizController quizController = new QuizController();
+    private ShowResultsController showResultsController = new ShowResultsController();
     private Questions[] currentQuiz;
     private ArrayList<NewQuestions> questions;
+    private HashMap<NewQuestions, String> userAnswer;
 
     /**
      * Starts the network that connects to the server and creates and populates the ScenesHashMap.
@@ -209,7 +208,11 @@ public class MainController {
      */
     public void quizCompleted(){
         setScene(ScenesEnum.QuizCompleted);
-        setInitialValueOfScene(currentQuiz);
+        setInitialValueOfScene(userAnswer);
+    }
+
+    public void setUserAnswer(HashMap<NewQuestions, String> userAnswer) {
+        this.userAnswer = userAnswer;
     }
 
     /**
@@ -262,7 +265,10 @@ public class MainController {
 
     public void showDetailedResults() {
         sceneSetter.setScene(ScenesEnum.Results);
-        setInitialValueOfScene(currentQuiz);
+      //  setInitialValueOfScene(currentQuiz);
+        // showResultsController.setQuestions(questions);
+        setInitialValueOfScene(userAnswer);
+
     }
 
     public void setCurrentUser(NewUser user) {
