@@ -204,7 +204,7 @@ public class Sixth extends Course {
                 new Questions("Where do you live?", "A", "B", "C", "D")};
 
         Questions q [] = sixth.shuffleArrayRandomly(array);
-        //printing the array randomly test
+        //printing the array randomly server.database.handlers.test
         for (Questions qe: q )
         {
             System.out.println(qe + " ");

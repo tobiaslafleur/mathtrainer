@@ -7,15 +7,17 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import model.DetailedResults;
 import model.NewQuestions;
 import model.Questions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class ShowResultsController extends SceneControllerParent implements InitializeSceneInterface{
     @FXML
-    private TableView<HashMap> tableView = new TableView<>();
+    private TableView<DetailedResults> tableView = new TableView<>();
 
     @FXML
     private TableColumn<NewQuestions, String> questionColumn;
@@ -28,16 +30,16 @@ public class ShowResultsController extends SceneControllerParent implements Init
 
    // private Questions[] questions;
 
-    private HashMap<NewQuestions, String> userAnswer;
+    private DetailedResults[] detailedResults;
 
 
 
     @Override
     public void setInitialValues(Object object) {
-        userAnswer = (HashMap<NewQuestions, String>) object;
+        detailedResults = (DetailedResults[]) object;
         questionColumn.setCellValueFactory(new PropertyValueFactory<>("question"));
-        answerColumn.setCellValueFactory(new PropertyValueFactory<>("answer"));
-        yourAnswerColumn.setCellValueFactory(new PropertyValueFactory<>("userAnswer"));
+        answerColumn.setCellValueFactory(new PropertyValueFactory<>("correctAnswer"));
+        yourAnswerColumn.setCellValueFactory(new PropertyValueFactory<>("guessedAnswer"));
 
         tableView.setItems(getQuestions());
     }
@@ -55,13 +57,13 @@ public class ShowResultsController extends SceneControllerParent implements Init
     public void backToScore(ActionEvent actionEvent) {
         mainController.setScene(ScenesEnum.QuizCompleted);
     }
+
     /**
      * Get all of the questions
      */
-    public ObservableList<HashMap> getQuestions()
+    public ObservableList<DetailedResults> getQuestions()
     {
-        ObservableList<HashMap> values = FXCollections.observableArrayList();
-            values.add(userAnswer);
+        ObservableList<DetailedResults> values = FXCollections.observableArrayList();
 
         return values;
     }

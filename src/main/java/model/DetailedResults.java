@@ -16,6 +16,12 @@ public class DetailedResults implements IResults{
         this.correctAnswer = correctAnswer;
     }
 
+    public DetailedResults(NewQuestions question, Answers guessedAnswer, Answers correctAnswer) {
+        this.question = question;
+        this.guessedAnswer = guessedAnswer;
+        this.correctAnswer = correctAnswer;
+    }
+
     public int getId() {
         return id;
     }

@@ -1,12 +1,14 @@
 package client.controllers;
 
+import com.google.gson.Gson;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import model.Answers;
-import model.NewQuestions;
-import model.Questions;
+import kong.unirest.HttpResponse;
+import kong.unirest.JsonNode;
+import kong.unirest.Unirest;
+import model.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +30,8 @@ public class QuizCompletedController extends SceneControllerParent implements In
   //private Questions[] questions;
   //private ArrayList<NewQuestions> questions;
     private HashMap<NewQuestions, String> userAnswer = new HashMap<>();
+    private NewUser user;
+    private int categoryId;
     private int score;
 
     /**
@@ -45,33 +49,48 @@ public class QuizCompletedController extends SceneControllerParent implements In
     public void setResult(){
         score = 0;
 
-        for(Map.Entry<NewQuestions, String> entry : userAnswer.entrySet()){
-            for(Answers answers :entry.getKey().getAnswers()){
-                if(answers.isCorrect()){
-                if(answers.getAnswer().equals(entry.getValue())){
+        for (Map.Entry<NewQuestions, String> entry : userAnswer.entrySet()) {
+            for (Answers answers :entry.getKey().getAnswers()) {
+                if (answers.isCorrect()) {
+                    if(answers.getAnswer().equals(entry.getValue())) {
                         score++;
                     }
                 }
             }
         }
 
-        scoreLabel.setText(score + "/" + "10");
+        scoreLabel.setText(score + "/" + userAnswer.size());
         showFeedback(score);
     }
 
-    public void showFeedback(int score){
-        if (score == userAnswer.size()){
+    public void showFeedback(int score) {
+        char grade = ' ';
+        if (score == userAnswer.size()){ //A
             feedbackLabel.setText("Wow! Full pott!!");
             imageTrophy.setVisible(true);
-        } else if (score >= userAnswer.size()*0.75){
+            grade = 'A';
+        } else if (score >= userAnswer.size()*0.75){ //B
             feedbackLabel.setText("Bra jobbat! Du kanske till och med kan få alla rätt nästa gång?");
-        } else if (score >= userAnswer.size()*0.50){
+            grade = 'B';
+        } else if (score >= userAnswer.size()*0.50){ //E
             feedbackLabel.setText("Snyggt! Du är godkänd! Med lite övning kanske du kan nå ännu högre?");
-        } else if (score >= userAnswer.size()*0.30){
+            grade = 'E';
+        } else if (score >= userAnswer.size()*0.30){ //F
             feedbackLabel.setText("Nära godkäntgränsen nu. Lite mer övning så sitter det nog. Kämpa på!");
-        } else {
+            grade = 'F';
+        } else { //F
             feedbackLabel.setText("Ajdå, det gick ju sådär. Lite mer studier behövs nog innan nästa försök.");
+            grade = 'F';
         }
+
+        user = mainController.getCurrentUser();
+        categoryId = mainController.getCategoryId();
+
+        HttpResponse<JsonNode> catResponse = Unirest.get("http://localhost:5000/categories/" + categoryId).asJson();
+        Category category = new Gson().fromJson(String.valueOf(catResponse.getBody()), Category.class);
+
+        Results results = new Results(user.getId(), category, grade, score, userAnswer.size());
+        Unirest.post("http://localhost:5000/results/" + user.getId()).body(new Gson().toJson(results)).asJson();
     }
 
     public void setInitialValues(Object object) {

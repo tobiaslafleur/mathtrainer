@@ -35,6 +35,8 @@ public class MainController {
     private Questions[] currentQuiz;
     private ArrayList<NewQuestions> questions;
     private HashMap<NewQuestions, String> userAnswer;
+    private DetailedResults[] detailedResults;
+    private int categoryId;
 
     /**
      * Starts the network that connects to the server and creates and populates the ScenesHashMap.
@@ -138,10 +140,22 @@ public class MainController {
     public void startQuiz(String category) {
         String url = "";
         switch (category) {
-            case "Arithmetic" -> url = "http://localhost:5000/questions/" + currentUser.getYear() + "/3/10";
-            case "Statistics" -> url = "http://localhost:5000/questions/" + currentUser.getYear() + "/1/10";
-            case "Geometry" -> url = "http://localhost:5000/questions/" + currentUser.getYear() + "/2/10";
-            case "Random" -> url = "http://localhost:5000/questions/" + currentUser.getYear() + "/4/10";
+            case "Arithmetic" -> {
+                categoryId = 3;
+                url = "http://localhost:5000/questions/" + currentUser.getYear() + "/" + categoryId + "/10";
+            }
+            case "Statistics" -> {
+                categoryId = 1;
+                url = "http://localhost:5000/questions/" + currentUser.getYear() + "/" + categoryId + "/10";
+            }
+            case "Geometry" -> {
+                categoryId = 2;
+                url = "http://localhost:5000/questions/" + currentUser.getYear() + "/" + categoryId + "/10";
+            }
+            case "Random" -> {
+                categoryId = 4;
+                url = "http://localhost:5000/questions/" + currentUser.getYear() + "/" + categoryId + "/10";
+            }
         }
         questions = Unirest.get(url).asObject(new GenericType<ArrayList<NewQuestions>>() {}).getBody();
         setScene(ScenesEnum.Quiz);
@@ -211,6 +225,10 @@ public class MainController {
         setInitialValueOfScene(userAnswer);
     }
 
+    public int getCategoryId() {
+        return categoryId;
+    }
+
     public void setUserAnswer(HashMap<NewQuestions, String> userAnswer) {
         this.userAnswer = userAnswer;
     }
@@ -265,10 +283,15 @@ public class MainController {
 
     public void showDetailedResults() {
         sceneSetter.setScene(ScenesEnum.Results);
-      //  setInitialValueOfScene(currentQuiz);
-        // showResultsController.setQuestions(questions);
-        setInitialValueOfScene(userAnswer);
+        setInitialValueOfScene(detailedResults);
+    }
 
+    public void setDetailedResults(DetailedResults[] detailedResults) {
+        this.detailedResults = detailedResults;
+    }
+
+    public NewUser getCurrentUser() {
+        return currentUser;
     }
 
     public void setCurrentUser(NewUser user) {

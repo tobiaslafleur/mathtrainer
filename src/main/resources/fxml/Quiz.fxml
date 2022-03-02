@@ -52,7 +52,7 @@
                      </font>
                   </Label>
                   <Button layoutX="211.0" layoutY="487.0" mnemonicParsing="false" onAction="#quitQuiz" prefHeight="25.0" prefWidth="137.0" styleClass="Avsluta" stylesheets="@../css/MathTrainerStylesheet.css" text="Avsluta" />
-                  <Button fx:id="submitResultsButton" layoutX="599.0" layoutY="487.0" mnemonicParsing="false" onAction="#toResults" prefHeight="25.0" prefWidth="137.0" styleClass="ConfirmButton" text="Lämna in test" visible="false" />
+                  <Button fx:id="submitResultsButton" layoutX="599.0" layoutY="487.0" mnemonicParsing="false" onAction="#toResults" prefHeight="25.0" prefWidth="137.0" styleClass="ConfirmButton" text="Lämna in server.database.handlers.test" visible="false" />
                </children></AnchorPane>
          </items>
       </SplitPane>

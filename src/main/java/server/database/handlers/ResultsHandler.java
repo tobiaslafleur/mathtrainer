@@ -24,18 +24,34 @@ public class ResultsHandler {
         gson = new Gson();
     }
 
-
-
     //TODO: Fix add result
     public Object addResult(int user, String body) {
         Results result = gson.fromJson(body, Results.class);
-        return null;
+        try {
+            String query = """
+                    INSERT INTO results (id, user_id, category_id, grade, score, maximum_score)
+                    VALUES (DEFAULT, ? ,?, ?, ?, ?)
+                    """;
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, user);
+            preparedStatement.setInt(2, result.getCategoryId().getId());
+            preparedStatement.setString(3, String.valueOf(result.getGrade()));
+            preparedStatement.setInt(4, result.getScore());
+            preparedStatement.setInt(5, 10);
+            preparedStatement.executeUpdate();
+
+            return 200;
+        }
+        catch (SQLException e) {
+            return hc.error(e);
+        }
     }
 
     public Object getResults(int user) {
         try {
             String query = """
-                    SELECT * FROM results 
+                    SELECT * FROM results
                     WHERE user_id = ?
                     """;
 

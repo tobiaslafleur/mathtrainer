@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import model.Answers;
+import model.DetailedResults;
 import model.NewQuestions;
 import model.Questions;
 
@@ -52,6 +53,7 @@ public class QuizController extends SceneControllerParent implements InitializeS
     private QuizCompletedController quizCompleteController;
 
     private HashMap<NewQuestions, String> userAnswer = new HashMap<>();
+    private DetailedResults[] detailedResults;
 
     /**
      * This method is used both when the user hits the button to move to previous question while in the quiz.
@@ -83,7 +85,6 @@ public class QuizController extends SceneControllerParent implements InitializeS
         answers = questions.get(questionNumber).getAnswers();
         Collections.shuffle(answers);
 
-        System.out.println(answers);
         radioButtonOne.setText(answers.get(0).getAnswer());
         radioButtonTwo.setText(answers.get(1).getAnswer());
         radioButtonThree.setText(answers.get(2).getAnswer());
@@ -107,7 +108,6 @@ public class QuizController extends SceneControllerParent implements InitializeS
         if (selected.getText().equals(answers.get(correctAnswer).getAnswer())) {
             System.out.println("Correct");
             userAnswer.put(questions.get(questionNumber),answers.get(correctAnswer).getAnswer());
-
         }
         else {
             System.out.println("False");
@@ -162,6 +162,7 @@ public class QuizController extends SceneControllerParent implements InitializeS
 
     public void setInitialValues(Object object) {
         questions = (ArrayList<NewQuestions>) object;
+        detailedResults = new DetailedResults[questions.size()];
         submitResultsButton.setVisible(false);
         previousQuestionButton.setVisible(false);
         nextQuestionButton.setVisible(true);

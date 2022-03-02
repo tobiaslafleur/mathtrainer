@@ -38,7 +38,6 @@ public class Server {
 
     private static void initDatabase() {
         hc = new HandlerController(connection);
-        hc.printAllUsers();
     }
 
     public static void initSpark() {
@@ -109,6 +108,11 @@ public class Server {
         Spark.get("/categories", (req, res) -> {
             res.header("Content-Type", "application/json");
             return hc.getAllCategories();
+        });
+
+        Spark.get("categories/:id", (req, res) -> {
+            res.header("Content-Type", "application/json");
+            return hc.getCategoryJson(Integer.parseInt(req.params("id")));
         });
     }
 }
