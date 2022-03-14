@@ -7,9 +7,7 @@ module com.mathtrainer.mathtrainer {
     requires org.postgresql.jdbc;
     requires java.sql;
     requires unirest.java;
-    requires org.junit.jupiter.api;
 
-    exports client;
     opens client to javafx.fxml;
     exports client.controllers;
     opens client.controllers to javafx.fxml;
