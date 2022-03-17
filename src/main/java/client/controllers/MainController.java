@@ -156,11 +156,21 @@ public class MainController {
                 categoryId = 4;
                 url = "http://localhost:5000/questions/" + currentUser.getYear() + "/" + categoryId + "/10";
             }
+
         }
         questions = Unirest.get(url).asObject(new GenericType<ArrayList<NewQuestions>>() {}).getBody();
         setScene(ScenesEnum.Quiz);
         setInitialValueOfScene(questions);
     }
+
+    public void startGame(){
+        String url = "";
+        url = "http://localhost:5000/questions/" + currentUser.getYear() + "/5/16";
+        questions = Unirest.get(url).asObject(new GenericType<ArrayList<NewQuestions>>() {}).getBody();
+        setScene(ScenesEnum.Game);
+        setInitialValueOfScene(questions);
+    }
+
 
     /**
      * Used to update the results, if needed, stored in the user object and send that information to the server.

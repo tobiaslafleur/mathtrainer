@@ -17,8 +17,8 @@
                   <Font size="41.0" />
                </font>
             </Label>
-            <Button layoutX="646.0" layoutY="44.0" mnemonicParsing="false" prefHeight="71.0" prefWidth="150.0" style="-fx-background-color: lightgreen;" styleClass="buttonNoButton" text="1/1">
-               <font>
+            <Button fx:id="currentSlide" layoutX="646.0" layoutY="44.0" mnemonicParsing="false" prefHeight="71.0" prefWidth="150.0" style="-fx-background-color: lightgreen;" styleClass="buttonNoButton" text="1/4">
+            <font>
                   <Font size="29.0" />
                </font>
             </Button>
@@ -31,62 +31,22 @@
                   <Font size="33.0" />
                </font>
             </Label>
-            <Label fx:id="plusLeftLabel" layoutX="198.0" layoutY="132.0" prefHeight="40.0" prefWidth="44.0" text="?" textAlignment="CENTER" AnchorPane.bottomAnchor="446.0" AnchorPane.leftAnchor="198.0" AnchorPane.rightAnchor="685.0" AnchorPane.topAnchor="132.0">
+            <Label fx:id="plusLeftLabel" layoutX="198.0" layoutY="226.0" prefHeight="40.0" prefWidth="250.0" text="?" textAlignment="CENTER" AnchorPane.bottomAnchor="446.0"  AnchorPane.topAnchor="132.0">
                <font>
                   <Font size="33.0" />
                </font>
             </Label>
-            <Label fx:id="minusLeftLabel" layoutX="198.0" layoutY="180.0" prefHeight="34.0" prefWidth="44.0" text="?" textAlignment="CENTER" AnchorPane.bottomAnchor="397.0" AnchorPane.leftAnchor="198.0" AnchorPane.rightAnchor="685.0" AnchorPane.topAnchor="180.0">
+            <Label fx:id="minusLeftLabel" layoutX="198.0" layoutY="226.0" prefHeight="40.0" prefWidth="250.0" text="?" textAlignment="CENTER" AnchorPane.bottomAnchor="397.0"  AnchorPane.topAnchor="180.0">
                <font>
                   <Font size="33.0" />
                </font>
             </Label>
-            <Label fx:id="additionLeftLabel" layoutX="199.0" layoutY="226.0" prefHeight="34.0" prefWidth="44.0" text="?" textAlignment="CENTER">
+            <Label fx:id="additionLeftLabel" layoutX="199.0" layoutY="226.0" prefHeight="40.0" prefWidth="250.0" text="?" textAlignment="CENTER">
                <font>
                   <Font size="33.0" />
                </font>
             </Label>
-            <Label fx:id="devidedLeftLabel" layoutX="199.0" layoutY="271.0" prefHeight="34.0" prefWidth="44.0" text="?" textAlignment="CENTER">
-               <font>
-                  <Font size="33.0" />
-               </font>
-            </Label>
-            <Label fx:id="plusRightLabel" layoutX="378.0" layoutY="133.0" prefHeight="34.0" prefWidth="44.0" text="?" textAlignment="CENTER">
-               <font>
-                  <Font size="33.0" />
-               </font>
-            </Label>
-            <Label fx:id="minusRightLabel" layoutX="378.0" layoutY="181.0" prefHeight="34.0" prefWidth="44.0" text="?" textAlignment="CENTER">
-               <font>
-                  <Font size="33.0" />
-               </font>
-            </Label>
-            <Label fx:id="additionRightLabel" layoutX="378.0" layoutY="226.0" prefHeight="34.0" prefWidth="44.0" text="?" textAlignment="CENTER">
-               <font>
-                  <Font size="33.0" />
-               </font>
-            </Label>
-            <Label fx:id="devidedRightLabel" layoutX="378.0" layoutY="271.0" prefHeight="34.0" prefWidth="44.0" text="?" textAlignment="CENTER">
-               <font>
-                  <Font size="33.0" />
-               </font>
-            </Label>
-            <Label fx:id="plusLbl" layoutX="289.0" layoutY="134.0" prefHeight="40.0" prefWidth="45.0" text="+" textAlignment="CENTER" AnchorPane.bottomAnchor="444.0" AnchorPane.leftAnchor="289.0" AnchorPane.rightAnchor="594.0" AnchorPane.topAnchor="134.0">
-               <font>
-                  <Font size="33.0" />
-               </font>
-            </Label>
-            <Label fx:id="minusLbl" layoutX="289.0" layoutY="179.0" prefHeight="41.0" prefWidth="45.0" text="-" textAlignment="CENTER" AnchorPane.leftAnchor="289.0" AnchorPane.rightAnchor="594.0">
-               <font>
-                  <Font size="33.0" />
-               </font>
-            </Label>
-            <Label fx:id="addLbl" layoutX="289.0" layoutY="226.0" prefHeight="40.0" prefWidth="45.0" text="×" textAlignment="CENTER" AnchorPane.leftAnchor="289.0" AnchorPane.rightAnchor="594.0">
-               <font>
-                  <Font size="33.0" />
-               </font>
-            </Label>
-            <Label fx:id="dividedLbl" layoutX="289.0" layoutY="271.0" prefHeight="34.0" prefWidth="44.0" text="÷" textAlignment="CENTER" AnchorPane.leftAnchor="289.0" AnchorPane.rightAnchor="594.0">
+            <Label fx:id="devidedLeftLabel" layoutX="199.0" layoutY="271.0" prefHeight="40.0" prefWidth="250.0" text="?" textAlignment="CENTER" >
                <font>
                   <Font size="33.0" />
                </font>
@@ -119,13 +79,14 @@
             <AnchorPane fx:id="panelBtn" layoutX="1.0" layoutY="365.0" prefHeight="71.0" prefWidth="927.0" styleClass="Anchor">
                <children>
                   <Button fx:id="startQuiz" cache="true" layoutX="720.0" layoutY="14.0" mnemonicParsing="false" onAction="#startQuiz" prefHeight="27.0" prefWidth="161.0" styleClass="ConfirmButton" text="Starta" />
+                  <Button fx:id="nextQuestion" cache="true" layoutX="500.0" layoutY="14.0" mnemonicParsing="false" onAction="#updateNextQuestion" prefHeight="27.0" prefWidth="161.0" styleClass="ConfirmButton" text="Nästa Fråga" />
                   <Button fx:id="quitGame" layoutX="26.0" layoutY="14.0" mnemonicParsing="false" onAction="#quitGame" prefHeight="27.0" prefWidth="150.0" styleClass="Avsluta" text="Avsluta" />
                </children>
             </AnchorPane>
-            <TextField fx:id="sumPlus" layoutX="493.0" layoutY="138.0" prefHeight="33.0" prefWidth="170.0" styleClass="MenuButton" />
-            <TextField fx:id="sumMinus" layoutX="493.0" layoutY="184.0" prefHeight="33.0" prefWidth="170.0" styleClass="MenuButton" />
-            <TextField fx:id="sumMulti" layoutX="493.0" layoutY="230.0" prefHeight="33.0" prefWidth="170.0" styleClass="MenuButton" />
-            <TextField fx:id="sumDiv" layoutX="493.0" layoutY="275.0" prefHeight="33.0" prefWidth="170.0" styleClass="MenuButton" />
+            <TextField fx:id="sumPlus" layoutX="500.0" layoutY="138.0" prefHeight="33.0" prefWidth="250.0" styleClass="MenuButton" />
+            <TextField fx:id="sumMinus" layoutX="500.0" layoutY="184.0" prefHeight="33.0" prefWidth="250.0" styleClass="MenuButton" />
+            <TextField fx:id="sumMulti" layoutX="500.0" layoutY="230.0" prefHeight="33.0" prefWidth="250.0" styleClass="MenuButton" />
+            <TextField fx:id="sumDiv" layoutX="500.0" layoutY="275.0" prefHeight="33.0" prefWidth="250.0" styleClass="MenuButton" />
          </children>
       </AnchorPane>
    </children>
