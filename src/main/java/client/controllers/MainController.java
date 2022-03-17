@@ -22,8 +22,8 @@ import java.util.HashMap;
  * Class MainController is controller of the other controllers. All scene controllers has a reference to this controller
  * to communicate with it. NetworkController communicates with it through the buffers. In this class, only the general
  * and recurring logic is handled, such as setting scenes (inner class), pop-up windows and closing the program.
- * @author Niklas Hultin, Bajram Gerbeshi
- * @version 1.5
+ * @author Niklas Hultin, Bajram Gerbeshi, Duy Nguyen, Hanis Saley
+ * @version 1.6
  */
 
 public class MainController {

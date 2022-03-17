@@ -15,8 +15,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /** Class QuizCompletedController that extends SceneControllerParent that handles the fxml file QuizCompleted.fxml and shows the user their final score from the quiz
- * @author Bajram Gerbeshi, Niklas Hultin
- * @version 1.0
+ * @author Bajram Gerbeshi, Niklas Hultin, Duy Nguyen, Hanis Saley
+ * @version 1.1
  */
 public class QuizCompletedController extends SceneControllerParent implements InitializeSceneInterface {
 

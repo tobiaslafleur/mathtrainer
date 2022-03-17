@@ -25,8 +25,8 @@ import java.util.ArrayList;
 /**
  * Class GameController that extends SceneControllerParent that handles the game(gamesceens) which is a mathgame that runs on a time schedule
  *
- * @author Johanna Dahlborn
- * @version 1.0
+ * @author Johanna Dahlborn , Hanis Saley
+ * @version 1.1
  */
 public class GameController extends SceneControllerParent implements InitializeSceneInterface {
     public Label countdownLabel = new Label();
