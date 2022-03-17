@@ -266,7 +266,6 @@ public class GameController extends SceneControllerParent implements InitializeS
     }
 
     public void checkIfGameFinished(){
-
         if(startQuiz.isDisabled() && nextQuestion.isDisabled() && answerBtn.isDisabled()){
             mainController.popUpWindow(Alert.AlertType.CONFIRMATION, "Poäng" , "Poäng: "+ correctAnswer +"/16" );
             currentNumberOfSlide = 0;

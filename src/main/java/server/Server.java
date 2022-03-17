@@ -38,6 +38,8 @@ public class Server {
 
     private static void initDatabase() {
         hc = new HandlerController(connection);
+        hc.printAllUsers();
+       // hc.printAllAnswers();
     }
 
     public static void initSpark() {
