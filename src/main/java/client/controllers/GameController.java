@@ -83,12 +83,25 @@ public class GameController extends SceneControllerParent implements InitializeS
          resetTextBox();
     }
 
+        /**
+     * Clears all the textboxes
+     */
+    public void resetTextBox(){
+        sumPlus.clear();
+        sumMinus.clear();
+        sumMulti.clear();
+        sumDiv.clear();
+        sumPlus.setStyle("-fx-background-color: WHITE;");
+        sumMinus.setStyle("-fx-background-color: WHITE;");
+        sumMulti.setStyle("-fx-background-color: WHITE;");
+        sumDiv.setStyle("-fx-background-color: WHITE;");
+    }
+
     /**
      * This method is if you want to quit the game. Ends the quiz and ends the clock.
      */
     public void quitGame(ActionEvent actionEvent) {
-        boolean answer = mainController.popUpWindow(Alert.AlertType.CONFIRMATION, "Avsluta?", "Är du säker på att du vill avsluta, dina svar sparas inte");
-        if (answer) {
+        if (mainController.popUpWindow(Alert.AlertType.CONFIRMATION, "Avsluta?", "Är du säker på att du vill avsluta, dina svar sparas inte")) {
             mainController.setScene(ScenesEnum.Exercises);
             startQuiz.setDisable(false);
             nextQuestion.setDisable(false);
@@ -155,19 +168,7 @@ public class GameController extends SceneControllerParent implements InitializeS
          currentSlide.setText(currentNumberOfSlide+ "/4");
          resetTextBox();
      }
-    /**
-     * Clears all the textboxes
-     */
-     public void resetTextBox(){
-         sumPlus.clear();
-         sumMinus.clear();
-         sumMulti.clear();
-         sumDiv.clear();
-         sumPlus.setStyle("-fx-background-color: WHITE;");
-         sumMinus.setStyle("-fx-background-color: WHITE;");
-         sumMulti.setStyle("-fx-background-color: WHITE;");
-         sumDiv.setStyle("-fx-background-color: WHITE;");
-     }
+
         /**
          * Method that adds a timer to the game
          */
@@ -217,6 +218,8 @@ public class GameController extends SceneControllerParent implements InitializeS
      *check if answer is correct
      */
     public void CheckAnswer() {
+        timeline.stop();
+
         if(questionNumber == 11){
             nextQuestion.setDisable(true);
         }
@@ -227,7 +230,7 @@ public class GameController extends SceneControllerParent implements InitializeS
         try{
             userAnswer = Integer.parseInt(sumPlus.getText());
             userAnswer1 = Integer.parseInt(sumMinus.getText());
-            userAnswer2= Integer.parseInt(sumMulti.getText());
+            userAnswer2 = Integer.parseInt(sumMulti.getText());
             userAnswer3 = Integer.parseInt(sumDiv.getText());
 
             if(!sumPlus.getText().isEmpty() && !sumMinus.getText().isEmpty() && !sumMulti.getText().isEmpty() && !sumDiv.getText().isEmpty()) {
@@ -257,7 +260,6 @@ public class GameController extends SceneControllerParent implements InitializeS
                 }
                 answerBtn.setDisable(true);
                 allAnswers.clear();
-                timer();
                 checkIfGameFinished();
             }
             else{
