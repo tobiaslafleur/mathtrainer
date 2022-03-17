@@ -77,10 +77,11 @@ public class GameController extends SceneControllerParent implements InitializeS
         timeSeconds = START_TIME;
         countdownLabel.setText(Integer.toString(timeSeconds));
         plusLeftLabel.setText("?");
-         minusLeftLabel.setText("?");
-         additionLeftLabel.setText("?");
-         devidedLeftLabel.setText("?");
-         resetTextBox();
+        minusLeftLabel.setText("?");
+        additionLeftLabel.setText("?");
+        devidedLeftLabel.setText("?");
+        resetTextBox();
+        SetEditableTextBox(false);
     }
 
         /**
@@ -95,6 +96,16 @@ public class GameController extends SceneControllerParent implements InitializeS
         sumMinus.setStyle("-fx-background-color: WHITE;");
         sumMulti.setStyle("-fx-background-color: WHITE;");
         sumDiv.setStyle("-fx-background-color: WHITE;");
+    }
+
+    /*
+     * Enable or disable text boxes from being editable or not.
+     */
+    public void SetEditableTextBox(Boolean editable){
+        sumPlus.setEditable(editable);
+        sumMinus.setEditable(editable);
+        sumMulti.setEditable(editable);
+        sumDiv.setEditable(editable);
     }
 
     /**
@@ -118,6 +129,7 @@ public class GameController extends SceneControllerParent implements InitializeS
         additionLeftLabel.setWrapText(true);
         plusLeftLabel.setWrapText(true);
         devidedLeftLabel.setWrapText(true);
+        SetEditableTextBox(false);
     }
     /**
      * This method starts the game, and adds all the random values and starts the timer.
@@ -127,7 +139,7 @@ public class GameController extends SceneControllerParent implements InitializeS
         startQuiz.setDisable(true);
         nextQuestion.setDisable(true);
         timer();
-
+        SetEditableTextBox(true);
     }
 
     public void updateNextQuestion(ActionEvent actionEvent){
@@ -221,6 +233,7 @@ public class GameController extends SceneControllerParent implements InitializeS
      */
     public void CheckAnswer() {
         timeline.stop();
+        SetEditableTextBox(false);
 
         if(questionNumber == 11){
             nextQuestion.setDisable(true);
