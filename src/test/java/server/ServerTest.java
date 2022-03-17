@@ -41,6 +41,6 @@ class ServerTest {
         HttpResponse<JsonNode> response = Unirest.get("http://localhost:5000/user/123!").queryString("format", "json").asJson();
         assertNotNull(response);
 
-        assertEquals(400, response.getStatus());
+        assertEquals(500, response.getStatus());
     }
 }
