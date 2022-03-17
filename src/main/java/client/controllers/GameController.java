@@ -81,6 +81,7 @@ public class GameController extends SceneControllerParent implements InitializeS
     }
 
     public void resetRounds(){
+        correctAnswer = 0;
         currentNumberOfSlide = 0;
         currentSlide.setText("1/4");
     }
@@ -218,6 +219,7 @@ public class GameController extends SceneControllerParent implements InitializeS
                                 countdownLabel.setText(Integer.toString(timeSeconds));
                                 if (timeSeconds <= 0) {
                                     timeline.stop();
+                                    SetEditableTextBox(false);
                                     CheckAnswer();
                                 }
                             }
@@ -244,13 +246,12 @@ public class GameController extends SceneControllerParent implements InitializeS
      */
     public void CheckAnswer() {
         try{
-            userAnswer = Integer.parseInt(sumPlus.getText());
-            userAnswer1 = Integer.parseInt(sumMinus.getText());
-            userAnswer2 = Integer.parseInt(sumMulti.getText());
-            userAnswer3 = Integer.parseInt(sumDiv.getText());
+            userAnswer = Integer.parseInt(sumPlus.getText().isBlank() ? "0" : sumPlus.getText().trim());
+            userAnswer1 = Integer.parseInt(sumMinus.getText().isBlank() ? "0" : sumMinus.getText().trim());
+            userAnswer2 = Integer.parseInt(sumMulti.getText().isBlank() ? "0" : sumMinus.getText().trim());
+            userAnswer3 = Integer.parseInt(sumDiv.getText().isBlank() ? "0" : sumDiv.getText().trim());
 
-            if(!sumPlus.getText().isEmpty() && !sumMinus.getText().isEmpty() && !sumMulti.getText().isEmpty() && !sumDiv.getText().isEmpty()) { // If all questions has been answered.
-                timeline.stop();
+            timeline.stop();
                 SetEditableTextBox(false);
 
                 if (allAnswers.get(0).equals(userAnswer)) {
@@ -288,16 +289,11 @@ public class GameController extends SceneControllerParent implements InitializeS
                 answerBtn.setDisable(true);
                 allAnswers.clear();
                 checkIfGameFinished();
-            }
-            else{
-                nextQuestion.setDisable(true);
-                mainController.popUpWindow(Alert.AlertType.CONFIRMATION, "Sakta i backarna!" , "Vänligen svara på alla frågor innan du rättar" );
-            }
         }catch (Exception e){
-            mainController.popUpWindow(Alert.AlertType.CONFIRMATION, "OBS!" , "Går ej att rätta tomma svar eller icke-heltal" );
+            mainController.popUpWindow(Alert.AlertType.CONFIRMATION, "OBS!" , "Går ej att rätta icke-heltal" );
             nextQuestion.setDisable(true);
         }
-        System.out.println("correct score "+correctAnswer);
+        System.out.println("correct score "+ correctAnswer);
         if(!startQuiz.isDisabled()){
             mainController.popUpWindow(Alert.AlertType.CONFIRMATION, "Starta spelet!" , "Starta först spelet" );
         }else{
