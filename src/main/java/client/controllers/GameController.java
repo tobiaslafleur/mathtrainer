@@ -17,9 +17,7 @@ import model.Answers;
 
 import model.NewQuestions;
 
-import java.security.Timestamp;
 import java.util.ArrayList;
-
 
 //Denna är kopplad till GameScene
 
@@ -68,20 +66,36 @@ public class GameController extends SceneControllerParent implements InitializeS
     private final int START_TIME = 60;
     private int timeSeconds = START_TIME;
 
-
-    public GameController() {
-
+    @Override
+    public void setInitialValues(Object object) {
+        questions = (ArrayList<NewQuestions>) object;
+        questionNumber = -1;
+        minusLeftLabel.setWrapText(true);
+        additionLeftLabel.setWrapText(true);
+        plusLeftLabel.setWrapText(true);
+        devidedLeftLabel.setWrapText(true);
+        answerBtn.setDisable(true);
+        SetEditableTextBox(false);
     }
 
     public void reset(){
+        resetTimer();
+        resetQuestions();
+        resetTextBox();
+        SetEditableTextBox(false);
+    }
+
+    public void resetTimer(){
+        timeline.stop();
         timeSeconds = START_TIME;
         countdownLabel.setText(Integer.toString(timeSeconds));
+    }
+
+    public void resetQuestions(){
         plusLeftLabel.setText("?");
         minusLeftLabel.setText("?");
         additionLeftLabel.setText("?");
         devidedLeftLabel.setText("?");
-        resetTextBox();
-        SetEditableTextBox(false);
     }
 
         /**
@@ -115,22 +129,13 @@ public class GameController extends SceneControllerParent implements InitializeS
         if (mainController.popUpWindow(Alert.AlertType.CONFIRMATION, "Avsluta?", "Är du säker på att du vill avsluta, dina svar sparas inte")) {
             mainController.setScene(ScenesEnum.Exercises);
             startQuiz.setDisable(false);
-            nextQuestion.setDisable(false);
+            nextQuestion.setDisable(true);
+            answerBtn.setDisable(true);
             timeline.stop();
             reset();
         }
     }
 
-    @Override
-    public void setInitialValues(Object object) {
-        questions = (ArrayList<NewQuestions>) object;
-        questionNumber = -1;
-        minusLeftLabel.setWrapText(true);
-        additionLeftLabel.setWrapText(true);
-        plusLeftLabel.setWrapText(true);
-        devidedLeftLabel.setWrapText(true);
-        SetEditableTextBox(false);
-    }
     /**
      * This method starts the game, and adds all the random values and starts the timer.
      */
@@ -138,17 +143,19 @@ public class GameController extends SceneControllerParent implements InitializeS
         updateLabels();
         startQuiz.setDisable(true);
         nextQuestion.setDisable(true);
+        answerBtn.setDisable(false);
         timer();
         SetEditableTextBox(true);
     }
 
+    /*
+     * Move to next hidden questions. Need to press start to start the game again.
+     */
     public void updateNextQuestion(ActionEvent actionEvent){
-        if(questionNumber == 11){
-            nextQuestion.setDisable(true);
-        }
         nextQuestion.setDisable(true);
-        updateLabels();
-
+        startQuiz.setDisable(false);
+        answerBtn.setDisable(true);
+        reset();
     }
 
      public void updateLabels() {
@@ -172,7 +179,6 @@ public class GameController extends SceneControllerParent implements InitializeS
          allAnswers.add(Integer.parseInt(answers3.get(0).getAnswer()));
 
          questionNumber+=3;
-         answerBtn.setDisable(false);
 
          if(currentNumberOfSlide !=4){
              currentNumberOfSlide+=1;
@@ -204,10 +210,7 @@ public class GameController extends SceneControllerParent implements InitializeS
                                 countdownLabel.setText(Integer.toString(timeSeconds));
                                 if (timeSeconds <= 0) {
                                     timeline.stop();
-                                    correctAnswer += -1;
-                                   // CheckAnswer();
-
-
+                                    CheckAnswer();
                                 }
                             }
                         }));
@@ -232,14 +235,6 @@ public class GameController extends SceneControllerParent implements InitializeS
      *check if answer is correct
      */
     public void CheckAnswer() {
-
-        if(questionNumber == 11){
-            nextQuestion.setDisable(true);
-        }
-        else{
-            nextQuestion.setDisable(false);
-        }
-
         try{
             userAnswer = Integer.parseInt(sumPlus.getText());
             userAnswer1 = Integer.parseInt(sumMinus.getText());
@@ -274,6 +269,14 @@ public class GameController extends SceneControllerParent implements InitializeS
                 } else {
                     sumDiv.setStyle("-fx-background-color: PALEVIOLETRED;");
                 }
+                
+                if(questionNumber == 11){
+                    nextQuestion.setDisable(true);
+                }
+                else{
+                    nextQuestion.setDisable(false);
+                }
+                
                 answerBtn.setDisable(true);
                 allAnswers.clear();
                 checkIfGameFinished();
