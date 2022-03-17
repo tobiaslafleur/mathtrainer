@@ -17,6 +17,7 @@ import model.Answers;
 
 import model.NewQuestions;
 
+import java.security.Timestamp;
 import java.util.ArrayList;
 
 
@@ -62,15 +63,24 @@ public class GameController extends SceneControllerParent implements InitializeS
     private int currentNumberOfSlide = 0;
     @FXML
 
-
-
-    private static Integer STARTTIME = 60;
     private Timeline timeline = new Timeline();
-    private Integer timeSeconds = STARTTIME;
+
+    private final int START_TIME = 60;
+    private int timeSeconds = START_TIME;
 
 
     public GameController() {
 
+    }
+
+    public void reset(){
+        timeSeconds = START_TIME;
+        countdownLabel.setText(Integer.toString(timeSeconds));
+        plusLeftLabel.setText("?");
+         minusLeftLabel.setText("?");
+         additionLeftLabel.setText("?");
+         devidedLeftLabel.setText("?");
+         resetTextBox();
     }
 
     /**
@@ -83,6 +93,7 @@ public class GameController extends SceneControllerParent implements InitializeS
             startQuiz.setDisable(false);
             nextQuestion.setDisable(false);
             timeline.stop();
+            reset();
         }
     }
 
@@ -99,7 +110,7 @@ public class GameController extends SceneControllerParent implements InitializeS
      * This method starts the game, and adds all the random values and starts the timer.
      */
     public void startQuiz() {
-        updateLabels(true);
+        updateLabels();
         startQuiz.setDisable(true);
         nextQuestion.setDisable(true);
         timer();
@@ -111,11 +122,11 @@ public class GameController extends SceneControllerParent implements InitializeS
             nextQuestion.setDisable(true);
         }
         nextQuestion.setDisable(true);
-        updateLabels(true);
+        updateLabels();
 
     }
 
-     public void updateLabels(boolean nextQuestion) {
+     public void updateLabels() {
          plusLeftLabel.setText(questions.get(questionNumber+1).getQuestion());
          minusLeftLabel.setText(questions.get(questionNumber+2).getQuestion());
          additionLeftLabel.setText(questions.get(questionNumber+3).getQuestion());
@@ -161,13 +172,13 @@ public class GameController extends SceneControllerParent implements InitializeS
          * Method that adds a timer to the game
          */
     public void timer() {
-        countdownLabel.setText(timeSeconds.toString());
+        countdownLabel.setText(Integer.toString(timeSeconds));
         if (timeline != null) {
             timeline.stop();
         }
-        timeSeconds = STARTTIME;
+        timeSeconds = START_TIME;
         countdownLabel.setTextFill(Color.RED);
-        countdownLabel.setText(timeSeconds.toString());
+        countdownLabel.setText(Integer.toString(timeSeconds));
         timeline = new Timeline();
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.getKeyFrames().add(
@@ -177,7 +188,7 @@ public class GameController extends SceneControllerParent implements InitializeS
                             @Override
                             public void handle(Event event) {
                                 timeSeconds--;
-                                countdownLabel.setText(timeSeconds.toString());
+                                countdownLabel.setText(Integer.toString(timeSeconds));
                                 if (timeSeconds <= 0) {
                                     timeline.stop();
                                     CheckAnswer();
