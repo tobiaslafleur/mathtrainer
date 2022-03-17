@@ -42,7 +42,7 @@ public class GameController extends SceneControllerParent implements InitializeS
     public TextField sumMinus;
     public TextField sumMulti;
     public TextField sumDiv;
-    int correctAnswer = 0;
+    int correctAnswer;
 
 
 //TODO Fix Score
@@ -69,13 +69,20 @@ public class GameController extends SceneControllerParent implements InitializeS
     @Override
     public void setInitialValues(Object object) {
         questions = (ArrayList<NewQuestions>) object;
+        countdownLabel.setText(Integer.toString(START_TIME));
         questionNumber = -1;
         minusLeftLabel.setWrapText(true);
         additionLeftLabel.setWrapText(true);
         plusLeftLabel.setWrapText(true);
         devidedLeftLabel.setWrapText(true);
         answerBtn.setDisable(true);
+        nextQuestion.setDisable(true);
         SetEditableTextBox(false);
+    }
+
+    public void resetRounds(){
+        currentNumberOfSlide = 0;
+        currentSlide.setText("1/4");
     }
 
     public void reset(){
@@ -132,6 +139,7 @@ public class GameController extends SceneControllerParent implements InitializeS
             nextQuestion.setDisable(true);
             answerBtn.setDisable(true);
             timeline.stop();
+            resetRounds();
             reset();
         }
     }
@@ -158,34 +166,34 @@ public class GameController extends SceneControllerParent implements InitializeS
         reset();
     }
 
-     public void updateLabels() {
-         plusLeftLabel.setText(questions.get(questionNumber+1).getQuestion());
-         minusLeftLabel.setText(questions.get(questionNumber+2).getQuestion());
-         additionLeftLabel.setText(questions.get(questionNumber+3).getQuestion());
-         devidedLeftLabel.setText(questions.get(questionNumber+4).getQuestion());
+    public void updateLabels() {
+        plusLeftLabel.setText(questions.get(questionNumber+1).getQuestion());
+        minusLeftLabel.setText(questions.get(questionNumber+2).getQuestion());
+        additionLeftLabel.setText(questions.get(questionNumber+3).getQuestion());
+        devidedLeftLabel.setText(questions.get(questionNumber+4).getQuestion());
 
-         answers = questions.get(questionNumber+1).getAnswers();
-         answers1 = questions.get(questionNumber+2).getAnswers();
-         answers2 = questions.get(questionNumber+3).getAnswers();
-         answers3 = questions.get(questionNumber+4).getAnswers();
+        answers = questions.get(questionNumber+1).getAnswers();
+        answers1 = questions.get(questionNumber+2).getAnswers();
+        answers2 = questions.get(questionNumber+3).getAnswers();
+        answers3 = questions.get(questionNumber+4).getAnswers();
 
-         System.out.println(answers.get(0).getAnswer());
-         System.out.println(answers1.get(0).getAnswer());
-         System.out.println(answers2.get(0).getAnswer());
-         System.out.println(answers3.get(0).getAnswer());
-         allAnswers.add(Integer.parseInt(answers.get(0).getAnswer()));
-         allAnswers.add(Integer.parseInt(answers1.get(0).getAnswer()));
-         allAnswers.add(Integer.parseInt(answers2.get(0).getAnswer()));
-         allAnswers.add(Integer.parseInt(answers3.get(0).getAnswer()));
+        System.out.println(answers.get(0).getAnswer());
+        System.out.println(answers1.get(0).getAnswer());
+        System.out.println(answers2.get(0).getAnswer());
+        System.out.println(answers3.get(0).getAnswer());
+        allAnswers.add(Integer.parseInt(answers.get(0).getAnswer()));
+        allAnswers.add(Integer.parseInt(answers1.get(0).getAnswer()));
+        allAnswers.add(Integer.parseInt(answers2.get(0).getAnswer()));
+        allAnswers.add(Integer.parseInt(answers3.get(0).getAnswer()));
 
-         questionNumber+=3;
+        questionNumber+=3;
 
-         if(currentNumberOfSlide !=4){
-             currentNumberOfSlide+=1;
-         }
-         currentSlide.setText(currentNumberOfSlide+ "/4");
-         resetTextBox();
-     }
+        if(currentNumberOfSlide <= 4){
+            currentNumberOfSlide++;
+        }
+        currentSlide.setText(currentNumberOfSlide + "/4");
+        resetTextBox();
+    }
 
         /**
          * Method that adds a timer to the game
@@ -298,7 +306,7 @@ public class GameController extends SceneControllerParent implements InitializeS
     }
 
     public void checkIfGameFinished(){
-        if(startQuiz.isDisabled() && nextQuestion.isDisabled() && answerBtn.isDisabled()){
+        if(currentNumberOfSlide >= 4){
             mainController.popUpWindow(Alert.AlertType.CONFIRMATION, "Poäng" , "Poäng: "+ correctAnswer +"/16" );
             currentNumberOfSlide = 0;
             correctAnswer = 0;
