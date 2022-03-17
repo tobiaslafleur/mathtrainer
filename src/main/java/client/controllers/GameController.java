@@ -232,8 +232,6 @@ public class GameController extends SceneControllerParent implements InitializeS
      *check if answer is correct
      */
     public void CheckAnswer() {
-        timeline.stop();
-        SetEditableTextBox(false);
 
         if(questionNumber == 11){
             nextQuestion.setDisable(true);
@@ -248,7 +246,10 @@ public class GameController extends SceneControllerParent implements InitializeS
             userAnswer2 = Integer.parseInt(sumMulti.getText());
             userAnswer3 = Integer.parseInt(sumDiv.getText());
 
-            if(!sumPlus.getText().isEmpty() && !sumMinus.getText().isEmpty() && !sumMulti.getText().isEmpty() && !sumDiv.getText().isEmpty()) {
+            if(!sumPlus.getText().isEmpty() && !sumMinus.getText().isEmpty() && !sumMulti.getText().isEmpty() && !sumDiv.getText().isEmpty()) { // If all questions has been answered.
+                timeline.stop();
+                SetEditableTextBox(false);
+
                 if (allAnswers.get(0).equals(userAnswer)) {
                     correctAnswer += 1;
                     sumPlus.setStyle("-fx-background-color: LIGHTGREEN;");
