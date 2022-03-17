@@ -192,7 +192,9 @@ public class GameController extends SceneControllerParent implements InitializeS
                                 countdownLabel.setText(Integer.toString(timeSeconds));
                                 if (timeSeconds <= 0) {
                                     timeline.stop();
-                                    CheckAnswer();
+                                    correctAnswer += -1;
+                                   // CheckAnswer();
+
 
                                 }
                             }
