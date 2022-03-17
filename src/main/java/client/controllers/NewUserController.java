@@ -35,6 +35,13 @@ public class NewUserController extends SceneControllerParent implements Initiali
     private final int MAX_NAME_LENGTH = 20;
     private final int MIN_PASSWORD_LENGTH = 6;
 
+    @Override
+    public void setInitialValues(Object object) {
+        username.setText("");
+        password.setText("");
+        passwordRepeat.setText("");
+        year.getSelectionModel().select(0);
+    }
 
     /**
      * Returns to the login scene if the user backs out of creating a new user.
@@ -44,21 +51,11 @@ public class NewUserController extends SceneControllerParent implements Initiali
     }
 
     public void createUserClicked() {
-        Matcher matcher = Pattern.compile("^[a-zA-Z0-9]+$").matcher(username.getText().trim());
-        String name = username.getText().trim();
+        String trimmedUsername = this.username.getText().trim();
 
-        if (name.length() < MIN_NAME_LENGTH || name.length() > MAX_NAME_LENGTH) {
-            mainController.popUpWindow(Alert.AlertType.ERROR, "Användarnamnet är för kort eller långt", "Användarnamnet måste vara mellan 5 och 20 tecken långt");
-        } else if(!matcher.matches()){
-            mainController.popUpWindow(Alert.AlertType.ERROR, "Specialtecken är ej tillåtna", "Användarnamnet får ej innehålla specialtecken, som t ex !, &, *");
-        } else if (!password.getText().equals(passwordRepeat.getText())) {
-            mainController.popUpWindow(Alert.AlertType.ERROR, "Felaktigt lösenord", "Lösenorden du angav stämmer ej överens med varandra");
-        } else if (password.getText().length() < MIN_PASSWORD_LENGTH){
-            mainController.popUpWindow(Alert.AlertType.ERROR, "Lösenordet är för kort", "Lösenordet måste vara minst 6 tecken långt");
-        } else {
-            String userYear = year.getValue();
-            NewUser user = new NewUser(name, password.getText());
-            user.setYear(Integer.parseInt(userYear));
+        if (isValidUsername(trimmedUsername) && isValidPassword(password.getText(), passwordRepeat.getText())) {
+            NewUser user = new NewUser(trimmedUsername, password.getText());
+            user.setYear(Integer.parseInt(year.getValue()));
 
             HttpResponse<JsonNode> response = Unirest.post("http://localhost:5000/user").body(new Gson().toJson(user)).asJson();
 
@@ -72,11 +69,34 @@ public class NewUserController extends SceneControllerParent implements Initiali
         }
     }
 
-    @Override
-    public void setInitialValues(Object object) {
-        username.setText("");
-        password.setText("");
-        passwordRepeat.setText("");
-        year.getSelectionModel().select(0);
+    public void createUser(String username, String password, String passwordRepeat, String year){
+        this.username.setText(username);
+        this.password.setText(password);
+        this.passwordRepeat.setText(passwordRepeat);
+        this.year.setValue(year);
+    }
+
+    public boolean isValidUsername(String username){
+        if (username.length() < MIN_NAME_LENGTH || username.length() > MAX_NAME_LENGTH) {
+            mainController.popUpWindow(Alert.AlertType.ERROR, "Användarnamnet är för kort eller långt", "Användarnamnet måste vara mellan 5 och 20 tecken långt");
+            return false;
+        } else if(!Pattern.compile("^[a-zA-Z0-9]+$").matcher(username).matches()){
+            mainController.popUpWindow(Alert.AlertType.ERROR, "Specialtecken är ej tillåtna", "Användarnamnet får ej innehålla specialtecken, som t ex !, &, *");
+            return false;
+        }
+
+        return true;
+    }
+
+    public Boolean isValidPassword(String password, String passwordRepeat){
+        if (!password.equals(passwordRepeat)) {
+            mainController.popUpWindow(Alert.AlertType.ERROR, "Felaktigt lösenord", "Lösenorden du angav stämmer ej överens med varandra");
+            return false;
+        } else if (password.length() < MIN_PASSWORD_LENGTH){
+            mainController.popUpWindow(Alert.AlertType.ERROR, "Lösenordet är för kort", "Lösenordet måste vara minst 6 tecken långt");
+            return false;
+        }
+
+        return true;
     }
 }
