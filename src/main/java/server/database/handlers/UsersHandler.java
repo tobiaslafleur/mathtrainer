@@ -58,6 +58,13 @@ public class UsersHandler {
         NewUser user = gson.fromJson(body, NewUser.class);
 
         try {
+
+            if(usernameExists(user.getUsername())) {
+                HashMap<String, String> response = new HashMap<>();
+                response.put("error", "Username already exists");
+                return gson.toJson(response);
+            }
+
             String query = """
                     INSERT INTO users (id, username, password, year)
                     VALUES (DEFAULT, ?, ?, ?)
@@ -74,6 +81,29 @@ public class UsersHandler {
         } catch (SQLException e) {
 
             return hc.error(e);
+        }
+    }
+
+    private boolean usernameExists(String username) {
+        try {
+            String query = """
+                    SELECT username FROM users
+                    """;
+
+            PreparedStatement stmt = connection.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()) {
+                System.out.println(rs.getString(1));
+                if(rs.getString(1).equalsIgnoreCase(username)) {
+                    return true;
+                }
+            }
+
+            return false;
+        } catch (Exception e) {
+            hc.error(e);
+            return true;
         }
     }
 
