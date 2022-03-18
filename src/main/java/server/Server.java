@@ -1,14 +1,19 @@
 package server;
 
-import com.google.gson.Gson;
 import io.github.cdimascio.dotenv.Dotenv;
-import model.NewQuestions;
+import kong.unirest.GenericType;
+import kong.unirest.HttpResponse;
+import kong.unirest.JsonNode;
+import kong.unirest.Unirest;
+import kong.unirest.json.JSONArray;
+import kong.unirest.json.JSONObject;
+import model.Results;
 import server.database.HandlerController;
 import spark.Spark;
 
-import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Server {
     private static Dotenv dotenv;
@@ -38,7 +43,7 @@ public class Server {
 
     private static void initDatabase() {
         hc = new HandlerController(connection);
-        hc.printAllUsers();
+        //hc.printAllUsers();
        // hc.printAllAnswers();
     }
 
