@@ -1,34 +1,64 @@
 package model;
 
-public class DetailedResults {
-    private String question;
-    private String correctAnswer;
-    private String guessedAnswer;
+public class DetailedResults implements IResults{
 
-    public DetailedResults(String question, String correctAnswer, String guessedAnswer) {
+    private int id;
+    private NewQuestions question;
+    private int results;
+    private Answers guessedAnswer;
+    private Answers correctAnswer;
+
+    public DetailedResults(int id, NewQuestions question, int results, Answers guessedAnswer, Answers correctAnswer) {
+        this.id = id;
         this.question = question;
-        this.correctAnswer = correctAnswer;
+        this.results = results;
         this.guessedAnswer = guessedAnswer;
+        this.correctAnswer = correctAnswer;
     }
 
-    public String getQuestion() {
+    public DetailedResults(NewQuestions question, Answers guessedAnswer, Answers correctAnswer) {
+        this.question = question;
+        this.guessedAnswer = guessedAnswer;
+        this.correctAnswer = correctAnswer;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public NewQuestions getQuestion() {
         return question;
     }
 
-    public String getCorrectAnswer() {
-        return correctAnswer;
+    public void setQuestion(NewQuestions question) {
+        this.question = question;
     }
 
-    public String getGuessedAnswer() {
+    public int getResults() {
+        return results;
+    }
+
+    public void setResults(int results) {
+        this.results = results;
+    }
+
+    public Answers getGuessedAnswer() {
         return guessedAnswer;
     }
 
-    @Override
-    public String toString() {
-        return "NewDetailedResults{" +
-                "question='" + question + '\'' +
-                ", correctAnswer='" + correctAnswer + '\'' +
-                ", guessedAnswer='" + guessedAnswer + '\'' +
-                '}';
+    public void setGuessedAnswer(Answers guessedAnswer) {
+        this.guessedAnswer = guessedAnswer;
+    }
+
+    public Answers getCorrectAnswer() {
+        return correctAnswer;
+    }
+
+    public void setCorrectAnswer(Answers correctAnswer) {
+        this.correctAnswer = correctAnswer;
     }
 }

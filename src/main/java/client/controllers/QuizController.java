@@ -4,11 +4,15 @@ import client.entity.ScenesEnum;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import model.*;
+import model.Answers;
+import model.DetailedResults;
+import model.NewQuestions;
+import model.Questions;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 /** Class QuizController that extends SceneControllerParent that handles the fxml file Quiz.fxml and creates actions in the Scene
  * @author Bajram Gerbeshi , Duy Nguyen , Hanis Saley
@@ -37,11 +41,18 @@ public class QuizController extends SceneControllerParent implements InitializeS
     private Button submitResultsButton;
 
     private int questionNumber = -1;
+
     private int correctAnswer = -1;
 
-    private ArrayList<Questions> questions;
+    private Questions[] oldQuestions;
+
+    private ArrayList<NewQuestions> questions;
+
     private ArrayList<Answers> answers;
-    private HashMap<Questions, String> userAnswer = new HashMap<>();
+
+    private QuizCompletedController quizCompleteController;
+
+    private HashMap<NewQuestions, String> userAnswer = new HashMap<>();
     private DetailedResults[] detailedResults;
 
     /**
@@ -95,12 +106,23 @@ public class QuizController extends SceneControllerParent implements InitializeS
     public void checkAnswer(int questionNumber) {
         RadioButton selected = (RadioButton) Group1.getSelectedToggle();
         if (selected.getText().equals(answers.get(correctAnswer).getAnswer())) {
+            System.out.println("Correct");
             userAnswer.put(questions.get(questionNumber),answers.get(correctAnswer).getAnswer());
         }
         else {
+            System.out.println("False");
             userAnswer.put(questions.get(questionNumber),selected.getText());
         }
-        detailedResults[questionNumber] = new DetailedResults(questions.get(questionNumber).getQuestion(), answers.get(correctAnswer).getAnswer(), selected.getText());
+
+        /*
+        RadioButton selectedButton = (RadioButton) Group1.getSelectedToggle();
+        if (selectedButton.getText().equals(oldQuestions[questionNumber].getAnswer())){
+            oldQuestions[questionNumber].correctAnswer(true, selectedButton.getText());
+        } else {
+            oldQuestions[questionNumber].correctAnswer(false, selectedButton.getText());
+        }
+
+         */
     }
 
     /**
@@ -124,7 +146,6 @@ public class QuizController extends SceneControllerParent implements InitializeS
     public void toResults(ActionEvent actionEvent) {
         checkAnswer(questionNumber);
         mainController.setUserAnswer(userAnswer);
-        mainController.setDetailedResults(detailedResults);
         mainController.quizCompleted();
     }
 
@@ -140,7 +161,7 @@ public class QuizController extends SceneControllerParent implements InitializeS
     }
 
     public void setInitialValues(Object object) {
-        questions = (ArrayList<Questions>) object;
+        questions = (ArrayList<NewQuestions>) object;
         detailedResults = new DetailedResults[questions.size()];
         submitResultsButton.setVisible(false);
         previousQuestionButton.setVisible(false);

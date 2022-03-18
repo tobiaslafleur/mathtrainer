@@ -1,9 +1,10 @@
 package server.database.handlers;
 
 import com.google.gson.Gson;
-import model.User;
+import model.NewUser;
 import server.database.HandlerController;
 
+import javax.xml.transform.Result;
 import java.sql.*;
 import java.util.HashMap;
 
@@ -30,10 +31,10 @@ public class UsersHandler {
             preparedStatement.setInt(1, id);
             ResultSet rs = preparedStatement.executeQuery();
 
-            User user = null;
+            NewUser user = null;
 
             while(rs.next()) {
-                user = new User(
+                user = new NewUser(
                         rs.getInt(1),
                         rs.getString(2),
                         rs.getString(3),
@@ -54,16 +55,9 @@ public class UsersHandler {
     }
 
     public Object addUser(String body) {
-        User user = gson.fromJson(body, User.class);
+        NewUser user = gson.fromJson(body, NewUser.class);
 
         try {
-
-            if(usernameExists(user.getUsername())) {
-                HashMap<String, String> response = new HashMap<>();
-                response.put("error", "Username already exists");
-                return gson.toJson(response);
-            }
-
             String query = """
                     INSERT INTO users (id, username, password, year)
                     VALUES (DEFAULT, ?, ?, ?)
@@ -83,31 +77,8 @@ public class UsersHandler {
         }
     }
 
-    private boolean usernameExists(String username) {
-        try {
-            String query = """
-                    SELECT username FROM users
-                    """;
-
-            PreparedStatement stmt = connection.prepareStatement(query);
-            ResultSet rs = stmt.executeQuery();
-
-            while(rs.next()) {
-                System.out.println(rs.getString(1));
-                if(rs.getString(1).equalsIgnoreCase(username)) {
-                    return true;
-                }
-            }
-
-            return false;
-        } catch (Exception e) {
-            hc.error(e);
-            return true;
-        }
-    }
-
     public Object login(String body) {
-        User user = gson.fromJson(body, User.class);
+        NewUser user = gson.fromJson(body, NewUser.class);
 
         try {
             String query = """
@@ -162,4 +133,42 @@ public class UsersHandler {
             return hc.error(e);
         }
     }
+
+    //TESTING & DEV
+    public void deleteAllUsers() {
+        try {
+            String query = """
+                    DELETE FROM users
+                    """;
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.executeUpdate();
+            System.out.println("Users deleted");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void printUsers() {
+        try {
+            String query = """
+                    SELECT * FROM users
+                    """;
+
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                System.out.println(rs.getInt(1));
+                System.out.println(rs.getString(2));
+                System.out.println(rs.getString(3));
+                System.out.println(rs.getInt(4));
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

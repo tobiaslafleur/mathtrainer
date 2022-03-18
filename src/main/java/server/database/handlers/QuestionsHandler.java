@@ -1,6 +1,8 @@
 package server.database.handlers;
 
 import com.google.gson.Gson;
+import model.Answers;
+import model.NewQuestions;
 import model.Questions;
 import server.database.HandlerController;
 
@@ -37,9 +39,9 @@ public class QuestionsHandler {
             preparedStatement.setInt(2, limit);
             ResultSet rs = preparedStatement.executeQuery();
 
-            ArrayList<Questions> questions = new ArrayList<>();
+            ArrayList<NewQuestions> questions = new ArrayList<>();
             while(rs.next()) {
-                Questions q = new Questions(
+                NewQuestions q = new NewQuestions(
                         rs.getInt(1),
                         rs.getInt(2),
                         rs.getString(3),
@@ -78,9 +80,9 @@ public class QuestionsHandler {
             preparedStatement.setInt(3, limit);
             ResultSet rs = preparedStatement.executeQuery();
 
-            ArrayList<Questions> questions = new ArrayList<>();
+            ArrayList<NewQuestions> questions = new ArrayList<>();
             while(rs.next()) {
-                Questions q = new Questions(
+                NewQuestions q = new NewQuestions(
                         rs.getInt(1),
                         rs.getInt(2),
                         rs.getString(3),
@@ -114,9 +116,9 @@ public class QuestionsHandler {
             preparedStatement.setInt(1, id);
             ResultSet rs = preparedStatement.executeQuery();
 
-            Questions question = null;
+            NewQuestions question = null;
             while(rs.next()) {
-                question = new Questions(
+                question = new NewQuestions(
                         rs.getInt(1),
                         rs.getInt(2),
                         rs.getString(3),

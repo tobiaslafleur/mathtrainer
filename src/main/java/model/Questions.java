@@ -1,69 +1,88 @@
 package model;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 
-public class Questions {
-    private int id;
-    private int categoryId;
+/**
+ * The Questions class will store all the questions
+ *
+ * @author abdulsamisahil, Motaz Kasem
+ * @version 2.0
+ * @since 2020-04-29
+ */
+public class Questions implements Serializable {
+    private boolean correctAnswer;
     private String question;
-    private int year;
-    private ArrayList<Answers> answers;
+    private String answer;
 
-    public Questions(int id, int categoryId, String question, int year, ArrayList<Answers> answers) {
-        this.id = id;
-        this.categoryId = categoryId;
+    //Creating an array with 3 positions to save the wrong answers in it
+    private String[] wrongAnswers = new String[3];
+    private String userAnswer;
+
+    //private Course course;
+    //Constructor
+    //addQuestions method
+    //removeQuestions method
+
+
+    //Creating Questions, Answers and filling the wrong answers into the array wrongAnswer
+    public Questions(String question, String answer, String wrongAnswer1, String wrongAnswer2, String wrongAnswer3) {
         this.question = question;
-        this.year = year;
-        this.answers = answers;
+        this.answer = answer;
+        wrongAnswers[0] = wrongAnswer1; // Adding wrongAnswer1 to an array called wrongAnswer at the pos 0
+        wrongAnswers[1] = wrongAnswer2; // Adding wrongAnswer2 to an array called wrongAnswer at the pos 1
+        wrongAnswers[2] = wrongAnswer3; // Adding wrongAnswer3 to an array called wrongAnswer at the pos 2
     }
 
-    public Questions(int id, int categoryId, String question, int year) {
-        this.id = id;
-        this.categoryId = categoryId;
+    public Questions(String question, String answer, String wrongAnswer1)
+    {
         this.question = question;
-        this.year = year;
+        this.answer = answer;
+        this.userAnswer = wrongAnswer1;
+    }
+    public void correctAnswer(boolean correctAnswer, String userAnswer){
+        this.correctAnswer = correctAnswer;
+        this.userAnswer = userAnswer;
     }
 
-    public int getId() {
-        return id;
+    public String getUserAnswer() {
+        return userAnswer;
+    }
+    public boolean getCorrectAnswer() {
+        return correctAnswer;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    //getQuestions method
+    //setQuestions method
+
+    public Questions() {
     }
 
+    //Setter & Getter methods for Question,WrongAnswer and Answer
     public String getQuestion() {
         return question;
+    }
+
+    public String[] getWrongAnswers() {
+        return wrongAnswers;
     }
 
     public void setQuestion(String question) {
         this.question = question;
     }
 
-    public int getYear() {
-        return year;
+    public String getAnswer() {
+        return answer;
     }
 
-    public void setYear(int year) {
-        this.year = year;
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 
-    public ArrayList<Answers> getAnswers() {
-        return answers;
-    }
-
-    public void setAnswers(ArrayList<Answers> answers) {
-        this.answers = answers;
-    }
-
-    @Override
+    //Fixing the String format for Questions
     public String toString() {
-        return "NewQuestions{" +
-                "id=" + id +
-                ", categoryId=" + categoryId +
-                ", question='" + question + '\'' +
-                ", year=" + year +
-                ", answers=" + answers +
-                '}';
+        return "Questions: " +
+                question;
     }
+
 }
+

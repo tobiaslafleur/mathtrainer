@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class AnswersHandler {
 
@@ -86,6 +87,74 @@ public class AnswersHandler {
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public Object getAnswerJson(int id) {
+        Answers answer = (Answers) getAnswerObj(id);
+        if(answer == null) {
+            HashMap<String, String> response = new HashMap<>();
+            response.put("error", "No answer found");
+            return gson.toJson(response);
+        }
+
+        return gson.toJson(answer);
+    }
+
+    //TESTING & DEV
+    public void addAnswer(int questionId, String answer, boolean correct) {
+        try {
+            String query = """
+                    INSERT INTO answers (id, question_id, answer, correct)
+                    VALUES (DEFAULT, ?, ?, ?)
+                    """;
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, questionId);
+            preparedStatement.setString(2, answer);
+            preparedStatement.setBoolean(3, correct);
+            preparedStatement.executeUpdate();
+
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void printAllAnswers() {
+        try {
+            String query = """
+                    SELECT * FROM answers
+                    """;
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                System.out.println(rs.getInt(1));
+                System.out.println(rs.getInt(2));
+                System.out.println(rs.getString(3));
+                System.out.println(rs.getBoolean(4));
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void changeAnswer() {
+        try {
+            String query = """
+                    UPDATE answers
+                    SET question_id = ?, answer =? 
+                    WHERE id = ?
+                    """;
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

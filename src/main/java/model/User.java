@@ -1,65 +1,81 @@
 package model;
 
-public class User {
-    private int id;
-    private String username;
-    private String password;
+import java.io.Serializable;
+
+/**
+ * The user class that is responsible for each new user
+ * @author abdulsamisahil
+ * @version 1.5
+ * @since  2020-05-27
+ *
+ */
+public class User implements Serializable {
+    private String userName;
     private int year;
-    private boolean isGuest;
-    private int gameScore;
+    private String email;
+    private String password;
+    private int[] results = new int[]{0,0,0,0};
+    private String id;
 
-    public User(int id, String username, String password, int year) {
-        this.id = id;
-        this.username = username;
+
+    public User(){
+
+    }
+
+    //To create login for user
+    public User(String userName, String password){
+        this.userName = userName;
         this.password = password;
+    }
+    /**
+     * Constructor
+     * @param userName name of the user
+     * @param year age of the user
+     * @param id unique id of the user
+     * //@param type is the user a student or a teacher
+     */
+    public User(String userName, int year, String email, String password, String id)
+    {
+        this.userName = userName;
         this.year = year;
-    }
-
-    public User(String username, String password, boolean isGuest) {
-        this.username = username;
+        this.email = email;
         this.password = password;
-        this.isGuest = isGuest;
+        this.id = id;
     }
 
-    public int getId() {
-        return id;
+    public User(String username, String password, Object year) {
+        this.userName = username;
+        this.password = password;
+        this.year = Integer.parseInt(year.toString());
     }
 
-    public String getUsername() {
-        return username;
+
+    public String getUserName() {
+        return userName;
     }
 
-    public String getPassword() {
-        return password;
+    public void setResults(int[] results){ this.results = results; }
+
+    public int[] getResults(){ return results;}
+
+    public String getPassword() { return password; }
+
+
+    public User(String userName, int year, String id) {
+        this.userName = userName;
+        this.year = year;
+        this.id = id;
     }
 
     public int getYear() {
         return year;
     }
 
-    public void setYear(int year) {
-        this.year = year;
-    }
-
-    public boolean isGuest() {
-        return isGuest;
-    }
-
-    public int getGameScore() {
-        return gameScore;
-    }
-
-    public void setGameScore(int gameScore) {
-        this.gameScore = gameScore;
-    }
-
-    @Override
     public String toString() {
-        return "NewUser{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", year=" + year +
+        return "Accessing User {" +
+                "name = '" + userName + '\'' +
+                ", password = " + password +
                 '}';
     }
+
 }

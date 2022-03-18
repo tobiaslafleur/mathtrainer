@@ -24,6 +24,7 @@ public class ResultsHandler {
         gson = new Gson();
     }
 
+    //TODO: Fix add result
     public Object addResult(int user, String body) {
         Results result = gson.fromJson(body, Results.class);
         try {

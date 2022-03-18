@@ -42,5 +42,7 @@ public class ExercisesController extends MainMenuControllerParent {
             category = "Random";
         }
         mainController.startQuiz(category);
+        //mainController.takeQuiz(questions);
+        //return button;
     }
 }

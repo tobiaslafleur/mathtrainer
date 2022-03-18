@@ -6,12 +6,13 @@ import javafx.scene.control.Label;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
+import model.NewUser;
 import model.User;
 
 public class SettingsController extends MainMenuControllerParent implements InitializeSceneInterface{
     @FXML
     public Label userInfoLabel;
-    private User user;
+    private NewUser user;
 
     @FXML
     ChoiceBox<String> year;
@@ -19,7 +20,7 @@ public class SettingsController extends MainMenuControllerParent implements Init
     @Override
     public void setInitialValues(Object object) {
         if(object != null) {
-            user = (User) object;
+            user = (NewUser) object;
             userInfoLabel.setText("Användarnamn: " + user.getUsername() + "\n" + "Årskurs: " + user.getYear() + "\n");
         } else {
             userInfoLabel.setText("");
@@ -38,4 +39,8 @@ public class SettingsController extends MainMenuControllerParent implements Init
             }
         }
     }
+
+
+    //userInfoLabel.setText("Årskurs " + user.getYear() + "\n" + user.getSchool() + "\n");
+    //ToDO: Metoder för att hantera de actions användaren kan göra i settings.
 }

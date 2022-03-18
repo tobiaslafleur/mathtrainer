@@ -66,29 +66,29 @@
                   <ProgressBar fx:id="pbStatistics" layoutX="268.0" layoutY="234.0" prefWidth="200.0" progress="0.0" />
                   <ProgressBar fx:id="pbCounting" layoutX="268.0" layoutY="286.0" prefWidth="200.0" progress="0.0" styleClass="green-bar" />
                   <ProgressBar fx:id="pbAllCategories" layoutX="270.0" layoutY="477.0" prefWidth="200.0" progress="0.0" styleClass="orange-bar" />
-                  <ProgressBar fx:id="pbRandom" layoutX="270.0" layoutY="390.0" prefWidth="200.0" progress="0.0" styleClass="red-bar" />
-                  <ImageView fx:id="totalTrophy" fitHeight="46.0" fitWidth="145.0" layoutX="558.0" layoutY="460.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ProgressBar fx:id="pbPlaceholder" layoutX="270.0" layoutY="390.0" prefWidth="200.0" progress="0.0" styleClass="red-bar" />
+                  <ImageView fx:id="totalTrophy" fitHeight="46.0" fitWidth="145.0" layoutX="558.0" layoutY="460.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/client/diamondtrophy-cartoon-award-drawing-prize-animation-medal-cdr-blue-png-clipart.jpg" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="statisticsTrophy" fitHeight="46.0" fitWidth="41.0" layoutX="554.0" layoutY="219.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="statisticsTrophy" fitHeight="46.0" fitWidth="41.0" layoutX="554.0" layoutY="219.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/client/diamondtrophy-cartoon-award-drawing-prize-animation-medal-cdr-blue-png-clipart.jpg" />
                      </image>
                   </ImageView>
                   <ProgressBar fx:id="pbGeometry" layoutX="270.0" layoutY="339.0" prefWidth="200.0" progress="0.0" styleClass="yellow-bar" />
-                  <ImageView fx:id="countingTrophy" fitHeight="46.0" fitWidth="41.0" layoutX="555.0" layoutY="272.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="countingTrophy" fitHeight="46.0" fitWidth="41.0" layoutX="555.0" layoutY="272.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/client/diamondtrophy-cartoon-award-drawing-prize-animation-medal-cdr-blue-png-clipart.jpg" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="geometryTrophy" fitHeight="46.0" fitWidth="41.0" layoutX="556.0" layoutY="325.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="geometryTrophy" fitHeight="46.0" fitWidth="41.0" layoutX="556.0" layoutY="325.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/client/diamondtrophy-cartoon-award-drawing-prize-animation-medal-cdr-blue-png-clipart.jpg" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="randomTrophy" fitHeight="46.0" fitWidth="41.0" layoutX="556.0" layoutY="376.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="placeholderTrophy" fitHeight="46.0" fitWidth="41.0" layoutX="556.0" layoutY="376.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/client/diamondtrophy-cartoon-award-drawing-prize-animation-medal-cdr-blue-png-clipart.jpg" />
                      </image>
@@ -139,7 +139,7 @@
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <Label fx:id="randomPercent" layoutX="476.0" layoutY="384.0" prefHeight="30.0" prefWidth="77.0" styleClass="labelBlack" text="0%">
+                  <Label fx:id="placeholderPercent" layoutX="476.0" layoutY="384.0" prefHeight="30.0" prefWidth="77.0" styleClass="labelBlack" text="0%">
                      <font>
                         <Font size="20.0" />
                      </font>

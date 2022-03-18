@@ -1,15 +1,23 @@
 package server;
 
+import com.google.gson.Gson;
 import io.github.cdimascio.dotenv.Dotenv;
+import model.NewQuestions;
 import server.database.HandlerController;
 import spark.Spark;
 
+import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class Server {
     private static Dotenv dotenv;
     private static HandlerController hc;
     private static Connection connection;
+
+    public void testServer() {
+        startServer();
+    }
 
     public static void main(String[] args) {
         startServer();
@@ -30,6 +38,8 @@ public class Server {
 
     private static void initDatabase() {
         hc = new HandlerController(connection);
+        hc.printAllUsers();
+       // hc.printAllAnswers();
     }
 
     public static void initSpark() {
@@ -86,6 +96,13 @@ public class Server {
         Spark.get("/results/:user", (req, res) -> {
             res.header("Content-Type", "application/json");
             return hc.getResult(req.params("user"));
+        });
+
+                                            /* -----DETAILED RESULTS ENTRYPOINTS----- */
+
+        Spark.get("/results/detailed/:id", (req, res) -> {
+            res.header("Content-Type", "application/json");
+            return hc.getDetailedResults(Integer.parseInt(req.params("id")));
         });
 
                                             /* -----CATEGORIES ENTRYPOINTS----- */
