@@ -1,6 +1,7 @@
 package client;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.testfx.matcher.control.LabeledMatchers.hasText;
 
 import client.controllers.LogInController;
 import client.controllers.MainController;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.testfx.api.FxAssert;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.matcher.control.TextInputControlMatchers;
+import org.testfx.util.WaitForAsyncUtils;
 
 import java.awt.*;
 import java.io.IOException;
@@ -37,8 +39,18 @@ class MainGUITest extends ApplicationTest{
     }
 
     @Test
-    void skipLogIn() {
+    void logIn() {
+        this.clickOn("#usernameField").write("asdasd");
+        this.clickOn("#passwordField").write("asdasd");
+        this.clickOn("#LoggaIn");
+        FxAssert.verifyThat("#welcomeLabel", hasText("Välkommen asdasd"));
+    }
 
+    @Test
+    void skipLogIn() throws InterruptedException {
+        this.clickOn("#SkipLogIn");
+        WaitForAsyncUtils
+        //this.clickOn("#OK");
     }
 
 }
