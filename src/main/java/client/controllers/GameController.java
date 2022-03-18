@@ -24,7 +24,7 @@ import java.util.ArrayList;
 /**
  * Class GameController that extends SceneControllerParent that handles the game(gamesceens) which is a mathgame that runs on a time schedule
  *
- * @author Johanna Dahlborn , Hanis Saley
+ * @author Johanna Dahlborn , Hanis Saley, Alfred Andersson
  * @version 1.1
  */
 public class GameController extends SceneControllerParent implements InitializeSceneInterface {
@@ -182,6 +182,7 @@ public class GameController extends SceneControllerParent implements InitializeS
         System.out.println(answers1.get(0).getAnswer());
         System.out.println(answers2.get(0).getAnswer());
         System.out.println(answers3.get(0).getAnswer());
+
         allAnswers.add(Integer.parseInt(answers.get(0).getAnswer()));
         allAnswers.add(Integer.parseInt(answers1.get(0).getAnswer()));
         allAnswers.add(Integer.parseInt(answers2.get(0).getAnswer()));
@@ -248,7 +249,7 @@ public class GameController extends SceneControllerParent implements InitializeS
         try{
             userAnswer = Integer.parseInt(sumPlus.getText().isBlank() ? "0" : sumPlus.getText().trim());
             userAnswer1 = Integer.parseInt(sumMinus.getText().isBlank() ? "0" : sumMinus.getText().trim());
-            userAnswer2 = Integer.parseInt(sumMulti.getText().isBlank() ? "0" : sumMinus.getText().trim());
+            userAnswer2 = Integer.parseInt(sumMulti.getText().isBlank() ? "0" : sumMulti.getText().trim());
             userAnswer3 = Integer.parseInt(sumDiv.getText().isBlank() ? "0" : sumDiv.getText().trim());
 
             timeline.stop();
