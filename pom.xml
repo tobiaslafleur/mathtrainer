@@ -71,9 +71,22 @@
             <version>5.8.2</version>
             <scope>test</scope>
         </dependency>
+        <!-- TestFX för att testa JavaFX -->
+        <dependency>
+            <groupId>org.testfx</groupId>
+            <artifactId>testfx-core</artifactId>
+            <version>4.0.16-alpha</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testfx</groupId>
+            <artifactId>testfx-junit5</artifactId>
+            <version>4.0.16-alpha</version>
+            <scope>test</scope>
+        </dependency>
 
     </dependencies>
-    
+
     <build>
         <plugins>
             <plugin>
@@ -126,6 +139,14 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <!-- För att TestFX ska fungera -->
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <redirectTestOutputToFile>true</redirectTestOutputToFile>
+                    <argLine>--add-exports javafx.graphics/com.sun.javafx.application=ALL-UNNAMED</argLine>
+                </configuration>
             </plugin>
         </plugins>
     </build>
