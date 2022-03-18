@@ -2,9 +2,7 @@ package client.controllers;
 
 import client.entity.ScenesEnum;
 import com.google.gson.Gson;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.PasswordField;
@@ -12,9 +10,8 @@ import javafx.scene.control.TextField;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
-import model.NewUser;
+import model.User;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -54,7 +51,7 @@ public class NewUserController extends SceneControllerParent implements Initiali
         String trimmedUsername = this.username.getText().trim();
 
         if (isValidUsername(trimmedUsername) && isValidPassword(password.getText(), passwordRepeat.getText())) {
-            NewUser user = new NewUser(trimmedUsername, password.getText());
+            User user = new User(trimmedUsername, password.getText(), false);
             user.setYear(Integer.parseInt(year.getValue()));
 
             HttpResponse<JsonNode> response = Unirest.post("http://localhost:5000/user").body(new Gson().toJson(user)).asJson();
@@ -67,13 +64,6 @@ public class NewUserController extends SceneControllerParent implements Initiali
                 mainController.popUpWindow(Alert.AlertType.ERROR, "Fel", "Det gick ej att skapa kontot");
             }
         }
-    }
-
-    public void createUser(String username, String password, String passwordRepeat, String year){
-        this.username.setText(username);
-        this.password.setText(password);
-        this.passwordRepeat.setText(passwordRepeat);
-        this.year.setValue(year);
     }
 
     public boolean isValidUsername(String username){
