@@ -1,7 +1,6 @@
 package model;
 
-public class Results implements IResults {
-
+public class Results {
     private int resultId;
     private int userId;
     private Category category;
@@ -26,36 +25,12 @@ public class Results implements IResults {
         this.maxScore = maxScore;
     }
 
-    public int getResultId() {
-        return resultId;
-    }
-
-    public void setResultId(int resultId) {
-        this.resultId = resultId;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
     public Category getCategoryId() {
         return category;
     }
 
-    public void setCategoryId(Category category) {
-        this.category = category;
-    }
-
     public char getGrade() {
         return grade;
-    }
-
-    public void setGrade(char grade) {
-        this.grade = grade;
     }
 
     public int getScore() {
@@ -64,14 +39,6 @@ public class Results implements IResults {
 
     public void setScore(int score) {
         this.score = score;
-    }
-
-    public int getMaxScore() {
-        return maxScore;
-    }
-
-    public void setMaxScore(int maxScore) {
-        this.maxScore = maxScore;
     }
 
     @Override

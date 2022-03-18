@@ -21,14 +21,6 @@ public class Answers {
         this.id = id;
     }
 
-    public int getQuestionId() {
-        return questionId;
-    }
-
-    public void setQuestionId(int questionId) {
-        this.questionId = questionId;
-    }
-
     public String getAnswer() {
         return answer;
     }
@@ -39,10 +31,6 @@ public class Answers {
 
     public boolean isCorrect() {
         return correct;
-    }
-
-    public void setCorrect(boolean correct) {
-        this.correct = correct;
     }
 
     @Override

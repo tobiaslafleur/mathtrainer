@@ -8,37 +8,25 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.DetailedResults;
-import model.NewDetailedResults;
-import model.NewQuestions;
-import model.Questions;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ShowResultsController extends SceneControllerParent implements InitializeSceneInterface{
     @FXML
-    private TableView<NewDetailedResults> tableView = new TableView<>();
+    private TableView<DetailedResults> tableView = new TableView<>();
 
     @FXML
-    private TableColumn<NewDetailedResults, String> questionColumn;
+    private TableColumn<DetailedResults, String> questionColumn;
 
     @FXML
-    private TableColumn<NewDetailedResults, String> answerColumn;
+    private TableColumn<DetailedResults, String> answerColumn;
 
     @FXML
-    private TableColumn<NewDetailedResults, String> yourAnswerColumn;
+    private TableColumn<DetailedResults, String> yourAnswerColumn;
 
-   // private Questions[] questions;
-
-    private NewDetailedResults[] detailedResults;
-
-
+    private DetailedResults[] detailedResults;
 
     @Override
     public void setInitialValues(Object object) {
-        detailedResults = (NewDetailedResults[]) object;
+        detailedResults = (DetailedResults[]) object;
         questionColumn.setCellValueFactory(new PropertyValueFactory<>("question"));
         answerColumn.setCellValueFactory(new PropertyValueFactory<>("correctAnswer"));
         yourAnswerColumn.setCellValueFactory(new PropertyValueFactory<>("guessedAnswer"));
@@ -47,13 +35,6 @@ public class ShowResultsController extends SceneControllerParent implements Init
     }
 
     public void goToHome(ActionEvent actionEvent) {
-        int score = 0;
-//        for (Questions question : questions){
-//            if (question.getAnswer().equals(question.getUserAnswer())){
-//                score++;
-//            }
-//        }
-        //mainController.reportResult(score);
         mainController.showHomeScreen();
     }
 
@@ -64,17 +45,12 @@ public class ShowResultsController extends SceneControllerParent implements Init
     /**
      * Get all of the questions
      */
-    public ObservableList<NewDetailedResults> getQuestions()
+    public ObservableList<DetailedResults> getQuestions()
     {
-        ObservableList<NewDetailedResults> values = FXCollections.observableArrayList();
-        for (NewDetailedResults ndr : detailedResults) {
-            values.add(new NewDetailedResults(ndr.getQuestion(), ndr.getCorrectAnswer(), ndr.getGuessedAnswer()));
+        ObservableList<DetailedResults> values = FXCollections.observableArrayList();
+        for (DetailedResults ndr : detailedResults) {
+            values.add(new DetailedResults(ndr.getQuestion(), ndr.getCorrectAnswer(), ndr.getGuessedAnswer()));
         }
         return values;
     }
-
-//    public void setQuestions(ArrayList<NewQuestions> questions) {
-//        this.questions = questions;
-//    }
-
 }

@@ -1,10 +1,9 @@
 package server.database.handlers;
 
 import com.google.gson.Gson;
-import model.NewUser;
+import model.User;
 import server.database.HandlerController;
 
-import javax.xml.transform.Result;
 import java.sql.*;
 import java.util.HashMap;
 
@@ -31,10 +30,10 @@ public class UsersHandler {
             preparedStatement.setInt(1, id);
             ResultSet rs = preparedStatement.executeQuery();
 
-            NewUser user = null;
+            User user = null;
 
             while(rs.next()) {
-                user = new NewUser(
+                user = new User(
                         rs.getInt(1),
                         rs.getString(2),
                         rs.getString(3),
@@ -55,7 +54,7 @@ public class UsersHandler {
     }
 
     public Object addUser(String body) {
-        NewUser user = gson.fromJson(body, NewUser.class);
+        User user = gson.fromJson(body, User.class);
 
         try {
 
@@ -108,7 +107,7 @@ public class UsersHandler {
     }
 
     public Object login(String body) {
-        NewUser user = gson.fromJson(body, NewUser.class);
+        User user = gson.fromJson(body, User.class);
 
         try {
             String query = """
@@ -163,42 +162,4 @@ public class UsersHandler {
             return hc.error(e);
         }
     }
-
-    //TESTING & DEV
-    public void deleteAllUsers() {
-        try {
-            String query = """
-                    DELETE FROM users
-                    """;
-
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.executeUpdate();
-            System.out.println("Users deleted");
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void printUsers() {
-        try {
-            String query = """
-                    SELECT * FROM users
-                    """;
-
-            PreparedStatement statement = connection.prepareStatement(query);
-            ResultSet rs = statement.executeQuery();
-
-            while (rs.next()) {
-                System.out.println(rs.getInt(1));
-                System.out.println(rs.getString(2));
-                System.out.println(rs.getString(3));
-                System.out.println(rs.getInt(4));
-            }
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
 }

@@ -9,7 +9,6 @@ import model.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
 
 /** Class QuizController that extends SceneControllerParent that handles the fxml file Quiz.fxml and creates actions in the Scene
  * @author Bajram Gerbeshi , Duy Nguyen , Hanis Saley
@@ -38,19 +37,12 @@ public class QuizController extends SceneControllerParent implements InitializeS
     private Button submitResultsButton;
 
     private int questionNumber = -1;
-
     private int correctAnswer = -1;
 
-    private Questions[] oldQuestions;
-
-    private ArrayList<NewQuestions> questions;
-
+    private ArrayList<Questions> questions;
     private ArrayList<Answers> answers;
-
-    private QuizCompletedController quizCompleteController;
-
-    private HashMap<NewQuestions, String> userAnswer = new HashMap<>();
-    private NewDetailedResults[] detailedResults;
+    private HashMap<Questions, String> userAnswer = new HashMap<>();
+    private DetailedResults[] detailedResults;
 
     /**
      * This method is used both when the user hits the button to move to previous question while in the quiz.
@@ -103,23 +95,12 @@ public class QuizController extends SceneControllerParent implements InitializeS
     public void checkAnswer(int questionNumber) {
         RadioButton selected = (RadioButton) Group1.getSelectedToggle();
         if (selected.getText().equals(answers.get(correctAnswer).getAnswer())) {
-            System.out.println("Correct");
             userAnswer.put(questions.get(questionNumber),answers.get(correctAnswer).getAnswer());
         }
         else {
-            System.out.println("False");
             userAnswer.put(questions.get(questionNumber),selected.getText());
         }
-        detailedResults[questionNumber] = new NewDetailedResults(questions.get(questionNumber).getQuestion(), answers.get(correctAnswer).getAnswer(), selected.getText());
-        /*
-        RadioButton selectedButton = (RadioButton) Group1.getSelectedToggle();
-        if (selectedButton.getText().equals(oldQuestions[questionNumber].getAnswer())){
-            oldQuestions[questionNumber].correctAnswer(true, selectedButton.getText());
-        } else {
-            oldQuestions[questionNumber].correctAnswer(false, selectedButton.getText());
-        }
-
-         */
+        detailedResults[questionNumber] = new DetailedResults(questions.get(questionNumber).getQuestion(), answers.get(correctAnswer).getAnswer(), selected.getText());
     }
 
     /**
@@ -159,8 +140,8 @@ public class QuizController extends SceneControllerParent implements InitializeS
     }
 
     public void setInitialValues(Object object) {
-        questions = (ArrayList<NewQuestions>) object;
-        detailedResults = new NewDetailedResults[questions.size()];
+        questions = (ArrayList<Questions>) object;
+        detailedResults = new DetailedResults[questions.size()];
         submitResultsButton.setVisible(false);
         previousQuestionButton.setVisible(false);
         nextQuestionButton.setVisible(true);

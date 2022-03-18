@@ -6,7 +6,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import kong.unirest.GenericType;
 import kong.unirest.Unirest;
-import model.NewUser;
+import model.User;
 import model.Results;
 
 import java.util.ArrayList;
@@ -55,7 +55,7 @@ public class HomeController extends MainMenuControllerParent implements Initiali
     @FXML
     Label totalPercent;
 
-    private NewUser user;
+    private User user;
     private int arithmeticScore;
     private int statisticsScore;
     private int geometryScore;
@@ -64,9 +64,8 @@ public class HomeController extends MainMenuControllerParent implements Initiali
     @Override
     public void setInitialValues(Object object) {
         if(object != null) {
-            user = (NewUser) object;
+            user = (User) object;
             welcomeLabel.setText("Välkommen " + user.getUsername());
-            //results = user.getResults();
             userInfoLabel.setText("Årskurs " + user.getYear() + "\n");
             if (!user.isGuest()) {
                 setProgress();

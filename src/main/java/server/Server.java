@@ -1,28 +1,15 @@
 package server;
 
 import io.github.cdimascio.dotenv.Dotenv;
-import kong.unirest.GenericType;
-import kong.unirest.HttpResponse;
-import kong.unirest.JsonNode;
-import kong.unirest.Unirest;
-import kong.unirest.json.JSONArray;
-import kong.unirest.json.JSONObject;
-import model.Results;
 import server.database.HandlerController;
 import spark.Spark;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Server {
     private static Dotenv dotenv;
     private static HandlerController hc;
     private static Connection connection;
-
-    public void testServer() {
-        startServer();
-    }
 
     public static void main(String[] args) {
         startServer();
@@ -43,8 +30,6 @@ public class Server {
 
     private static void initDatabase() {
         hc = new HandlerController(connection);
-        //hc.printAllUsers();
-       // hc.printAllAnswers();
     }
 
     public static void initSpark() {
@@ -101,13 +86,6 @@ public class Server {
         Spark.get("/results/:user", (req, res) -> {
             res.header("Content-Type", "application/json");
             return hc.getResult(req.params("user"));
-        });
-
-                                            /* -----DETAILED RESULTS ENTRYPOINTS----- */
-
-        Spark.get("/results/detailed/:id", (req, res) -> {
-            res.header("Content-Type", "application/json");
-            return hc.getDetailedResults(Integer.parseInt(req.params("id")));
         });
 
                                             /* -----CATEGORIES ENTRYPOINTS----- */
