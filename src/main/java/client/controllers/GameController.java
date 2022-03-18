@@ -307,6 +307,7 @@ public class GameController extends SceneControllerParent implements InitializeS
             mainController.popUpWindow(Alert.AlertType.CONFIRMATION, "Poäng" , "Poäng: "+ correctAnswer +"/16" );
             currentNumberOfSlide = 0;
             correctAnswer = 0;
+            mainController.startGameSceneSetup();
         }
     }
 }
