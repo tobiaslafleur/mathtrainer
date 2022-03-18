@@ -11,7 +11,7 @@
 
 4. Create a new text file in mathtrainer folder, and name it .env  <br><br>
 
-5. Copy the lines in the file called envFile and paste it in the newly created .env file. <br><br>
+5. Copy the lines in the file called envFile(this file will be available in canvas as a separate file) and paste it in the newly created .env file. <br><br>
 
 6. Install .env plugins if needed by clicking on "install" on the upper right side of the .env file in IntelliJ <br><br>
 
