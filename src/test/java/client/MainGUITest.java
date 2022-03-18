@@ -14,7 +14,6 @@ import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.matcher.control.TextInputControlMatchers;
 import org.testfx.util.WaitForAsyncUtils;
 
-import java.awt.*;
 import java.io.IOException;
 
 class MainGUITest extends ApplicationTest{
@@ -49,7 +48,6 @@ class MainGUITest extends ApplicationTest{
     @Test
     void skipLogIn() throws InterruptedException {
         this.clickOn("#SkipLogIn");
-        WaitForAsyncUtils
         //this.clickOn("#OK");
     }
 

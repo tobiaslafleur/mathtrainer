@@ -22,7 +22,6 @@ public class CategoriesHandler {
         this.hc = hc;
     }
 
-    //TODO: Get categories
     public Object getCategoryObj(int id) {
         try {
             String query = """
@@ -88,24 +87,6 @@ public class CategoriesHandler {
 
         } catch (SQLException e) {
             return hc.error(e);
-        }
-    }
-
-    //TESTING & DEV
-    public void addCategory(int id, String category) {
-        try {
-            String query = """
-                    INSERT INTO categories (id, category)
-                    VALUES (?, ?)
-                    """;
-
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, id);
-            preparedStatement.setString(2, category);
-            preparedStatement.executeUpdate();
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 }

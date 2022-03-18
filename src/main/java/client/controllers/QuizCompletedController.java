@@ -1,6 +1,5 @@
 package client.controllers;
 
-import client.entity.ScenesEnum;
 import com.google.gson.Gson;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,7 +10,6 @@ import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
 import model.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +18,6 @@ import java.util.Map;
  * @version 1.1
  */
 public class QuizCompletedController extends SceneControllerParent implements InitializeSceneInterface {
-
     @FXML
     private Label scoreLabel;
     @FXML
@@ -28,11 +25,7 @@ public class QuizCompletedController extends SceneControllerParent implements In
     @FXML
     private ImageView imageTrophy;
 
-  //private Questions[] questions;
-  //private ArrayList<NewQuestions> questions;
-    private HashMap<NewQuestions, String> userAnswer = new HashMap<>();
-    private NewUser user;
-    private int categoryId;
+    private HashMap<Questions, String> userAnswer = new HashMap<>();
     private int score;
 
     /**
@@ -40,11 +33,9 @@ public class QuizCompletedController extends SceneControllerParent implements In
      * @param actionEvent The button action
      */
     public void continueMenu(ActionEvent actionEvent){
-        mainController.setScene(ScenesEnum.Home);
+        mainController.showHomeScreen();
         score = 0;
         userAnswer.clear();
-
-        //mainController.reportResult(score);
     }
 
     /**
@@ -54,7 +45,7 @@ public class QuizCompletedController extends SceneControllerParent implements In
     public void setResult(){
         score = 0;
 
-        for (Map.Entry<NewQuestions, String> entry : userAnswer.entrySet()) {
+        for (Map.Entry<Questions, String> entry : userAnswer.entrySet()) {
             for (Answers answers :entry.getKey().getAnswers()) {
                 if (answers.isCorrect()) {
                     if(answers.getAnswer().equals(entry.getValue())) {
@@ -69,7 +60,7 @@ public class QuizCompletedController extends SceneControllerParent implements In
     }
 
     public void showFeedback(int score) {
-        char grade = ' ';
+        char grade;
         if (score == userAnswer.size()){ //A
             feedbackLabel.setText("Wow! Full pott!!");
             imageTrophy.setVisible(true);
@@ -88,8 +79,8 @@ public class QuizCompletedController extends SceneControllerParent implements In
             grade = 'F';
         }
 
-        user = mainController.getCurrentUser();
-        categoryId = mainController.getCategoryId();
+        User user = mainController.getCurrentUser();
+        int categoryId = mainController.getCategoryId();
 
         HttpResponse<JsonNode> catResponse = Unirest.get("http://localhost:5000/categories/" + categoryId).asJson();
         Category category = new Gson().fromJson(String.valueOf(catResponse.getBody()), Category.class);
@@ -99,7 +90,7 @@ public class QuizCompletedController extends SceneControllerParent implements In
     }
 
     public void setInitialValues(Object object) {
-        userAnswer = (HashMap<NewQuestions, String>) object;
+        userAnswer = (HashMap<Questions, String>) object;
         feedbackLabel.setWrapText(true);
         imageTrophy.setVisible(false);
         setResult();

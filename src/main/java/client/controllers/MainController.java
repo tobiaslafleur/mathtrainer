@@ -2,15 +2,12 @@ package client.controllers;
 
 import client.entity.ScenesEnum;
 import client.entity.ScenesHashMap;
-import com.google.gson.Gson;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import kong.unirest.GenericType;
-import kong.unirest.HttpResponse;
-import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
 import model.*;
 
@@ -28,13 +25,10 @@ import java.util.HashMap;
 
 public class MainController {
     private Stage mainWindow;
-    private NewUser currentUser;
+    private User currentUser;
     private SceneSetter sceneSetter = new SceneSetter();
-    private NetworkController networkController;
-    private ShowResultsController showResultsController = new ShowResultsController();
-    private Questions[] currentQuiz;
-    private ArrayList<NewQuestions> questions;
-    private HashMap<NewQuestions, String> userAnswer;
+    private ArrayList<Questions> questions;
+    private HashMap<Questions, String> userAnswer;
     private DetailedResults[] detailedResults;
     private int categoryId;
 
@@ -47,15 +41,12 @@ public class MainController {
     public MainController(Stage mainWindow) {
         this.mainWindow = mainWindow;
 
-         networkController = new NetworkController();
-
         try {
             sceneSetter.addScenesToHashMap();
         } catch (IOException e) {
             System.out.println("Error loading scenes");
             e.printStackTrace();
         }
-
 
         mainWindow.setOnCloseRequest(e -> {//Denna metod bestämmer vad som händer när man trycker på krysset i fönstret.
             e.consume();                //Detta stoppar close-eventen (consume) och skickar istället programmet till
@@ -120,23 +111,6 @@ public class MainController {
         }
     }
 
-    /**
-     * Method is used to pass object of questions to network Controller and handle the return value.
-     * @param quiz The quiz String that is used to send it to the neworkController
-     * @author Bajram Gerbeshi
-     */
-    public void takeQuiz(String quiz){
-        Object returnValue = networkController.sendRequest(quiz);
-        if (returnValue instanceof Questions[]) {
-            currentQuiz = (Questions[]) returnValue;
-            setScene(ScenesEnum.Quiz);
-            setInitialValueOfScene(currentQuiz);
-
-        } else {
-            popUpWindow(Alert.AlertType.ERROR, "Error" , (String) returnValue);
-        }
-    }
-
     public void startQuiz(String category) {
         String url = "";
         switch (category) {
@@ -158,62 +132,18 @@ public class MainController {
             }
 
         }
-        questions = Unirest.get(url).asObject(new GenericType<ArrayList<NewQuestions>>() {}).getBody();
+        questions = Unirest.get(url).asObject(new GenericType<ArrayList<Questions>>() {}).getBody();
         setScene(ScenesEnum.Quiz);
         setInitialValueOfScene(questions);
     }
 
     public void startGame(){
-        String url = "";
+        String url;
         url = "http://localhost:5000/questions/" + currentUser.getYear() + "/5/16";
-        questions = Unirest.get(url).asObject(new GenericType<ArrayList<NewQuestions>>() {}).getBody();
+        questions = Unirest.get(url).asObject(new GenericType<ArrayList<Questions>>() {}).getBody();
         setScene(ScenesEnum.Game);
         setInitialValueOfScene(questions);
     }
-
-
-    /**
-     * Used to update the results, if needed, stored in the user object and send that information to the server.
-     * @param score
-     * @author Niklas Hultin
-     */
-    /*
-    public void reportResult(int score) {
-        if (currentUser != null) {
-            int[] updatedResults = currentUser.getResults();
-            int indexToChange = 4;
-            if (currentCategory.equals("Counting")) {
-                indexToChange = 0;
-            } else if (currentCategory.equals("Geometry")) {
-                indexToChange = 3;
-            } else if (currentCategory.equals("Statistics")) {
-                indexToChange = 1;
-            } else if (currentCategory.equals("Random")) {
-                indexToChange = 2;
-            }
-
-            if (score > updatedResults[indexToChange]) {
-                updatedResults[indexToChange] = score;
-                currentUser.setResults(updatedResults);
-                Object returnValue = networkController.sendRequest("Result", currentUser);
-
-                if (returnValue instanceof User) {
-                    currentUser = (User) returnValue;
-                    setScene(ScenesEnum.Home);
-                    setInitialValueOfScene(currentUser);
-                } else {
-                    String errorString = (String) returnValue;
-                    popUpWindow(Alert.AlertType.ERROR, errorString.substring(0, errorString.indexOf(':')), errorString.substring(errorString.indexOf(':') + 2));
-                }
-            } else {
-                setScene(ScenesEnum.Home);
-            }
-        } else {
-            setScene(ScenesEnum.Home);
-        }
-    }
-
-     */
 
     /**
      * Generic way of setting the initial values of a scene when it is being shown. Each Scene's controller knows how
@@ -239,7 +169,7 @@ public class MainController {
         return categoryId;
     }
 
-    public void setUserAnswer(HashMap<NewQuestions, String> userAnswer) {
+    public void setUserAnswer(HashMap<Questions, String> userAnswer) {
         this.userAnswer = userAnswer;
     }
 
@@ -269,7 +199,7 @@ public class MainController {
      */
     public void skipLogin() {
         sceneSetter.setScene(ScenesEnum.Home);
-        setInitialValueOfScene(null);
+        setInitialValueOfScene(currentUser);
     }
 
     public void showHomeScreen() {
@@ -300,11 +230,11 @@ public class MainController {
         this.detailedResults = detailedResults;
     }
 
-    public NewUser getCurrentUser() {
+    public User getCurrentUser() {
         return currentUser;
     }
 
-    public void setCurrentUser(NewUser user) {
+    public void setCurrentUser(User user) {
         currentUser = user;
         setInitialValueOfScene(currentUser);
     }
@@ -393,64 +323,6 @@ public class MainController {
         public void setScene(ScenesEnum sceneName) {
             if (scenes.get(sceneName) != mainWindow.getScene())
             mainWindow.setScene(scenes.get(sceneName));
-        }
-    }
-
-
-    /**
-     * Method is used when creating a new user. It is sent to the server and depending on the result, the new user is
-     * either logged in or an error message is shown.
-     * @param username
-     * @param password
-     * @author Niklas Hultin
-     */
-    public void newUser(String username, String password, Object year){
-        //currentUser = new User(username, password, year);
-        Object returnValue = networkController.sendRequest("NewUser", currentUser);
-
-        if (returnValue instanceof User) {
-            //currentUser = (User) returnValue;
-            setScene(ScenesEnum.Home);
-            setInitialValueOfScene(currentUser);
-        } else{
-            String errorString = (String) returnValue;
-            popUpWindow(Alert.AlertType.ERROR, errorString.substring(0, errorString.indexOf(':')), errorString.substring(errorString.indexOf(':')+2));
-        }
-    }
-
-    /**
-     * Log-in credentials are sent to the server. The user is either logged in, or an error message is shown.
-     * @param username
-     * @param password
-     * @author Niklas Hultin
-     */
-    public void logIn(String username, String password){
-        //currentUser = new User(username, password);
-        if (username.isBlank() || password.isBlank() ){
-            popUpWindow(Alert.AlertType.ERROR, "Felaktiga användaruppgifter", "Du måste fylla i både användarnamn och lösenord");
-        } else {
-            //   Object returnValue = networkController.sendRequest("Login", currentUser);
-            HttpResponse<JsonNode> response = Unirest.post("http://localhost:5000/login").body(new Gson().toJson(currentUser)).asJson();
-            System.out.println(response.getBody());
-            if(response.getStatusText().equals("OK")){
-                setScene(ScenesEnum.Home);
-                setInitialValueOfScene(currentUser);
-            }
-            else{
-                String errorString = "Wrong password or username";
-
-                System.out.println("Wrong username or password");
-                //          popUpWindow(Alert.AlertType.ERROR, errorString.substring(0, errorString.indexOf(':')), errorString.substring(errorString.indexOf(':') + 2));
-            }
-
-//            if (returnValue instanceof User) {
-//                currentUser = (User) returnValue;
-//                setScene(ScenesEnum.Home);
-//                setInitialValueOfScene(currentUser);
-//            } else {
-//                String errorString = (String) returnValue;
-//                popUpWindow(Alert.AlertType.ERROR, errorString.substring(0, errorString.indexOf(':')), errorString.substring(errorString.indexOf(':') + 2));
-//            }
         }
     }
 }
