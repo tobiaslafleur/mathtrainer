@@ -105,8 +105,8 @@ public class GameController extends SceneControllerParent implements InitializeS
         devidedLeftLabel.setText("?");
     }
 
-        /**
-     * Clears all the textboxes
+     /**
+     * Clears all the textboxes.
      */
     public void resetTextBox(){
         sumPlus.clear();
@@ -117,6 +117,13 @@ public class GameController extends SceneControllerParent implements InitializeS
         sumMinus.setStyle("-fx-background-color: WHITE;");
         sumMulti.setStyle("-fx-background-color: WHITE;");
         sumDiv.setStyle("-fx-background-color: WHITE;");
+    }
+
+    public void stripTextBoxCharacters(){
+        sumPlus.setText(sumPlus.getText().replaceAll("[^\\d]", ""));;
+        sumMinus.setText(sumMinus.getText().replaceAll("[^\\d]", ""));;
+        sumMulti.setText(sumMulti.getText().replaceAll("[^\\d]", ""));;
+        sumDiv.setText(sumDiv.getText().replaceAll("[^\\d]", ""));;
     }
 
     /*
@@ -215,6 +222,7 @@ public class GameController extends SceneControllerParent implements InitializeS
                                 if (timeSeconds <= 0) {
                                     timeline.stop();
                                     SetEditableTextBox(false);
+                                    stripTextBoxCharacters();
                                     CheckAnswer();
                                 }
                             }
