@@ -4,10 +4,7 @@ import client.entity.ScenesEnum;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import model.Answers;
-import model.DetailedResults;
-import model.NewQuestions;
-import model.Questions;
+import model.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -53,7 +50,7 @@ public class QuizController extends SceneControllerParent implements InitializeS
     private QuizCompletedController quizCompleteController;
 
     private HashMap<NewQuestions, String> userAnswer = new HashMap<>();
-    private DetailedResults[] detailedResults;
+    private NewDetailedResults[] detailedResults;
 
     /**
      * This method is used both when the user hits the button to move to previous question while in the quiz.
@@ -113,7 +110,7 @@ public class QuizController extends SceneControllerParent implements InitializeS
             System.out.println("False");
             userAnswer.put(questions.get(questionNumber),selected.getText());
         }
-
+        detailedResults[questionNumber] = new NewDetailedResults(questions.get(questionNumber).getQuestion(), answers.get(correctAnswer).getAnswer(), selected.getText());
         /*
         RadioButton selectedButton = (RadioButton) Group1.getSelectedToggle();
         if (selectedButton.getText().equals(oldQuestions[questionNumber].getAnswer())){
@@ -146,6 +143,7 @@ public class QuizController extends SceneControllerParent implements InitializeS
     public void toResults(ActionEvent actionEvent) {
         checkAnswer(questionNumber);
         mainController.setUserAnswer(userAnswer);
+        mainController.setDetailedResults(detailedResults);
         mainController.quizCompleted();
     }
 
@@ -162,7 +160,7 @@ public class QuizController extends SceneControllerParent implements InitializeS
 
     public void setInitialValues(Object object) {
         questions = (ArrayList<NewQuestions>) object;
-        detailedResults = new DetailedResults[questions.size()];
+        detailedResults = new NewDetailedResults[questions.size()];
         submitResultsButton.setVisible(false);
         previousQuestionButton.setVisible(false);
         nextQuestionButton.setVisible(true);

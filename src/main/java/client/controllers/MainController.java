@@ -35,7 +35,7 @@ public class MainController {
     private Questions[] currentQuiz;
     private ArrayList<NewQuestions> questions;
     private HashMap<NewQuestions, String> userAnswer;
-    private DetailedResults[] detailedResults;
+    private NewDetailedResults[] detailedResults;
     private int categoryId;
 
     /**
@@ -295,7 +295,7 @@ public class MainController {
         setInitialValueOfScene(detailedResults);
     }
 
-    public void setDetailedResults(DetailedResults[] detailedResults) {
+    public void setDetailedResults(NewDetailedResults[] detailedResults) {
         this.detailedResults = detailedResults;
     }
 

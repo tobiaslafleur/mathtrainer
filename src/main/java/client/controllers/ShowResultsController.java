@@ -8,35 +8,37 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.DetailedResults;
+import model.NewDetailedResults;
 import model.NewQuestions;
 import model.Questions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ShowResultsController extends SceneControllerParent implements InitializeSceneInterface{
     @FXML
-    private TableView<DetailedResults> tableView = new TableView<>();
+    private TableView<NewDetailedResults> tableView = new TableView<>();
 
     @FXML
-    private TableColumn<NewQuestions, String> questionColumn;
+    private TableColumn<NewDetailedResults, String> questionColumn;
 
     @FXML
-    private TableColumn<NewQuestions, String> answerColumn;
+    private TableColumn<NewDetailedResults, String> answerColumn;
 
     @FXML
-    private TableColumn<NewQuestions, String> yourAnswerColumn;
+    private TableColumn<NewDetailedResults, String> yourAnswerColumn;
 
    // private Questions[] questions;
 
-    private DetailedResults[] detailedResults;
+    private NewDetailedResults[] detailedResults;
 
 
 
     @Override
     public void setInitialValues(Object object) {
-        detailedResults = (DetailedResults[]) object;
+        detailedResults = (NewDetailedResults[]) object;
         questionColumn.setCellValueFactory(new PropertyValueFactory<>("question"));
         answerColumn.setCellValueFactory(new PropertyValueFactory<>("correctAnswer"));
         yourAnswerColumn.setCellValueFactory(new PropertyValueFactory<>("guessedAnswer"));
@@ -52,6 +54,7 @@ public class ShowResultsController extends SceneControllerParent implements Init
 //            }
 //        }
         //mainController.reportResult(score);
+        mainController.showHomeScreen();
     }
 
     public void backToScore(ActionEvent actionEvent) {
@@ -61,10 +64,12 @@ public class ShowResultsController extends SceneControllerParent implements Init
     /**
      * Get all of the questions
      */
-    public ObservableList<DetailedResults> getQuestions()
+    public ObservableList<NewDetailedResults> getQuestions()
     {
-        ObservableList<DetailedResults> values = FXCollections.observableArrayList();
-
+        ObservableList<NewDetailedResults> values = FXCollections.observableArrayList();
+        for (NewDetailedResults ndr : detailedResults) {
+            values.add(new NewDetailedResults(ndr.getQuestion(), ndr.getCorrectAnswer(), ndr.getGuessedAnswer()));
+        }
         return values;
     }
 
