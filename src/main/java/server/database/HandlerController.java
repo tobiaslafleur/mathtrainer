@@ -137,7 +137,12 @@ public class HandlerController {
         answers.printAllAnswers();
     }
 
+    public void printCategories(){
+        categories.getAllCategories();
+    }
+
     public void changeAnswer() {
         answers.changeAnswer();
     }
+
 }

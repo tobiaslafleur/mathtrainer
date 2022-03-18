@@ -13,4 +13,5 @@ module com.mathtrainer.mathtrainer {
     opens client.controllers to javafx.fxml;
     exports model;
     opens model to com.google.gson;
+    exports client;
 }

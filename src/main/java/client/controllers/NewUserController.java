@@ -31,6 +31,18 @@ public class NewUserController extends SceneControllerParent implements Initiali
     @FXML
     ChoiceBox<String> year;
 
+    private final int MIN_NAME_LENGTH = 4;
+    private final int MAX_NAME_LENGTH = 20;
+    private final int MIN_PASSWORD_LENGTH = 6;
+
+    @Override
+    public void setInitialValues(Object object) {
+        username.setText("");
+        password.setText("");
+        passwordRepeat.setText("");
+        year.getSelectionModel().select(0);
+    }
+
     /**
      * Returns to the login scene if the user backs out of creating a new user.
      */
@@ -39,21 +51,11 @@ public class NewUserController extends SceneControllerParent implements Initiali
     }
 
     public void createUserClicked() {
-        String regex = "^[a-zA-Z0-9]+$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(username.getText());
-        if (username.getText().length() < 5 || username.getText().length() > 20) {
-            mainController.popUpWindow(Alert.AlertType.ERROR, "Användarnamnet är för kort eller långt", "Användarnamnet måste vara mellan 5 och 20 tecken långt");
-        } else if(!matcher.matches()){
-            mainController.popUpWindow(Alert.AlertType.ERROR, "Specialtecken är ej tillåtna", "Användarnamnet får ej innehålla specialtecken, som t ex !, &, *");
-        } else if (!password.getText().equals(passwordRepeat.getText())) {
-            mainController.popUpWindow(Alert.AlertType.ERROR, "Felaktigt lösenord", "Lösenorden du angav stämmer ej överens med varandra");
-        } else if (password.getText().length() < 6){
-            mainController.popUpWindow(Alert.AlertType.ERROR, "Lösenordet är för kort", "Lösenordet måste vara minst 6 tecken långt");
-        } else {
-            String userYear = year.getValue();
-            NewUser user = new NewUser(username.getText(), password.getText());
-            user.setYear(Integer.parseInt(userYear));
+        String trimmedUsername = this.username.getText().trim();
+
+        if (isValidUsername(trimmedUsername) && isValidPassword(password.getText(), passwordRepeat.getText())) {
+            NewUser user = new NewUser(trimmedUsername, password.getText());
+            user.setYear(Integer.parseInt(year.getValue()));
 
             HttpResponse<JsonNode> response = Unirest.post("http://localhost:5000/user").body(new Gson().toJson(user)).asJson();
 
@@ -67,11 +69,34 @@ public class NewUserController extends SceneControllerParent implements Initiali
         }
     }
 
-    @Override
-    public void setInitialValues(Object object) {
-        username.setText("");
-        password.setText("");
-        passwordRepeat.setText("");
-        year.getSelectionModel().select(0);
+    public void createUser(String username, String password, String passwordRepeat, String year){
+        this.username.setText(username);
+        this.password.setText(password);
+        this.passwordRepeat.setText(passwordRepeat);
+        this.year.setValue(year);
+    }
+
+    public boolean isValidUsername(String username){
+        if (username.length() < MIN_NAME_LENGTH || username.length() > MAX_NAME_LENGTH) {
+            mainController.popUpWindow(Alert.AlertType.ERROR, "Användarnamnet är för kort eller långt", "Användarnamnet måste vara mellan 5 och 20 tecken långt");
+            return false;
+        } else if(!Pattern.compile("^[a-zA-Z0-9]+$").matcher(username).matches()){
+            mainController.popUpWindow(Alert.AlertType.ERROR, "Specialtecken är ej tillåtna", "Användarnamnet får ej innehålla specialtecken, som t ex !, &, *");
+            return false;
+        }
+
+        return true;
+    }
+
+    public Boolean isValidPassword(String password, String passwordRepeat){
+        if (!password.equals(passwordRepeat)) {
+            mainController.popUpWindow(Alert.AlertType.ERROR, "Felaktigt lösenord", "Lösenorden du angav stämmer ej överens med varandra");
+            return false;
+        } else if (password.length() < MIN_PASSWORD_LENGTH){
+            mainController.popUpWindow(Alert.AlertType.ERROR, "Lösenordet är för kort", "Lösenordet måste vara minst 6 tecken långt");
+            return false;
+        }
+
+        return true;
     }
 }

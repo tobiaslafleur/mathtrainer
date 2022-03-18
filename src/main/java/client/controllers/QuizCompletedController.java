@@ -1,5 +1,6 @@
 package client.controllers;
 
+import client.entity.ScenesEnum;
 import com.google.gson.Gson;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,8 +16,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /** Class QuizCompletedController that extends SceneControllerParent that handles the fxml file QuizCompleted.fxml and shows the user their final score from the quiz
- * @author Bajram Gerbeshi, Niklas Hultin
- * @version 1.0
+ * @author Bajram Gerbeshi, Niklas Hultin, Duy Nguyen, Hanis Saley
+ * @version 1.1
  */
 public class QuizCompletedController extends SceneControllerParent implements InitializeSceneInterface {
 
@@ -39,6 +40,10 @@ public class QuizCompletedController extends SceneControllerParent implements In
      * @param actionEvent The button action
      */
     public void continueMenu(ActionEvent actionEvent){
+        mainController.setScene(ScenesEnum.Home);
+        score = 0;
+        userAnswer.clear();
+
         //mainController.reportResult(score);
     }
 

@@ -15,8 +15,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 /** Class QuizController that extends SceneControllerParent that handles the fxml file Quiz.fxml and creates actions in the Scene
- * @author Bajram Gerbeshi
- * @version 1.0
+ * @author Bajram Gerbeshi , Duy Nguyen , Hanis Saley
+ * @version 1.1
  */
 public class QuizController extends SceneControllerParent implements InitializeSceneInterface {
     @FXML

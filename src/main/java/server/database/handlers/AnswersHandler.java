@@ -146,8 +146,8 @@ public class AnswersHandler {
         try {
             String query = """
                     UPDATE answers
-                    SET question_id = 81, answer = 2
-                    WHERE id = 324
+                    SET question_id = ?, answer =? 
+                    WHERE id = ?
                     """;
 
             PreparedStatement preparedStatement = connection.prepareStatement(query);

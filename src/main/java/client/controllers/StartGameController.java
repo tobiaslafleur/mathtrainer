@@ -3,6 +3,7 @@ package client.controllers;
 import client.entity.ScenesEnum;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import model.NewUser;
@@ -34,6 +35,6 @@ public class StartGameController extends MainMenuControllerParent implements Ini
     }
 
     public void startGameClicked(ActionEvent actionEvent) {
-        mainController.setScene(ScenesEnum.Game);
+        mainController.startGame();
     }
 }

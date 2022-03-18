@@ -7,103 +7,207 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
+import model.Answers;
+
+import model.NewQuestions;
+
+import java.util.ArrayList;
 
 //Denna är kopplad till GameScene
 
 /**
  * Class GameController that extends SceneControllerParent that handles the game(gamesceens) which is a mathgame that runs on a time schedule
  *
- * @author Johanna Dahlborn
- * @version 1.0
+ * @author Johanna Dahlborn , Hanis Saley, Alfred Andersson
+ * @version 1.1
  */
 public class GameController extends SceneControllerParent implements InitializeSceneInterface {
     public Label countdownLabel = new Label();
     public Label plusLeftLabel;
-    public Label plusRightLabel;
     public Label minusLeftLabel;
-    public Label minusRightLabel;
     public Label devidedLeftLabel;
-    public Label devidedRightLabel;
     public Button startQuiz = new Button();
-    public Label additionRightLabel;
+    public Button nextQuestion = new Button();
+    @FXML
+    private Button currentSlide = new Button();
     public Label additionLeftLabel;
     public Button answerBtn;
     public TextField sumPlus;
     public TextField sumMinus;
     public TextField sumMulti;
     public TextField sumDiv;
+    int correctAnswer;
 
-    private int numb1 = (int) (40 * Math.random()) + 1;
-    private int numb2 = (int) (40 * Math.random()) + 1;
-    private int numb3 = (int) (40 * Math.random()) + 1;
-    private int numb4 = (int) (40 * Math.random()) + 1;
-    private int numb5 = (int) (10 * Math.random()) + 1;
-    private int numb6 = (int) (10 * Math.random()) + 1;
-    private int numb8 = (int) (10 * Math.random()) + 1;
-    private int numb7 = (int) (numb8 * Math.random()) + 1;
-    private int sum, sum1, sum2, sum3;
 
-    private static final Integer STARTTIME = 60;
+//TODO Fix Score
+    private ArrayList<NewQuestions> questions;
+    private ArrayList<Answers> answers;
+    private ArrayList<Answers> answers1;
+    private ArrayList<Answers> answers2;
+    private ArrayList<Answers> answers3;
+    private ArrayList<Integer> allAnswers = new ArrayList<>();
+
+    private int questionNumber = -1;
+    private int userAnswer = 0;
+    private int userAnswer1 = 0;
+    private int userAnswer2 = 0;
+    private int userAnswer3 = 0;
+    private int currentNumberOfSlide = 0;
+    @FXML
+
     private Timeline timeline = new Timeline();
-    private Integer timeSeconds = STARTTIME;
 
+    private final int START_TIME = 60;
+    private int timeSeconds = START_TIME;
 
-    public GameController() {
+    @Override
+    public void setInitialValues(Object object) {
+        questions = (ArrayList<NewQuestions>) object;
+        countdownLabel.setText(Integer.toString(START_TIME));
+        questionNumber = -1;
+        minusLeftLabel.setWrapText(true);
+        additionLeftLabel.setWrapText(true);
+        plusLeftLabel.setWrapText(true);
+        devidedLeftLabel.setWrapText(true);
+        answerBtn.setDisable(true);
+        nextQuestion.setDisable(true);
+        SetEditableTextBox(false);
+    }
 
+    public void resetRounds(){
+        correctAnswer = 0;
+        currentNumberOfSlide = 0;
+        currentSlide.setText("1/4");
+    }
+
+    public void reset(){
+        resetTimer();
+        resetQuestions();
+        resetTextBox();
+        SetEditableTextBox(false);
+    }
+
+    public void resetTimer(){
+        timeline.stop();
+        timeSeconds = START_TIME;
+        countdownLabel.setText(Integer.toString(timeSeconds));
+    }
+
+    public void resetQuestions(){
+        plusLeftLabel.setText("?");
+        minusLeftLabel.setText("?");
+        additionLeftLabel.setText("?");
+        devidedLeftLabel.setText("?");
+    }
+
+        /**
+     * Clears all the textboxes
+     */
+    public void resetTextBox(){
+        sumPlus.clear();
+        sumMinus.clear();
+        sumMulti.clear();
+        sumDiv.clear();
+        sumPlus.setStyle("-fx-background-color: WHITE;");
+        sumMinus.setStyle("-fx-background-color: WHITE;");
+        sumMulti.setStyle("-fx-background-color: WHITE;");
+        sumDiv.setStyle("-fx-background-color: WHITE;");
+    }
+
+    /*
+     * Enable or disable text boxes from being editable or not.
+     */
+    public void SetEditableTextBox(Boolean editable){
+        sumPlus.setEditable(editable);
+        sumMinus.setEditable(editable);
+        sumMulti.setEditable(editable);
+        sumDiv.setEditable(editable);
     }
 
     /**
      * This method is if you want to quit the game. Ends the quiz and ends the clock.
      */
     public void quitGame(ActionEvent actionEvent) {
-        boolean answer = mainController.popUpWindow(Alert.AlertType.CONFIRMATION, "Avsluta?", "Är du säker på att du vill avsluta, dina svar sparas inte");
-        if (answer) {
+        if (mainController.popUpWindow(Alert.AlertType.CONFIRMATION, "Avsluta?", "Är du säker på att du vill avsluta, dina svar sparas inte")) {
             mainController.setScene(ScenesEnum.Exercises);
             startQuiz.setDisable(false);
+            nextQuestion.setDisable(true);
+            answerBtn.setDisable(true);
             timeline.stop();
+            resetRounds();
+            reset();
         }
-    }
-
-    @Override
-    public void setInitialValues(Object object) {
-
     }
 
     /**
      * This method starts the game, and adds all the random values and starts the timer.
      */
     public void startQuiz() {
-        plusLeftLabel.setText(String.valueOf(numb1));
-        plusRightLabel.setText(String.valueOf(numb2));
-        minusLeftLabel.setText(String.valueOf(numb3));
-        minusRightLabel.setText(String.valueOf(numb4));
-        additionLeftLabel.setText(String.valueOf(numb5));
-        additionRightLabel.setText(String.valueOf(numb6));
-        devidedLeftLabel.setText(String.valueOf(numb7));
-        devidedRightLabel.setText(String.valueOf(numb8));
-
+        updateLabels();
         startQuiz.setDisable(true);
+        nextQuestion.setDisable(true);
+        answerBtn.setDisable(false);
         timer();
-
-
+        SetEditableTextBox(true);
     }
 
-    /**
-     * Method that adds a timer to the game
+    /*
+     * Move to next hidden questions. Need to press start to start the game again.
      */
+    public void updateNextQuestion(ActionEvent actionEvent){
+        nextQuestion.setDisable(true);
+        startQuiz.setDisable(false);
+        answerBtn.setDisable(true);
+        reset();
+    }
+
+    public void updateLabels() {
+        plusLeftLabel.setText(questions.get(questionNumber+1).getQuestion());
+        minusLeftLabel.setText(questions.get(questionNumber+2).getQuestion());
+        additionLeftLabel.setText(questions.get(questionNumber+3).getQuestion());
+        devidedLeftLabel.setText(questions.get(questionNumber+4).getQuestion());
+
+        answers = questions.get(questionNumber+1).getAnswers();
+        answers1 = questions.get(questionNumber+2).getAnswers();
+        answers2 = questions.get(questionNumber+3).getAnswers();
+        answers3 = questions.get(questionNumber+4).getAnswers();
+
+        System.out.println(answers.get(0).getAnswer());
+        System.out.println(answers1.get(0).getAnswer());
+        System.out.println(answers2.get(0).getAnswer());
+        System.out.println(answers3.get(0).getAnswer());
+
+        allAnswers.add(Integer.parseInt(answers.get(0).getAnswer()));
+        allAnswers.add(Integer.parseInt(answers1.get(0).getAnswer()));
+        allAnswers.add(Integer.parseInt(answers2.get(0).getAnswer()));
+        allAnswers.add(Integer.parseInt(answers3.get(0).getAnswer()));
+
+        questionNumber+=3;
+
+        if(currentNumberOfSlide <= 4){
+            currentNumberOfSlide++;
+        }
+        currentSlide.setText(currentNumberOfSlide + "/4");
+        resetTextBox();
+    }
+
+        /**
+         * Method that adds a timer to the game
+         */
     public void timer() {
-        countdownLabel.setText(timeSeconds.toString());
+        countdownLabel.setText(Integer.toString(timeSeconds));
         if (timeline != null) {
             timeline.stop();
         }
-        timeSeconds = STARTTIME;
+        timeSeconds = START_TIME;
         countdownLabel.setTextFill(Color.RED);
-        countdownLabel.setText(timeSeconds.toString());
+        countdownLabel.setText(Integer.toString(timeSeconds));
         timeline = new Timeline();
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.getKeyFrames().add(
@@ -113,11 +217,11 @@ public class GameController extends SceneControllerParent implements InitializeS
                             @Override
                             public void handle(Event event) {
                                 timeSeconds--;
-                                countdownLabel.setText(timeSeconds.toString());
+                                countdownLabel.setText(Integer.toString(timeSeconds));
                                 if (timeSeconds <= 0) {
                                     timeline.stop();
+                                    SetEditableTextBox(false);
                                     CheckAnswer();
-
                                 }
                             }
                         }));
@@ -141,53 +245,69 @@ public class GameController extends SceneControllerParent implements InitializeS
     /**
      *check if answer is correct
      */
-
     public void CheckAnswer() {
-        sum = numb1 + numb2;
-        sum1 = numb3 - numb4;
-        sum2 = numb5 * numb6;
-        sum3 = numb7 / numb8;
-        int answer = Integer.parseInt(sumPlus.getText());
-        int answer1 = Integer.parseInt(sumMinus.getText());
-        int answer2 = Integer.parseInt(sumMulti.getText());
-        int answer3 = Integer.parseInt(sumDiv.getText());
-        int correctAnswer = 0;
-        if (answer == sum) {
-            correctAnswer++;
-            //sumPlus.setStyle("-fx-control-inner-background: #b2ff59");
-            sumPlus.setStyle("-fx-background-color: LIGHTGREEN;");
-        } else {
-            sumPlus.setStyle("-fx-background-color: PALEVIOLETRED;");
+        try{
+            userAnswer = Integer.parseInt(sumPlus.getText().isBlank() ? "0" : sumPlus.getText().trim());
+            userAnswer1 = Integer.parseInt(sumMinus.getText().isBlank() ? "0" : sumMinus.getText().trim());
+            userAnswer2 = Integer.parseInt(sumMulti.getText().isBlank() ? "0" : sumMulti.getText().trim());
+            userAnswer3 = Integer.parseInt(sumDiv.getText().isBlank() ? "0" : sumDiv.getText().trim());
 
-        }
-        if (answer1 == sum1){
-            sumMinus.setStyle("-fx-background-color: LIGHTGREEN;");
-            correctAnswer++;
-        }
-        else{
-            sumMinus.setStyle("-fx-background-color: PALEVIOLETRED;");
+            timeline.stop();
+                SetEditableTextBox(false);
 
+                if (allAnswers.get(0).equals(userAnswer)) {
+                    correctAnswer += 1;
+                    sumPlus.setStyle("-fx-background-color: LIGHTGREEN;");
+                } else {
+                    sumPlus.setStyle("-fx-background-color: PALEVIOLETRED;");
+                }
+                if (allAnswers.get(1).equals(userAnswer1)) {
+                    correctAnswer += 1;
+                    sumMinus.setStyle("-fx-background-color: LIGHTGREEN;");
+                } else {
+                    sumMinus.setStyle("-fx-background-color: PALEVIOLETRED;");
+                }
+                if (allAnswers.get(2).equals(userAnswer2)) {
+                    correctAnswer += 1;
+                    sumMulti.setStyle("-fx-background-color: LIGHTGREEN;");
+                } else {
+                    sumMulti.setStyle("-fx-background-color: PALEVIOLETRED;");
+                }
+                if (allAnswers.get(3).equals(userAnswer3)) {
+                    correctAnswer += 1;
+                    sumDiv.setStyle("-fx-background-color: LIGHTGREEN;");
+                } else {
+                    sumDiv.setStyle("-fx-background-color: PALEVIOLETRED;");
+                }
+                
+                if(questionNumber == 11){
+                    nextQuestion.setDisable(true);
+                }
+                else{
+                    nextQuestion.setDisable(false);
+                }
+                
+                answerBtn.setDisable(true);
+                allAnswers.clear();
+                checkIfGameFinished();
+        }catch (Exception e){
+            mainController.popUpWindow(Alert.AlertType.CONFIRMATION, "OBS!" , "Går ej att rätta icke-heltal" );
+            nextQuestion.setDisable(true);
         }
-        if (answer2 == sum2){
-            sumMulti.setStyle("-fx-background-color: LIGHTGREEN;");
-            correctAnswer++;
+        System.out.println("correct score "+ correctAnswer);
+        if(!startQuiz.isDisabled()){
+            mainController.popUpWindow(Alert.AlertType.CONFIRMATION, "Starta spelet!" , "Starta först spelet" );
+        }else{
+            startQuiz.setDisable(true);
+        }
+    }
 
+    public void checkIfGameFinished(){
+        if(currentNumberOfSlide >= 4){
+            mainController.popUpWindow(Alert.AlertType.CONFIRMATION, "Poäng" , "Poäng: "+ correctAnswer +"/16" );
+            currentNumberOfSlide = 0;
+            correctAnswer = 0;
         }
-        else{
-            sumMulti.setStyle("-fx-background-color: PALEVIOLETRED;");
-
-        }
-        if (answer3 == sum3){
-            sumDiv.setStyle("-fx-background-color: LIGHTGREEN;");
-            correctAnswer++;
-
-        }
-        else{
-            sumDiv.setStyle("-fx-background-color: PALEVIOLETRED;");
-        }
-        timeline.stop();
-        answerBtn.setDisable(true);
-        startQuiz.setDisable(false);
     }
 }
 
