@@ -1,9 +1,7 @@
 package client.controllers;
 
-import client.Main;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -12,25 +10,65 @@ import java.io.IOException;
 
 class LogInControllerTest extends ApplicationTest {
     private MainController mainController;
-    private LogInController lc;
+    private Stage stage;
     @Override
-    public void start(Stage stage) throws IOException {
-        Stage stage1 = new Stage();
-        mainController = new MainController(stage1);
-        FXMLLoader logInLoader = new FXMLLoader(getClass().getResource("/fxml/LogIn.fxml"));
-        // Parent root = logInLoader.load();
-
-        Scene logInScene = new Scene(logInLoader.load());
-        lc = logInLoader.getController();
-        stage.setScene(logInScene);
-        stage.show();
+    public void start(Stage stage) {
+        this.stage = stage;
+        mainController = new MainController(stage);
     }
 
     @Test
-    void logIn() {
-        this.clickOn("#usernameField").write("asdasd");
-        this.clickOn("#passwordField").write("asdasd");
-        this.clickOn("#LoggaIn");
+    void logInCorrect() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/LogIn.fxml"));
+        Parent root = loader.load();
+        LogInController logInController = loader.getController();
+        logInController.setUserPassword("asdasd", "asdasd");
+        assertEquals("Success", logInController.logInClicked());
+    }
+
+    @Test
+    void logInWrongPw() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/LogIn.fxml"));
+        Parent root = loader.load();
+        LogInController logInController = loader.getController();
+        logInController.setUserPassword("asdasd", "asdasdasd");
+        assertEquals("Failed: bad info", logInController.logInClicked());
+    }
+
+    @Test
+    void logInWrongUser() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/LogIn.fxml"));
+        Parent root = loader.load();
+        LogInController logInController = loader.getController();
+        logInController.setUserPassword("asdasdasd", "asdasd");
+        assertEquals("Failed: bad info", logInController.logInClicked());
+    }
+
+    @Test
+    void logInMissingUser() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/LogIn.fxml"));
+        Parent root = loader.load();
+        LogInController logInController = loader.getController();
+        logInController.setUserPassword("", "asdasd");
+        assertEquals("Failed: missing user or pw", logInController.logInClicked());
+    }
+
+    @Test
+    void logInMissingPw() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/LogIn.fxml"));
+        Parent root = loader.load();
+        LogInController logInController = loader.getController();
+        logInController.setUserPassword("asdasd", "");
+        assertEquals("Failed: missing user or pw", logInController.logInClicked());
+    }
+
+    @Test
+    void logInMissingUserPw() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/LogIn.fxml"));
+        Parent root = loader.load();
+        LogInController logInController = loader.getController();
+        logInController.setUserPassword("", "");
+        assertEquals("Failed: missing user or pw", logInController.logInClicked());
     }
 
     @Test

@@ -43,12 +43,14 @@ public class LogInController extends SceneControllerParent implements Initialize
     /**
      * Called when the user clicks log in. Gets the user information and sends it to the main controller.
      */
-    public void logInClicked() {
+    public String logInClicked() {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
         if (username.isBlank() || password.isBlank()) {
-            mainController.popUpWindow(Alert.AlertType.ERROR, "Felaktiga användaruppgifter", "Du måste fylla i både användarnamn och lösenord");
+            if (mainController != null)
+                mainController.popUpWindow(Alert.AlertType.ERROR, "Felaktiga användaruppgifter", "Du måste fylla i både användarnamn och lösenord");
+            return "Failed: missing user or pw";
         }
         else {
             NewUser user = new NewUser(username, password);
@@ -56,7 +58,9 @@ public class LogInController extends SceneControllerParent implements Initialize
             JSONObject responseMap = loginResponse.getBody().getObject();
 
             if (responseMap.get("response").toString().contains("Credentials")) {
-                mainController.popUpWindow(Alert.AlertType.ERROR, "Felaktiga användaruppgifter", "Du har angett fel användarnamn eller lösenord");
+                if (mainController != null)
+                    mainController.popUpWindow(Alert.AlertType.ERROR, "Felaktiga användaruppgifter", "Du har angett fel användarnamn eller lösenord");
+                return "Failed: bad info";
             }
             else {
                 String id = responseMap.get("response").toString();
@@ -66,13 +70,14 @@ public class LogInController extends SceneControllerParent implements Initialize
 //                HttpResponse<JsonNode> rs = Unirest.get("http://localhost:5000/user/").asJson();
 //                System.out.println(rs.getStatus());
 
-                mainController.setScene(ScenesEnum.Home);
-                mainController.setCurrentUser(user);
-                mainController.setInitialValueOfScene(user);
+                if (mainController != null) {
+                    mainController.setScene(ScenesEnum.Home);
+                    mainController.setCurrentUser(user);
+                    mainController.setInitialValueOfScene(user);
+                }
+                return "Success";
             }
         }
-
-
     }
 
     /**
@@ -87,6 +92,11 @@ public class LogInController extends SceneControllerParent implements Initialize
      */
     public void exitClicked() {
         mainController.closeProgram();
+    }
+
+    public void setUserPassword(String user, String  password) {
+        usernameField.setText(user);
+        passwordField.setText(password);
     }
 
     @Override
