@@ -1,64 +1,34 @@
 package model;
 
-public class DetailedResults implements IResults{
+public class DetailedResults {
+    private String question;
+    private String correctAnswer;
+    private String guessedAnswer;
 
-    private int id;
-    private NewQuestions question;
-    private int results;
-    private Answers guessedAnswer;
-    private Answers correctAnswer;
-
-    public DetailedResults(int id, NewQuestions question, int results, Answers guessedAnswer, Answers correctAnswer) {
-        this.id = id;
+    public DetailedResults(String question, String correctAnswer, String guessedAnswer) {
         this.question = question;
-        this.results = results;
-        this.guessedAnswer = guessedAnswer;
         this.correctAnswer = correctAnswer;
-    }
-
-    public DetailedResults(NewQuestions question, Answers guessedAnswer, Answers correctAnswer) {
-        this.question = question;
         this.guessedAnswer = guessedAnswer;
-        this.correctAnswer = correctAnswer;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public NewQuestions getQuestion() {
+    public String getQuestion() {
         return question;
     }
 
-    public void setQuestion(NewQuestions question) {
-        this.question = question;
-    }
-
-    public int getResults() {
-        return results;
-    }
-
-    public void setResults(int results) {
-        this.results = results;
-    }
-
-    public Answers getGuessedAnswer() {
-        return guessedAnswer;
-    }
-
-    public void setGuessedAnswer(Answers guessedAnswer) {
-        this.guessedAnswer = guessedAnswer;
-    }
-
-    public Answers getCorrectAnswer() {
+    public String getCorrectAnswer() {
         return correctAnswer;
     }
 
-    public void setCorrectAnswer(Answers correctAnswer) {
-        this.correctAnswer = correctAnswer;
+    public String getGuessedAnswer() {
+        return guessedAnswer;
+    }
+
+    @Override
+    public String toString() {
+        return "NewDetailedResults{" +
+                "question='" + question + '\'' +
+                ", correctAnswer='" + correctAnswer + '\'' +
+                ", guessedAnswer='" + guessedAnswer + '\'' +
+                '}';
     }
 }
