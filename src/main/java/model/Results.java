@@ -73,4 +73,14 @@ public class Results implements IResults {
     public void setMaxScore(int maxScore) {
         this.maxScore = maxScore;
     }
+
+    @Override
+    public String toString() {
+        return "Results{" +
+                ", userId=" + userId +
+                ", category=" + category +
+                ", grade=" + grade +
+                ", score=" + score +
+                '}';
+    }
 }

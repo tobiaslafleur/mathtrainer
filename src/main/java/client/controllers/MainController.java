@@ -171,7 +171,6 @@ public class MainController {
         setInitialValueOfScene(questions);
     }
 
-
     /**
      * Used to update the results, if needed, stored in the user object and send that information to the server.
      * @param score

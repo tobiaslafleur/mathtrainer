@@ -71,7 +71,6 @@ public class LogInController extends SceneControllerParent implements Initialize
 
                 mainController.setScene(ScenesEnum.Home);
                 mainController.setCurrentUser(user);
-                mainController.setInitialValueOfScene(user);
             }
         }
 

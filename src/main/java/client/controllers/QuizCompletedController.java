@@ -40,11 +40,9 @@ public class QuizCompletedController extends SceneControllerParent implements In
      * @param actionEvent The button action
      */
     public void continueMenu(ActionEvent actionEvent){
-        mainController.setScene(ScenesEnum.Home);
+        mainController.showHomeScreen();
         score = 0;
         userAnswer.clear();
-
-        //mainController.reportResult(score);
     }
 
     /**
