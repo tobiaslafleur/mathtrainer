@@ -1,5 +1,6 @@
 package client.controllers;
 
+import client.entity.ScenesEnum;
 import com.google.gson.Gson;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -39,6 +40,10 @@ public class QuizCompletedController extends SceneControllerParent implements In
      * @param actionEvent The button action
      */
     public void continueMenu(ActionEvent actionEvent){
+        mainController.setScene(ScenesEnum.Home);
+        score = 0;
+        userAnswer.clear();
+
         //mainController.reportResult(score);
     }
 
