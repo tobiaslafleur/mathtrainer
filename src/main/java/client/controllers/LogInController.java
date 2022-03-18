@@ -36,6 +36,9 @@ public class LogInController extends SceneControllerParent implements Initialize
                 "Är du säker på att du vill fortsätta utan att logga in?");
         if (answer){
             //ToDo: Kod för att spela som gäst
+            NewUser guest = new NewUser("gäst", "", true);
+            guest.setYear(6);
+            mainController.setCurrentUser(guest);
             mainController.skipLogin();
         }
     }
@@ -51,7 +54,7 @@ public class LogInController extends SceneControllerParent implements Initialize
             mainController.popUpWindow(Alert.AlertType.ERROR, "Felaktiga användaruppgifter", "Du måste fylla i både användarnamn och lösenord");
         }
         else {
-            NewUser user = new NewUser(username, password);
+            NewUser user = new NewUser(username, password, false);
             HttpResponse<JsonNode> loginResponse = Unirest.post("http://localhost:5000/login").body(new Gson().toJson(user)).asJson();
             JSONObject responseMap = loginResponse.getBody().getObject();
 

@@ -269,7 +269,7 @@ public class MainController {
      */
     public void skipLogin() {
         sceneSetter.setScene(ScenesEnum.Home);
-        setInitialValueOfScene(null);
+        setInitialValueOfScene(currentUser);
     }
 
     public void showHomeScreen() {

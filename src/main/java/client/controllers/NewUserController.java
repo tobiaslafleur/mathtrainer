@@ -54,7 +54,7 @@ public class NewUserController extends SceneControllerParent implements Initiali
         String trimmedUsername = this.username.getText().trim();
 
         if (isValidUsername(trimmedUsername) && isValidPassword(password.getText(), passwordRepeat.getText())) {
-            NewUser user = new NewUser(trimmedUsername, password.getText());
+            NewUser user = new NewUser(trimmedUsername, password.getText(), false);
             user.setYear(Integer.parseInt(year.getValue()));
 
             HttpResponse<JsonNode> response = Unirest.post("http://localhost:5000/user").body(new Gson().toJson(user)).asJson();

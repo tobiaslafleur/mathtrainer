@@ -6,6 +6,7 @@ public class NewUser {
     private String username;
     private String password;
     private int year;
+    private boolean isGuest;
 
     public NewUser(int id, String username, String password, int year) {
         this.id = id;
@@ -14,9 +15,10 @@ public class NewUser {
         this.year = year;
     }
 
-    public NewUser(String username, String password) {
+    public NewUser(String username, String password, boolean isGuest) {
         this.username = username;
         this.password = password;
+        this.isGuest = isGuest;
     }
 
     public int getId() {
@@ -45,6 +47,10 @@ public class NewUser {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    public boolean isGuest() {
+        return isGuest;
     }
 
     @Override
