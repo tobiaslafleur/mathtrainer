@@ -9,6 +9,10 @@ import org.testfx.api.FxAssert;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.matcher.control.TextInputControlMatchers;
 
+/**
+ * Tests for the first part of GUI.
+ * @author Ludvig Wedin Pettersson
+ */
 class MainGUITest extends ApplicationTest{
     MainController mainController;
     Stage stage;
