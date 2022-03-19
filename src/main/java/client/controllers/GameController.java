@@ -3,7 +3,6 @@ package client.controllers;
 import client.entity.ScenesEnum;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -15,7 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import model.Answers;
 
-import model.NewQuestions;
+import model.Questions;
 
 import java.util.ArrayList;
 
@@ -46,7 +45,7 @@ public class GameController extends SceneControllerParent implements InitializeS
 
 
 //TODO Fix Score
-    private ArrayList<NewQuestions> questions;
+    private ArrayList<Questions> questions;
     private ArrayList<Answers> answers;
     private ArrayList<Answers> answers1;
     private ArrayList<Answers> answers2;
@@ -68,7 +67,7 @@ public class GameController extends SceneControllerParent implements InitializeS
 
     @Override
     public void setInitialValues(Object object) {
-        questions = (ArrayList<NewQuestions>) object;
+        questions = (ArrayList<Questions>) object;
         countdownLabel.setText(Integer.toString(START_TIME));
         questionNumber = -1;
         minusLeftLabel.setWrapText(true);
@@ -106,8 +105,8 @@ public class GameController extends SceneControllerParent implements InitializeS
         devidedLeftLabel.setText("?");
     }
 
-        /**
-     * Clears all the textboxes
+     /**
+     * Clears all the textboxes.
      */
     public void resetTextBox(){
         sumPlus.clear();
@@ -118,6 +117,13 @@ public class GameController extends SceneControllerParent implements InitializeS
         sumMinus.setStyle("-fx-background-color: WHITE;");
         sumMulti.setStyle("-fx-background-color: WHITE;");
         sumDiv.setStyle("-fx-background-color: WHITE;");
+    }
+
+    public void stripTextBoxCharacters(){
+        sumPlus.setText(sumPlus.getText().replaceAll("[^\\d]", ""));;
+        sumMinus.setText(sumMinus.getText().replaceAll("[^\\d]", ""));;
+        sumMulti.setText(sumMulti.getText().replaceAll("[^\\d]", ""));;
+        sumDiv.setText(sumDiv.getText().replaceAll("[^\\d]", ""));;
     }
 
     /*
@@ -178,11 +184,6 @@ public class GameController extends SceneControllerParent implements InitializeS
         answers2 = questions.get(questionNumber+3).getAnswers();
         answers3 = questions.get(questionNumber+4).getAnswers();
 
-        System.out.println(answers.get(0).getAnswer());
-        System.out.println(answers1.get(0).getAnswer());
-        System.out.println(answers2.get(0).getAnswer());
-        System.out.println(answers3.get(0).getAnswer());
-
         allAnswers.add(Integer.parseInt(answers.get(0).getAnswer()));
         allAnswers.add(Integer.parseInt(answers1.get(0).getAnswer()));
         allAnswers.add(Integer.parseInt(answers2.get(0).getAnswer()));
@@ -221,25 +222,12 @@ public class GameController extends SceneControllerParent implements InitializeS
                                 if (timeSeconds <= 0) {
                                     timeline.stop();
                                     SetEditableTextBox(false);
+                                    stripTextBoxCharacters();
                                     CheckAnswer();
                                 }
                             }
                         }));
         timeline.playFromStart();
-    }
-
-    /**
-     * If time is up, game ends
-     */
-    public void showAlert() {
-        Platform.runLater(new Runnable() {
-            public void run() {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Gameover");
-                alert.setHeaderText("Tiden är ute, men försök en gång till!");
-                alert.showAndWait();
-            }
-        });
     }
 
     /**
@@ -294,7 +282,6 @@ public class GameController extends SceneControllerParent implements InitializeS
             mainController.popUpWindow(Alert.AlertType.CONFIRMATION, "OBS!" , "Går ej att rätta icke-heltal" );
             nextQuestion.setDisable(true);
         }
-        System.out.println("correct score "+ correctAnswer);
         if(!startQuiz.isDisabled()){
             mainController.popUpWindow(Alert.AlertType.CONFIRMATION, "Starta spelet!" , "Starta först spelet" );
         }else{
@@ -305,6 +292,8 @@ public class GameController extends SceneControllerParent implements InitializeS
     public void checkIfGameFinished(){
         if(currentNumberOfSlide >= 4){
             mainController.popUpWindow(Alert.AlertType.CONFIRMATION, "Poäng" , "Poäng: "+ correctAnswer +"/16" );
+            mainController.getCurrentUser().setGameScore(correctAnswer);
+            mainController.startGameSceneSetup();
             currentNumberOfSlide = 0;
             correctAnswer = 0;
         }

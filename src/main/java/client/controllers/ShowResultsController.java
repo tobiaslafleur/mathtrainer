@@ -8,31 +8,21 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.DetailedResults;
-import model.NewQuestions;
-import model.Questions;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ShowResultsController extends SceneControllerParent implements InitializeSceneInterface{
     @FXML
     private TableView<DetailedResults> tableView = new TableView<>();
 
     @FXML
-    private TableColumn<NewQuestions, String> questionColumn;
+    private TableColumn<DetailedResults, String> questionColumn;
 
     @FXML
-    private TableColumn<NewQuestions, String> answerColumn;
+    private TableColumn<DetailedResults, String> answerColumn;
 
     @FXML
-    private TableColumn<NewQuestions, String> yourAnswerColumn;
-
-   // private Questions[] questions;
+    private TableColumn<DetailedResults, String> yourAnswerColumn;
 
     private DetailedResults[] detailedResults;
-
-
 
     @Override
     public void setInitialValues(Object object) {
@@ -45,13 +35,7 @@ public class ShowResultsController extends SceneControllerParent implements Init
     }
 
     public void goToHome(ActionEvent actionEvent) {
-        int score = 0;
-//        for (Questions question : questions){
-//            if (question.getAnswer().equals(question.getUserAnswer())){
-//                score++;
-//            }
-//        }
-        //mainController.reportResult(score);
+        mainController.showHomeScreen();
     }
 
     public void backToScore(ActionEvent actionEvent) {
@@ -64,12 +48,9 @@ public class ShowResultsController extends SceneControllerParent implements Init
     public ObservableList<DetailedResults> getQuestions()
     {
         ObservableList<DetailedResults> values = FXCollections.observableArrayList();
-
+        for (DetailedResults ndr : detailedResults) {
+            values.add(new DetailedResults(ndr.getQuestion(), ndr.getCorrectAnswer(), ndr.getGuessedAnswer()));
+        }
         return values;
     }
-
-//    public void setQuestions(ArrayList<NewQuestions> questions) {
-//        this.questions = questions;
-//    }
-
 }

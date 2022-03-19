@@ -14,7 +14,6 @@ public class HandlerController {
     private ResultsHandler results;
     private UsersHandler users;
     private CategoriesHandler categories;
-    private DetailedResultsHandler detailedResults;
 
     public HandlerController(Connection connection) {
         initHandlers(connection);
@@ -26,7 +25,6 @@ public class HandlerController {
         results = new ResultsHandler(connection, this);
         users = new UsersHandler(connection, this);
         categories = new CategoriesHandler(connection, this);
-        detailedResults = new DetailedResultsHandler(connection, this);
     }
 
     public Object getUser(String id) {
@@ -82,18 +80,6 @@ public class HandlerController {
         return categories.getCategoryJson(id);
     }
 
-    public Object getQuestion(int id) {
-        return questions.getQuestion(id);
-    }
-
-    public Object getAnswer(int id) {
-        return answers.getAnswerObj(id);
-    }
-
-    public Object getDetailedResults(int id) {
-        return detailedResults.getDetailedResults(id);
-    }
-
     public Object getCategoryObj(int id) {
         return categories.getCategoryObj(id);
     }
@@ -101,48 +87,4 @@ public class HandlerController {
     public Object getAllCategories() {
         return categories.getAllCategories();
     }
-
-
-
-    //TESTING AND DEV
-    public void deleteAllUsers() {
-        users.deleteAllUsers();
-    }
-
-    public void printAllUsers() {
-        users.printUsers();
-    }
-
-    public void printAllQuestions() {
-        questions.printQuestions();
-    }
-
-    public void addCategory(int id, String category) {
-        categories.addCategory(id, category);
-    }
-
-    public void addQuestion(int catId, String question, int year) {
-        questions.addQuestion(catId, question, year);
-    }
-
-    public void changeQuestion(String newQuestion) {
-        questions.changeQuestion(newQuestion);
-    }
-
-    public void addAnswer(int questionId, String answer, boolean correct) {
-        answers.addAnswer(questionId, answer, correct);
-    }
-
-    public void printAllAnswers() {
-        answers.printAllAnswers();
-    }
-
-    public void printCategories(){
-        categories.getAllCategories();
-    }
-
-    public void changeAnswer() {
-        answers.changeAnswer();
-    }
-
 }

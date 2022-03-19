@@ -10,7 +10,7 @@ import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
 import kong.unirest.json.JSONObject;
-import model.NewUser;
+import model.User;
 
 import java.util.HashMap;
 
@@ -53,7 +53,7 @@ public class LogInController extends SceneControllerParent implements Initialize
             return "Failed: missing user or pw";
         }
         else {
-            NewUser user = new NewUser(username, password);
+            User user = new User(username, password, false);
             HttpResponse<JsonNode> loginResponse = Unirest.post("http://localhost:5000/login").body(new Gson().toJson(user)).asJson();
             JSONObject responseMap = loginResponse.getBody().getObject();
 
@@ -65,7 +65,7 @@ public class LogInController extends SceneControllerParent implements Initialize
             else {
                 String id = responseMap.get("response").toString();
                 HttpResponse<JsonNode> getResponse = Unirest.get("http://localhost:5000/user/" + Integer.parseInt(id)).asJson();
-                user = new Gson().fromJson(String.valueOf(getResponse.getBody()), NewUser.class);
+                user = new Gson().fromJson(String.valueOf(getResponse.getBody()), User.class);
 
 //                HttpResponse<JsonNode> rs = Unirest.get("http://localhost:5000/user/").asJson();
 //                System.out.println(rs.getStatus());
