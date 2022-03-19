@@ -20,7 +20,7 @@
                 <Label layoutX="438.0" layoutY="153.0" text="Användarnamn" />
                 <Label layoutX="454.0" layoutY="201.0" text="Lösenord" />
                 <Button fx:id="LoggaIn" layoutX="515.0" layoutY="253.0" mnemonicParsing="false" onAction="#logInClicked" styleClass="ConfirmButton" stylesheets="@../css/MathTrainerStylesheet.css" text="Logga in" />
-                <Button layoutX="598.0" layoutY="253.0" mnemonicParsing="false" onAction="#newUserClicked" styleClass="buttonReal" text="Ny användare" />
+                <Button fx:id="NyAnvändare" layoutX="598.0" layoutY="253.0" mnemonicParsing="false" onAction="#newUserClicked" styleClass="buttonReal" text="Ny användare" />
                 <Button fx:id="SkipLogIn" layoutX="574.0" layoutY="355.0" mnemonicParsing="false" onAction="#skipLogInClicked" styleClass="buttonReal" stylesheets="@../css/MathTrainerStylesheet.css" text="Fortsätt utan att logga in" />
                 <Button fx:id="Avsluta" layoutX="417.0" layoutY="355.0" mnemonicParsing="false" onAction="#exitClicked" prefHeight="25.0" prefWidth="73.0" styleClass="Avsluta" stylesheets="@../css/style.css" text="Avsluta" />
                 <ImageView fitHeight="400.0" fitWidth="404.0" pickOnBounds="true" preserveRatio="true">
@@ -31,7 +31,7 @@
                 <Label layoutX="476.0" layoutY="35.0" stylesheets="@../css/MathTrainerStylesheet.css" />
                 <ImageView fitHeight="317.0" fitWidth="309.0" layoutX="420.0" layoutY="-209.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../images/client/thisisUntitled-1-Recovered.png" />
+                        <Image fx:id="LoginPicture" url="@../images/client/thisisUntitled-1-Recovered.png" />
                     </image>
                 </ImageView>
             </children>
