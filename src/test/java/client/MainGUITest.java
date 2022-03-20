@@ -1,21 +1,18 @@
 package client;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
-
-import client.controllers.LogInController;
 import client.controllers.MainController;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
+import javafx.scene.Node;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import org.testfx.api.FxAssert;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.matcher.control.TextInputControlMatchers;
-import org.testfx.util.WaitForAsyncUtils;
 
-import java.io.IOException;
-
+/**
+ * Tests for the first part of GUI.
+ * @author Ludvig Wedin Pettersson
+ */
 class MainGUITest extends ApplicationTest{
     MainController mainController;
     Stage stage;
@@ -46,9 +43,23 @@ class MainGUITest extends ApplicationTest{
     }
 
     @Test
-    void skipLogIn() throws InterruptedException {
+    void skipLogIn() {
         this.clickOn("#SkipLogIn");
-        //this.clickOn("#OK");
+        this.clickOn("OK");
+        FxAssert.verifyThat("#welcomeLabel", hasText("Välkommen"));
+    }
+
+    @Test
+    void newUser() {
+        this.clickOn("#NyAnvändare");
+        this.clickOn("#username").write("asdasdasd");
+        this.clickOn("#password").write("asdasdasd");
+        this.clickOn("#passwordRepeat").write("asdasdasd");
+        this.clickOn("#year").clickOn("8");
+        this.clickOn("#SkapaAnvändare");
+        this.clickOn("OK");
+        FxAssert.verifyThat("#SkipLogIn", hasText("Fortsätt utan att logga in"));
+
     }
 
 }

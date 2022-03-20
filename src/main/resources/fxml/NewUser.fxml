@@ -42,7 +42,7 @@
                </items>
             </ChoiceBox>
             <Label layoutX="504.0" layoutY="289.0" text="Årskurs" />
-            <Button layoutX="604.0" layoutY="347.0" mnemonicParsing="false" onAction="#createUserClicked" styleClass="ConfirmButton" stylesheets="@../css/MathTrainerStylesheet.css" text="Skapa användare" />
+            <Button fx:id="SkapaAnvändare" layoutX="604.0" layoutY="347.0" mnemonicParsing="false" onAction="#createUserClicked" styleClass="ConfirmButton" stylesheets="@../css/MathTrainerStylesheet.css" text="Skapa användare" />
             <Button layoutX="483.0" layoutY="347.0" mnemonicParsing="false" onAction="#backClicked" styleClass="Avsluta" text="Tillbaka" />
             <Text layoutX="414.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Skapa en användare">
                <font>

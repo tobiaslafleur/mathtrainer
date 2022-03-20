@@ -8,6 +8,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.testfx.framework.junit5.ApplicationTest;
 import java.io.IOException;
 
+/**
+ * Tests for logging in.
+ * @author Ludvig Wedin Pettersson
+ */
 class LogInControllerTest extends ApplicationTest {
     private MainController mainController;
     private Stage stage;
