@@ -4,6 +4,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
+import java.net.URL;
+
 /** Controller ExercisesController handles the Exercises scene where the user can select which quiz they want to enter,
  *  the method reads the user input and starts the relevant quiz, this controller extends MainMenuControllerParent
  * @author Bajram Gerbeshi
@@ -20,6 +22,8 @@ public class ExercisesController extends MainMenuControllerParent {
     @FXML
     private Button randomButton;
 
+    @FXML
+    private URL location;
 
     /**
      * This method is used when the user hits the button to select which quiz they want to enter.
@@ -42,5 +46,9 @@ public class ExercisesController extends MainMenuControllerParent {
             category = "Random";
         }
         mainController.startQuiz(category);
+    }
+
+    public URL getLocation() {
+        return location;
     }
 }

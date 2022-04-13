@@ -12,6 +12,7 @@ import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
 import model.User;
 
+import java.net.URL;
 import java.util.regex.Pattern;
 
 /**
@@ -27,6 +28,9 @@ public class NewUserController extends SceneControllerParent implements Initiali
     PasswordField password, passwordRepeat;
     @FXML
     ChoiceBox<String> year;
+
+    @FXML
+    private URL location;
 
     private final int MIN_NAME_LENGTH = 4;
     private final int MAX_NAME_LENGTH = 20;
@@ -88,5 +92,9 @@ public class NewUserController extends SceneControllerParent implements Initiali
         }
 
         return true;
+    }
+
+    public URL getLocation() {
+        return location;
     }
 }

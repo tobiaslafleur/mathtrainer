@@ -16,6 +16,7 @@ import model.Answers;
 
 import model.Questions;
 
+import java.net.URL;
 import java.util.ArrayList;
 
 //Denna är kopplad till GameScene
@@ -42,6 +43,9 @@ public class GameController extends SceneControllerParent implements InitializeS
     public TextField sumMulti;
     public TextField sumDiv;
     int correctAnswer;
+
+    @FXML
+    private URL location;
 
 
 //TODO Fix Score
@@ -297,6 +301,10 @@ public class GameController extends SceneControllerParent implements InitializeS
             currentNumberOfSlide = 0;
             correctAnswer = 0;
         }
+    }
+
+    public URL getLocation() {
+        return location;
     }
 }
 

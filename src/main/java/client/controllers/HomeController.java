@@ -9,6 +9,7 @@ import kong.unirest.Unirest;
 import model.User;
 import model.Results;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -54,6 +55,9 @@ public class HomeController extends MainMenuControllerParent implements Initiali
     Label randomPercent;
     @FXML
     Label totalPercent;
+
+    @FXML
+    private URL location;
 
     private User user;
     private int arithmeticScore;
@@ -172,5 +176,9 @@ public class HomeController extends MainMenuControllerParent implements Initiali
         if (all == 40) {
             totalTrophy.setVisible(true);
         }
+    }
+
+    public URL getLocation() {
+        return location;
     }
 }

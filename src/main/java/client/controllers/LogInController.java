@@ -2,17 +2,18 @@ package client.controllers;
 
 import client.entity.ScenesEnum;
 import com.google.gson.Gson;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.stage.Window;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
 import kong.unirest.json.JSONObject;
 import model.User;
 
-import java.util.HashMap;
+import java.net.URL;
 
 /**
  * Controller for handling button-presses in the scene LogIn.fxml. Each method represent a possible user action.
@@ -22,6 +23,8 @@ import java.util.HashMap;
 
 public class LogInController extends SceneControllerParent implements InitializeSceneInterface {
 
+    @FXML
+    private URL location;
 
     @FXML
     private TextField usernameField;
@@ -103,5 +106,9 @@ public class LogInController extends SceneControllerParent implements Initialize
     public void setInitialValues(Object object) {
         usernameField.setText("");
         passwordField.setText("");
+    }
+
+    public URL getLocation() {
+        return location;
     }
 }
