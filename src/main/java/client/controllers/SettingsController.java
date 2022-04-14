@@ -8,6 +8,8 @@ import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
 import model.User;
 
+import java.net.URL;
+
 public class SettingsController extends MainMenuControllerParent implements InitializeSceneInterface{
     @FXML
     public Label userInfoLabel;
@@ -15,6 +17,9 @@ public class SettingsController extends MainMenuControllerParent implements Init
 
     @FXML
     ChoiceBox<String> year;
+
+    @FXML
+    private URL location;
 
     @Override
     public void setInitialValues(Object object) {
@@ -37,5 +42,9 @@ public class SettingsController extends MainMenuControllerParent implements Init
                 }
             }
         }
+    }
+
+    public URL getLocation(){
+        return location;
     }
 }

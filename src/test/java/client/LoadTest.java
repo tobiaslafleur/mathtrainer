@@ -14,6 +14,7 @@ import java.net.URL;
 /**
  * Test class that tests if a fxml document loads correctly and initialize the correct controller
  * @author Duy Nguyen
+ * @author Hanis Saley
  */
 public class LoadTest extends ApplicationTest {
     MainController mainController;
@@ -80,30 +81,59 @@ public class LoadTest extends ApplicationTest {
         assertEquals(location, newUserController.getLocation());
     }
 
-    //5nis
-    @Disabled
+    //Hanis
     @Test
-    void testQuizScene() {
+    void testQuizScene() throws IOException {
+        URL location = getClass().getResource("/fxml/Quiz.fxml");
+        FXMLLoader fxmlLoader = new FXMLLoader(location);
+        fxmlLoader.load();
+        assertInstanceOf(QuizController.class,fxmlLoader.getController());
+
+        QuizController quizController = fxmlLoader.getController();
+        assertEquals(location,quizController.getLocation());
 
     }
-    @Disabled
     @Test
-    void testQuizCompletedScene() {
+    void testQuizCompletedScene() throws IOException {
+        URL location = getClass().getResource("/fxml/QuizCompleted.fxml");
+        FXMLLoader fxmlLoader = new FXMLLoader(location);
+        fxmlLoader.load();
+        assertInstanceOf(QuizCompletedController.class,fxmlLoader.getController());
+
+        QuizCompletedController quizCompletedController = fxmlLoader.getController();
+        assertEquals(location,quizCompletedController.getLocation());
 
     }
-    @Disabled
     @Test
-    void testResultsScene() {
+    void testResultsScene() throws IOException {
+        URL location = getClass().getResource("/fxml/Results.fxml");
+        FXMLLoader fxmlLoader = new FXMLLoader(location);
+        fxmlLoader.load();
+        assertInstanceOf(ShowResultsController.class,fxmlLoader.getController());
 
+        ShowResultsController showResultsController = fxmlLoader.getController();
+        assertEquals(location,showResultsController.getLocation());
     }
-    @Disabled
-    @Test
-    void testSettingsScene() {
 
+    @Test
+    void testSettingsScene() throws IOException {
+        URL location = getClass().getResource("/fxml/Settings.fxml");
+        FXMLLoader fxmlLoader = new FXMLLoader(location);
+        fxmlLoader.load();
+        assertInstanceOf(SettingsController.class,fxmlLoader.getController());
+
+        SettingsController settingsController = fxmlLoader.getController();
+        assertEquals(location,settingsController.getLocation());
     }
-    @Disabled
-    @Test
-    void testStartGameScene() {
 
+    @Test
+    void testStartGameScene() throws IOException {
+        URL location = getClass().getResource("/fxml/StartGame.fxml");
+        FXMLLoader fxmlLoader = new FXMLLoader(location);
+        fxmlLoader.load();
+        assertInstanceOf(StartGameController.class,fxmlLoader.getController());
+
+        StartGameController startGameController = fxmlLoader.getController();
+        assertEquals(location,startGameController.getLocation());
     }
 }

@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import model.*;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -35,6 +36,9 @@ public class QuizController extends SceneControllerParent implements InitializeS
     private Button nextQuestionButton;
     @FXML
     private Button submitResultsButton;
+
+    @FXML
+    private URL location;
 
     private int questionNumber = -1;
     private int correctAnswer = -1;
@@ -150,5 +154,9 @@ public class QuizController extends SceneControllerParent implements InitializeS
         questionLabel.setWrapText(true);
         previousQuestionButton.setVisible(false);
         radioButtonOne.setSelected(true);
+    }
+
+    public URL getLocation() {
+        return location;
     }
 }

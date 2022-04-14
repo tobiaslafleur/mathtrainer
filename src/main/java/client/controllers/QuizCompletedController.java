@@ -10,6 +10,7 @@ import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
 import model.*;
 
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,6 +25,9 @@ public class QuizCompletedController extends SceneControllerParent implements In
     private Label feedbackLabel;
     @FXML
     private ImageView imageTrophy;
+
+    @FXML
+    private URL location;
 
     private HashMap<Questions, String> userAnswer = new HashMap<>();
     private int score;
@@ -98,5 +102,9 @@ public class QuizCompletedController extends SceneControllerParent implements In
 
     public void showAnswers(ActionEvent actionEvent) {
         mainController.showDetailedResults();
+    }
+
+    public URL getLocation() {
+        return location;
     }
 }

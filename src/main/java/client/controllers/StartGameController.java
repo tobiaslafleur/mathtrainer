@@ -6,6 +6,8 @@ import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import model.User;
 
+import java.net.URL;
+
 /**
  * This class is the initial view before starting up the game. It displays information about the game including the
  * users highest score in the game if the user is logged in. Clicking the button leads to the actual game scene.
@@ -15,6 +17,9 @@ public class StartGameController extends MainMenuControllerParent implements Ini
     Label bestScoreLabel;
     @FXML
     Label gameInformationLabel;
+
+    @FXML
+    private URL location;
 
 
     @Override
@@ -34,5 +39,9 @@ public class StartGameController extends MainMenuControllerParent implements Ini
 
     public void startGameClicked(ActionEvent actionEvent) {
         mainController.startGame();
+    }
+
+    public URL getLocation(){
+        return location;
     }
 }

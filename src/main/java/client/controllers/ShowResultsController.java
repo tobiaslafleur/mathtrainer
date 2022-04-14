@@ -9,6 +9,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.DetailedResults;
 
+import java.net.URL;
+
 public class ShowResultsController extends SceneControllerParent implements InitializeSceneInterface{
     @FXML
     private TableView<DetailedResults> tableView = new TableView<>();
@@ -21,6 +23,9 @@ public class ShowResultsController extends SceneControllerParent implements Init
 
     @FXML
     private TableColumn<DetailedResults, String> yourAnswerColumn;
+
+    @FXML
+    private URL location;
 
     private DetailedResults[] detailedResults;
 
@@ -52,5 +57,9 @@ public class ShowResultsController extends SceneControllerParent implements Init
             values.add(new DetailedResults(ndr.getQuestion(), ndr.getCorrectAnswer(), ndr.getGuessedAnswer()));
         }
         return values;
+    }
+
+    public URL getLocation() {
+        return location;
     }
 }
