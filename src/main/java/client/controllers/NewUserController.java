@@ -7,6 +7,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
@@ -48,7 +49,7 @@ public class NewUserController extends SceneControllerParent implements Initiali
     }
 
     public void createUserClicked() {
-        String trimmedUsername = this.username.getText().trim();
+        String trimmedUsername = username.getText().trim();
 
         if (isValidUsername(trimmedUsername) && isValidPassword(password.getText(), passwordRepeat.getText())) {
             User user = new User(trimmedUsername, password.getText(), false);
@@ -57,21 +58,23 @@ public class NewUserController extends SceneControllerParent implements Initiali
             HttpResponse<JsonNode> response = Unirest.post("http://localhost:5000/user").body(new Gson().toJson(user)).asJson();
 
             if (response.getStatus() == 200) {
-                mainController.popUpWindow(Alert.AlertType.INFORMATION, "Klar", "Ett konto har skapats");
+                popUpWindow("Klar", "Ett konto har skapats", Alert.AlertType.INFORMATION);
                 mainController.setScene(ScenesEnum.LogIn);
             }
             else {
-                mainController.popUpWindow(Alert.AlertType.ERROR, "Fel", "Det gick ej att skapa kontot");
+                popUpWindow("Fel", "Det gick ej att skapa kontot");
             }
         }
     }
 
     public boolean isValidUsername(String username){
+        username = username.trim();
+
         if (username.length() < MIN_NAME_LENGTH || username.length() > MAX_NAME_LENGTH) {
-            mainController.popUpWindow(Alert.AlertType.ERROR, "Användarnamnet är för kort eller långt", "Användarnamnet måste vara mellan 5 och 20 tecken långt");
+            popUpWindow("Användarnamnet är för kort eller långt", "Användarnamnet måste vara mellan 5 och 20 tecken långt");
             return false;
         } else if(!Pattern.compile("^[a-zA-Z0-9]+$").matcher(username).matches()){
-            mainController.popUpWindow(Alert.AlertType.ERROR, "Specialtecken är ej tillåtna", "Användarnamnet får ej innehålla specialtecken, som t ex !, &, *");
+            popUpWindow("Specialtecken är ej tillåtna", "Användarnamnet får ej innehålla specialtecken, som t ex !, &, *");
             return false;
         }
 
@@ -80,13 +83,23 @@ public class NewUserController extends SceneControllerParent implements Initiali
 
     public Boolean isValidPassword(String password, String passwordRepeat){
         if (!password.equals(passwordRepeat)) {
-            mainController.popUpWindow(Alert.AlertType.ERROR, "Felaktigt lösenord", "Lösenorden du angav stämmer ej överens med varandra");
+            popUpWindow("Felaktigt lösenord", "Lösenorden du angav stämmer ej överens med varandra");
             return false;
         } else if (password.length() < MIN_PASSWORD_LENGTH){
-            mainController.popUpWindow(Alert.AlertType.ERROR, "Lösenordet är för kort", "Lösenordet måste vara minst 6 tecken långt");
+            popUpWindow("Lösenordet är för kort", "Lösenordet måste vara minst 6 tecken långt");
             return false;
         }
 
         return true;
+    }
+
+    private void popUpWindow(String title, String message){
+        popUpWindow(title, message, Alert.AlertType.ERROR);
+    }
+
+    private void popUpWindow(String title, String message, AlertType alertType) {
+        if (mainController != null){
+            mainController.popUpWindow(alertType, title, message);
+        }
     }
 }
